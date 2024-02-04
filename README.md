@@ -12,6 +12,6 @@
 
 That's it!
 
-Make sure to include the `styles\output.css` as the stylesheet, not `styles\input.css`.
+Make sure to include the `styles\output.css` as the stylesheet in html files, not `styles\input.css`.
 
 Also, currently only the HTML files within specified folders will be able to use Tailwind CSS. To change, check `tailwind.config.js`.
