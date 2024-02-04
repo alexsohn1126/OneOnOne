@@ -1,4 +1,4 @@
-# CSC309_project_phase_1
+# CSC309 Project Phase 1
 
 ## How to Setup Tailwind CSS
 
