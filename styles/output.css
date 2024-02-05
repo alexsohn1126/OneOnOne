@@ -544,6 +544,16 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.text-9xl {
+  font-size: 8rem;
+  line-height: 1;
+}
+
 .absolute {
   position: absolute;
 }
