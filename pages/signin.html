@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Tailwind CSS stylesheet-->
+    <link rel="stylesheet" href="../styles/output.css">
+    <title>Sign In</title>
+    <!--Flowbite stylesheet-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <!--Custom Stylesheet-->
+    <link href="../styles/signin.css" rel="stylesheet" />
+</head> 
+<body>
+    <!--Components from https://flowbite.com/blocks/marketing/login/-->
+    <main>
+        <!--Website Title-->
+        <h1 class="website-title">1 on 1</h1>
+        <!--Sign in Form-->
+        <div class="w-full xl:p-0 sm:max-w-md md:mt-0 p-6 space-y-4 md:space-y-6 sm:p-8 signin-form">
+            <h2 class = "sub-title">Sign in</h2>
+            <form action="" class="space-y-4 md:space-y-6">
+                <!--Email field-->
+                <input type="email" name="email" id="email" class="block w-full sm:text-sm p-2.5 input-field" placeholder="Email Address" required="">
+                <!--Password field-->
+                <input type="password" name="password" id="password" placeholder="Password" class="block w-full sm:text-sm p-2.5 input-field" required="">
+                <!--Remember me and forgot password row-->
+                <div class="remember-password">
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 rounded" required="">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="remember">Remember me</label>
+                        </div>
+                    </div>
+                    <a class="text-sm hover:underline" href="">Forgot password?</a>
+                </div>
+                <!--Sign in Button-->
+                <button type="submit" class="w-full px-5 py-2.5 sign-in-button">Log in</button>
+                <p class="text-sm text-center sign-up-text">Don’t have an account yet? <a href="" class="hover:underline sign-up-link">Sign up</a></p>
+
+            </form>
+        </div>
+    </main>
+    <!--Flowbite.min.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+</body>
+</html>

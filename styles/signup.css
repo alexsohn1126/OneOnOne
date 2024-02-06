@@ -1,0 +1,80 @@
+/* -- General Selectors -- */
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: Roboto, 'Inter', 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px; /* Set to 16px as default just in case */ 
+    background-color: #FCFCFC;
+    color: #404040;
+    margin: 0;
+    padding: 0;
+}
+a {
+    color: #404040;
+}
+
+/* -- Main -- */
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5%;
+}
+
+/* -- Shared styles -- */
+.website-title, .sub-title{
+    font-weight: bold;
+}
+.remember-password, .sign-in-button, .sign-up-text{
+    font-weight: 500;
+}
+.sign-in-button, .input-field {
+    border-radius: 10px;
+}
+
+/* -- Titles -- */
+.website-title {
+    font-size: 3rem;
+    /* Backup font color incase gradient doesn't work*/
+    color: #ffffff; 
+    /* Create gradient text */
+    background: linear-gradient(45deg,#001233, #979DAC);
+    background-clip: text;
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-text-fill-color: transparent;
+}
+.sub-title {
+    font-size: 2rem;
+}
+
+/* -- Buttons and Input -- */
+.sign-in-button {
+    color: #ffffff;
+    background-color: #2D78BF;
+    text-align: center;
+}
+.input-field {
+    border-color: #404040;
+}
+input[type=checkbox], .sign-up-link {
+    color: #2D78BF;
+}
+.remember-password {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* --- For different screen sizes --- */
+/* If current / max width is 350px */
+@media screen and (max-width: 350px) {
+    .remember-password {
+        flex-direction: column;
+    }
+} 
