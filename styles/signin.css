@@ -1,34 +1,16 @@
 /* -- General Selectors -- */
-* {
-    box-sizing: border-box;
-}
 body {
     font-family: Roboto, 'Inter', 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 16px; /* Set to 16px as default just in case */ 
     background-color: #FCFCFC;
-    color: #404040;
-    margin: 0;
-    padding: 0;
-}
-a {
-    color: #404040;
-}
-
-/* -- Main -- */
-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 5%;
 }
 
 /* -- Shared styles -- */
+a, body {
+    color: #404040;
+}
 .website-title, .sub-title{
     font-weight: bold;
-}
-.remember-password, .sign-in-button, .sign-up-text{
-    font-weight: 500;
 }
 .sign-in-button, .input-field {
     border-radius: 10px;
@@ -60,25 +42,12 @@ input[type=checkbox], .sign-up-link{
 .sign-in-button {
     color: #ffffff;
     background-color: #656D4A;
-    text-align: center;
 }
 .input-field {
     border-color: #404040;
 }
 .remember-password {
-    display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-.remember-div {
-    display: flex;
-    align-items: center;
-}
-
-/* Text */
-.sign-up-text {
-    text-align: center;
 }
 
 /* --- For different screen sizes --- */
