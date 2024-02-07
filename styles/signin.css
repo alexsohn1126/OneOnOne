@@ -38,15 +38,16 @@ main {
 .website-title {
     font-size: 3rem;
     /* Backup font color incase gradient doesn't work*/
-    color: #ffffff; 
+    color: #979DAC; 
     /* Create gradient text */
     background: linear-gradient(45deg,#001233, #979DAC);
     background-clip: text;
     background-size: 100%;
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
+    /* So that gradient text will show up on Safari and Firefox */ 
     -webkit-text-fill-color: transparent; 
+    -webkit-background-clip: text;
     -moz-text-fill-color: transparent;
+    -moz-background-clip: text;
 }
 .sub-title {
     font-size: 2rem;
@@ -69,6 +70,10 @@ input[type=checkbox], .sign-up-link {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+/* Text */
+.sign-up-text {
+    text-align: center;
 }
 
 /* --- For different screen sizes --- */
