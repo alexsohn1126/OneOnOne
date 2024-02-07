@@ -33,6 +33,9 @@ main {
 .sign-in-button, .input-field {
     border-radius: 10px;
 }
+input[type=checkbox], .sign-up-link{
+    color: #656D4A;
+}
 
 /* -- Titles -- */
 .website-title {
@@ -56,14 +59,11 @@ main {
 /* -- Buttons and Input -- */
 .sign-in-button {
     color: #ffffff;
-    background-color: #2D78BF;
+    background-color: #656D4A;
     text-align: center;
 }
 .input-field {
     border-color: #404040;
-}
-input[type=checkbox], .sign-up-link {
-    color: #2D78BF;
 }
 .remember-password {
     display: flex;
@@ -71,6 +71,7 @@ input[type=checkbox], .sign-up-link {
     align-items: center;
     justify-content: space-between;
 }
+
 /* Text */
 .sign-up-text {
     text-align: center;
