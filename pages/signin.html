@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="m-0 p-0">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,31 +9,31 @@
     <!--Custom Stylesheet-->
     <link href="../styles/signin.css" rel="stylesheet" />
 </head> 
-<body>
+<body class="text-[#404040]">
     <!--Used Tailwind CSS' Flowbite documentation (https://flowbite.com/docs/components/forms/) as reference to understand how forms 
     can be made using Tailwind CSS -->
     <main class="flex flex-col justify-center items-center mt-20">
         <!--Website Title-->
-        <h1 class="website-title">1 on 1</h1>
+        <h1 class="text-5xl font-bold text-transparent bg-gradient-to-br from-[#001233] to-[#979DAC] bg-clip-text">1 on 1</h1>
         <!--Sign in Form-->
-        <div class="w-full max-w-md p-6 space-y-6 signin-form">
-            <h2 class = "sub-title">Sign in</h2>
+        <div class="w-full max-w-md p-6 space-y-6">
+            <h2 class = "font-bold text-2xl">Sign in</h2>
             <form action="" class="space-y-4">
                 <!--Email field-->
-                <input type="email" name="email" id="email" required="" class="border w-full p-2 text-sm input-field" placeholder="Email Address">
+                <input type="email" name="email" id="email" required="" class="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="Email Address">
                 <!--Password field-->
-                <input type="password" id="password" name="password" placeholder="Password" required="" class="border w-full p-2 text-sm input-field">
+                <input type="password" id="password" name="password" placeholder="Password" required="" class="border w-full p-2 text-sm rounded-[10px] border-gray-500">
                 <!--Remember me and forgot password row-->
                 <div class="flex items-center justify-between text-sm font-medium remember-password">
                     <div class="flex items-center">
-                        <input id="remember-me" type="checkbox" class="mr-2 rounded">
+                        <input id="remember-me" type="checkbox" class="mr-2 rounded-[10px]">
                         <label for="remember-me" class="">Remember me</label>
                     </div>
-                    <a class="hover:underline" href="">Forgot password?</a>
+                    <a class="hover:underline text-[#656D4A]" href="">Forgot password?</a>
                 </div>
                 <!--Sign in Button-->
-                <button type="submit" class="w-full px-5 py-3 font-medium text-center sign-in-button">Log in</button>
-                <p class="text-sm font-medium sign-up-text text-center">Don’t have an account yet? <a href="" class="hover:underline sign-up-link">Sign up</a></p>
+                <button type="submit" class="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-[#656D4A]">Log in</button>
+                <p class="text-sm font-medium text-center">Don’t have an account yet? <a href="" class="hover:underline text-[#656D4A]">Sign up</a></p>
             </form>
         </div>
     </main>
