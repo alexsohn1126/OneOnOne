@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  font-family: Roboto, 'Inter', 'Open Sans', 'Helvetica Neue', sans-serif;
+}
