@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="../styles/output.css">
 </head>
 
-<body>
+<body class="relative min-h-screen">
   <header class="min-w-full h-12 bg-slate-600 text-white pl-12 flex justify-start items-center text-left space-x-6">
     <div class="container mx-auto flex">
       <ul class="flex space-x-4">
@@ -16,7 +16,7 @@
     </div>
   </header>
 
-  <main class="container mx-auto p-4">
+  <main class="container mx-auto p-4 pb-12">
     <div class="flex flex-wrap -mx-2">
       <!-- First Column -->
       <div class="w-full md:w-1/2 px-2 mb-4">
@@ -70,32 +70,33 @@
               </svg>
             </a>
           </div>
-          <!-- Time Column (Fixed) -->
-          <div class="flex items-stretch">
-            <div class="flex flex-col flex-grow">
-              <div class="flex flex-grow justify-center items-center border-b border-b-black border-r border-r-gray-400 font-bold">Time</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">8:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">9:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">10:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">11:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">12:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">13:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">14:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">15:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">16:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">17:00</div>
-              <div class="flex flex-grow justify-center items-center border-b border-b-gray-300 border-r border-r-gray-400">18:00</div>
+          <div class="flex items-stretch pt-4">
+            <!-- Time Column (Fixed) -->
+            <div class="flex flex-col flex-grow ">
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-black border-r border-r-gray-400 font-bold">Time</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">8:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">9:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">10:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">11:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">12:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">13:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">14:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">15:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">16:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">17:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">18:00</div>
             </div>
+            <!-- Schedules by day -->
             <div class="overflow-x-scroll">
               <table class="border-collapse">
                 <tr class="h-12">
-                  <th class="border-b border-b-black border-r border-r-gray-300 w-[5.5rem]">Sunday</th>
-                  <th class="border-b border-b-black border-r border-r-gray-300 w-[5.5rem]">Monday</th>
-                  <th class="border-b border-b-black border-r border-r-gray-300 w-[5.5rem]">Tuesday</th>
-                  <th class="border-b border-b-black border-r border-r-gray-300 w-[5.5rem]">Wednesday</th>
-                  <th class="border-b border-b-black border-r border-r-gray-300 w-[5.5rem]">Thursday</th>
-                  <th class="border-b border-b-black border-r border-r-gray-300 w-[5.5rem]">Friday</th>
-                  <th class="border-b border-b-black w-[6rem]">Saturday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Sunday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Monday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Tuesday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Wednesday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Thursday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Friday</th>
+                  <th class="border-b border-b-black min-w-[5.5rem]">Saturday</th>
                 </tr>
                 <tr class="h-12">
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
