@@ -13,9 +13,9 @@ module.exports = {
         'green-5': '#333D29',
         'header': '#333D29',
         'footer': '#333D29',
-        'active-link': '#CCFFDC',
-        'non-active-link': '#C2C5AA',
-        'hover-nav-link': '#FFFFFF'
+        'active-link': '#FFFFFF',
+        'non-active-link': '#dee0d1',
+        'hover-nav-link': '#CCFFDC'
       },
     },
   },
