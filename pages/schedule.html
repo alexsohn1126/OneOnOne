@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Tailwind CSS stylesheet-->
+    <link rel="stylesheet" href="../styles/output.css">
+    <title>My Schedule</title>
+</head> 
+<body class="text-[#404040] min-h-screen relative pb-12">
+    <!--Nav Bar-->
+    <header class="min-w-full h-12 bg-header text-white pl-12 flex justify-start items-center text-left space-x-6">
+        <div class="container mx-auto flex">
+          <ul class="flex space-x-4">
+            <li><a href="home.html" class="text-non-active-link hover:text-hover-nav-link">Home</a></li>
+            <li><a href="contacts.html" class="text-non-active-link hover:text-hover-nav-link">My Contacts</a></li>
+            <li><a href="calendars.html" class="text-non-active-link hover:text-hover-nav-link">My Calendars</a></li>
+            <li><a href="schedule.html" class="text-active-link font-bold hover:text-hover-nav-link">My Schedule</a></li>
+          </ul>
+        </div>
+    </header>
+    <main class = "container mx-auto p-4 pb-12 flex flex-col justify-center items-center space-y-9">
+        <h1 class = "text-4xl font-bold mt-11">My Schedule</h1>
+        <div class = "flex flex-row max-[450px]:flex-col space-x-16 max-[450px]:space-x-0 max-[450px]:space-y-10">
+            <!--Suggested column-->
+            <div class = "w-full space-y-5">
+                <h2 class = "font-bold text-2xl text-center">Suggested</h2>
+                <!--All timeslots-->
+                <div class = "space-y-5">
+                    <!--Timeslot-->
+                    <div class = "flex flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300">
+                        <!--Details-->
+                        <div class = "w-max">
+                            <h3 class = "font-bold">Jane Doe</h3>
+                            <h3>Calendar 1</h3>
+                            <h3>9:00-10:00</h3>
+                        </div>
+                        <!--Buttons-->
+                        <div class = "flex flex-row space-x-2 items-center">
+                            <!--Accept-->
+                            <button class ="">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" class="w-8 h-8 hover:fill-green-1">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <!--Delete-->
+                            <button class ="">           
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                                </svg>            
+                            </button>              
+                        </div>   
+                    </div>
+                    
+                    <!--Timeslot-->
+                    <div class = "flex flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300">
+                       <!--Details-->
+                       <div class = "w-max">
+                           <h3 class = "font-bold">Ash Ketchum</h3>
+                           <h3>Calendar 1</h3>
+                           <h3>16:00-17:00</h3>
+                       </div>
+                       <!--Buttons-->
+                       <div class = "flex flex-row space-x-2 items-center">
+                           <!--Accept-->
+                           <button class ="">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" class="w-8 h-8 hover:fill-green-1">
+                                   <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                               </svg>
+                           </button>
+                           <!--Delete-->
+                           <button class ="">           
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
+                                   <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                               </svg>            
+                           </button>              
+                       </div>
+                    </div>                   
+                </div>
+            </div>
+            <!--Confirmed column-->
+            <div class = "w-full space-y-5">
+                <h2 class = "font-bold text-2xl text-center">Confirmed</h2>
+                <!--All timeslots-->
+                <div class = "space-y-5">
+                    <!--Timeslot-->
+                    <div class = "flex flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300">
+                        <!--Details-->
+                        <div class = "w-max">
+                            <h3 class = "font-bold">John Doe</h3>
+                            <h3>Calendar 1</h3>
+                            <h3>14:00-15:00</h3>
+                        </div>
+                        <!--Cancel Button-->
+                        <div class = "flex flex-row items-center">
+                            <button class ="">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                                </svg>            
+                            </button>              
+                        </div>               
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--Footer-->
+    <footer class="absolute bottom-0 min-w-full text-center h-12 bg-footer flex justify-center items-center text-white">
+    <p>Copyright &copy; 2024</p>
+    </footer>
+</body>
+</html>
