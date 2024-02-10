@@ -1,23 +1,159 @@
 <!DOCTYPE html>
-<html lang="en" class="m-0 p-0">
+<html>
+
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/output.css">
-    <title>My contacts page</title>
-</head> 
-<body class="min-h-screen relative m-0 p-0">
-    <div class="min-h-screen relative ">
-        <header class="absolute min-w-full h-12 bg-header text-white pl-12 flex justify-start items-center text-left space-x-6">
-            <a href="home.html">Home</a>
-            <a href="contacts.html">My Contacts</a>
-            <a href="calendars.html">My Calendars</a>
-        </header>
-        <div class="pt-32 pb-44 text-center">
+</head>
+
+<body class="min-h-screen relative pb-12">
+    <header class="min-w-full h-12 bg-header text-white pl-12 flex justify-start items-center text-left space-x-6">
+        <div class="container mx-auto flex">
+            <ul class="flex space-x-4">
+                <li><a href="home.html" class="text-green-600 hover:text-green-300">Home</a></li>
+                <li><a href="contacts.html" class="text-green-400 font-bold hover:text-green-300">My Contacts</a></li>
+                <li><a href="calendars.html" class="text-green-600 hover:text-green-300">My Calendars</a></li>
+            </ul>
         </div>
-        <footer class="absolute bottom-0 min-w-full text-center h-12 bg-footer flex justify-center items-center">
-            <p>Copyright &copy; 2024</p>
-        </footer>
+    </header>
+    
+    <div id="content-wrap" class="pt-32 pb-44 text-center">
+
+        <!-- Search button -->
+        <div class="bg-gray-100 p-4 rounded-lg shadow mx-auto my-8 max-w-4xl">
+            <div class="mb-8">
+                <label for="User">Search for user</label>
+                <br>
+                <input type="email" class="py-1 px-1 border border-black rounded-xl">
+            </div>
+
+            <!-- this is the code for the hidden form that pops up when add contact button is pressed. TO BE FINISHED -->
+            <div id="addContactModal"
+                class="hidden fixed z-10 max-w-full max-h-full overflow-auto bg-black bg-opacity-40 target:block">
+                <div class="bg-white/0.5 p-5 border border-solid w-4/5" style="margin: 15% auto;">
+                    <a href="#" class="float-right bg-gray-400 font-bold text-xl">&times; Close</a>
+                    <h2>Add Contact Form</h2>
+                    <!-- Your form here -->
+                    <form>
+                        <input type="text" placeholder="Name" class="">
+                        <input type="email" placeholder="Email">
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- when the button below is pressed it leads to a page url fragment to #addContactModal which matches the id of the modal 
+            div above. The :target selector then applies to the modal div  -->
+            <form action="#addContactModal">
+                <button
+                    class="py-8 px-8 mb-8 max-w-md mx-auto bg-green-400  hover:bg-green-500 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
+                    <div
+                        class=" mx-auto h-24 w-24 rounded-full sm:mx-0 sm:shrink-0 inline-flex items-center justify-center text-purple-600 text-4xl font-semibold border border-black">
+                        +
+                    </div>
+
+                    <div class="text-center sm:text-left mt-4 sm:mt-0">
+                        <p class="text-xl text-black font-semibold">
+                            Add contact
+                        </p>
+                    </div>
+                </button>
+            </form>
+
+            <!-- Contact card start -->
+            <div
+                class="py-8 px-8 mb-8 max-w-md mx-auto bg-green-400 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 relative">
+                <!-- <img class="block mx-auto h-24 rounded-full sm:mx-0 sm:shrink-0" src="/img/erin-lindford.jpg" alt="Woman's Face" /> -->
+
+                <!-- For now only adding initials but if we want to add a picture, that would need JS functionality -->
+
+                <div
+                    class=" mx-auto h-24 w-24 rounded-full sm:mx-0 sm:shrink-0 inline-flex items-center justify-center text-purple-600 text-2xl font-semibold border border-black">
+                    J
+                </div>
+
+                <div class="text-center sm:text-left mt-4 sm:mt-0">
+                    <p class="text-lg text-black font-semibold">
+                        John Doe
+                    </p>
+                    <p class="text-gray-700">
+                        <a class="break-all hover:bg-green-500" href="mailto:john@gmail.com">johndoe@gmail.com</a>
+                    </p>
+                    <!-- More text elements as needed -->
+                </div>
+
+                <!-- Need to make it so that the box gets bigger as the content inside it gets bigger -->
+
+                <div class="absolute right-2 top-2">
+                    <button
+                        class="bg-green-400 hover:bg-green-500 text-white py-2 px-4 mx-0  inline-flex items-end h-10 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                            class="w-6 h-6 my-auto">
+                            <path fill-rule="evenodd"
+                                d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- skipping the hovering tool tip for now as what i tried so far didn't work too well -->
+
+            </div>
+            <!-- Contact card end -->
+
+
+            <!-- Contact card start -->
+            <div
+                class="py-8 px-8 mb-8 max-w-md mx-auto bg-green-400 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 relative">
+                <!-- <img class="block mx-auto h-24 rounded-full sm:mx-0 sm:shrink-0" src="/img/erin-lindford.jpg" alt="Woman's Face" /> -->
+
+                <!-- For now only adding initials but if we want to add a picture, that would need JS functionality -->
+
+                <div
+                    class=" mx-auto h-24 w-24 rounded-full sm:mx-0 sm:shrink-0 inline-flex items-center justify-center text-purple-600 text-2xl font-semibold border border-black">
+                    J
+                </div>
+
+                <div class="text-center sm:text-left mt-4 sm:mt-0">
+                    <p class="text-lg text-black font-semibold">
+                        Jane Doe
+                    </p>
+                    <p class="text-gray-700">
+                        <a class="break-all hover:bg-green-500" href="mailto:janedoe@gmail.com">janedoe@gmail.com</a>
+                    </p>
+                    <!-- More text elements as needed -->
+                </div>
+
+                <!-- Need to make it so that the box gets bigger as the content inside it gets bigger -->
+
+                <div class="absolute right-2 top-2">
+                    <button
+                        class="bg-green-400 hover:bg-green-500 text-white py-2 px-4 mx-0  inline-flex items-end h-10 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                            class="w-6 h-6 my-auto">
+                            <path fill-rule="evenodd"
+                                d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- skipping the hovering tool tip for now as what i tried so far didn't work too well -->
+
+            </div>
+            <!-- Contact card end -->
+
+        </div>
+
     </div>
+    
+    <footer class="absolute bottom-0 min-w-full text-center h-12 bg-footer flex justify-center items-center text-white">
+        <p>Copyright &copy; 2024</p>
+    </footer>
+
+
 </body>
+
+</html>
+
+</body>
+
 </html>
