@@ -4,7 +4,17 @@ module.exports = {
     './pages/*.html'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'green-1': '#C2C5AA',
+        'green-2': '#A4AC86',
+        'green-3': '#656D4A',
+        'green-4': '#414833',
+        'green-5': '#333D29',
+        'header': '#475569',
+        'footer': '#475569',
+      },
+    },
   },
   plugins: [],
 }

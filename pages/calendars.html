@@ -1,96 +1,229 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="../styles/output.css">
-  </head>
-  <body>
-    <header class="min-w-full h-12 bg-slate-600 text-white pl-12 flex justify-start items-center text-left space-x-6">
-      <div class="container mx-auto flex">
-        <ul class="flex space-x-4">
-          <li><a href="home.html" class="text-green-600 hover:text-green-300">Home</a></li>
-          <li><a href="contacts.html" class="text-green-600 hover:text-green-300">My Contacts</a></li>
-          <li><a href="calendars.html" class="text-green-400 font-bold hover:text-green-300">My Calendars</a></li>
-        </ul>
-      </div>
-    </header>
 
-    <main class="container mx-auto p-4">
-      <div class="flex flex-wrap -mx-2">
-        <!-- First Column -->
-        <div class="w-full md:w-1/2 px-2 mb-4">
-          <div class="bg-gray-100 p-4 rounded-lg shadow ">
-            
-            <div class="py-2">
-              <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-full inline-flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 me-2">
-                  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z" clip-rule="evenodd" />
-                </svg>              
-                Create Calendar
-              </button>
-            </div>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/output.css">
+</head>
 
-            <div class="py-2">
-              <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded inline-flex items-center">            
-                My Calendar 1
-              </button>
-            </div>
-            
-            <div class="py-2">
-              <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded inline-flex items-center">            
-                My Calendar 1
-              </button>
-            </div>
-            
+<body class="min-h-screen relative pb-12">
+  <header class="min-w-full h-12 bg-header text-white pl-12 flex justify-start items-center text-left space-x-6">
+    <div class="container mx-auto flex">
+      <ul class="flex space-x-4">
+        <li><a href="home.html" class="text-green-600 hover:text-green-300">Home</a></li>
+        <li><a href="contacts.html" class="text-green-600 hover:text-green-300">My Contacts</a></li>
+        <li><a href="calendars.html" class="text-green-400 font-bold hover:text-green-300">My Calendars</a></li>
+      </ul>
+    </div>
+  </header>
+  <main class="container mx-auto p-4 pb-12">
+    <div class="flex flex-wrap -mx-2">
+      <!-- First Column -->
+      <div class="w-full md:w-1/2 px-2 mb-4">
+        <div class="bg-gray-100 p-4 rounded-lg shadow ">
+
+          <div class="py-2">
+            <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-full inline-flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 me-2">
+                <path fill-rule="evenodd"
+                  d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
+                  clip-rule="evenodd" />
+              </svg>
+              Create Calendar
+            </button>
           </div>
-        </div>
-
-        <!-- Second Column -->
-        <div class="w-full md:w-1/2 px-2 mb-4">
-          <div class="bg-gray-100 p-4 rounded-lg shadow">
-            <h2 class="font-semibold text-lg mb-2">My Calendar 1</h2>
-            
-            
-            <div>Placeholder for calendar</div>
-
-            <div class="my-2">
-              <button class="bg-green-300 cursor-not-allowed text-white font-bold py-2 px-4 rounded-full" disabled>
-                Reset
-              </button>
-
-              <button class="bg-green-300 cursor-not-allowed text-white font-bold py-2 px-4 rounded-full" disabled>
-                Save
-              </button>
-            </div>
-            
+          <div class="py-2">
+            <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded inline-flex items-center">
+              My Calendar 1
+            </button>
           </div>
+
+          <div class="py-2">
+            <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded inline-flex items-center">
+              My Calendar 1
+            </button>
+          </div>
+
         </div>
       </div>
-    </main>
 
-    <footer class="absolute bottom-0 min-w-full text-center h-12 bg-slate-600 flex justify-center items-center text-white">
-        <p>Copyright &copy; 2024</p>
-    </footer>
+      <!-- Second Column -->
+      <div class="w-full md:w-1/2 px-2 mb-4">
+        <div class="bg-gray-100 p-4 rounded-lg shadow">
+          <h2 class="font-semibold text-lg mb-2">My Calendar 1</h2>
+          <!-- Table Navigator -->
+          <div class="flex justify-between">
+            <a class="" href="">
+              <svg class="w-4 h-4 display: inline" viewBox="0 0 20 20">
+                <path fill="#656D4A"
+                  d="M8.388,10.049l4.76-4.873c0.303-0.31,0.297-0.804-0.012-1.105c-0.309-0.304-0.803-0.293-1.105,0.012L6.726,9.516c-0.303,0.31-0.296,0.805,0.012,1.105l5.433,5.307c0.152,0.148,0.35,0.223,0.547,0.223c0.203,0,0.406-0.08,0.559-0.236c0.303-0.309,0.295-0.803-0.012-1.104L8.388,10.049z">
+                </path>
+              </svg>
+            </a>
+            <p class="">Week of February 4th, 2024</p>
+            <a class="" href="">
+              <svg class="w-4 h-4 display: inline" viewBox="0 0 20 20">
+                <path fill="#656D4A"
+                  d="M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z">
+                </path>
+              </svg>
+            </a>
+          </div>
+          <div class="flex items-stretch pt-4">
+            <!-- Time Column (Fixed) -->
+            <div class="flex flex-col flex-grow ">
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-black border-r border-r-gray-400 font-bold">Time</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">8:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">9:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">10:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">11:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">12:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">13:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">14:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">15:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">16:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">17:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">18:00</div>
+            </div>
+            <!-- Schedules by day -->
+            <div class="overflow-x-scroll">
+              <table class="border-collapse">
+                <tr class="h-12">
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Sunday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Monday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Tuesday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Wednesday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Thursday</th>
+                  <th class="border-b border-b-black border-r border-r-gray-300 min-w-[5.5rem]">Friday</th>
+                  <th class="border-b border-b-black min-w-[5.5rem]">Saturday</th>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="my-2">
+            <button class="bg-green-300 cursor-not-allowed text-white font-bold py-2 px-4 rounded-full" disabled>
+              Reset
+            </button>
 
-    
-  </body>
+            <button class="bg-green-300 cursor-not-allowed text-white font-bold py-2 px-4 rounded-full" disabled>
+              Save
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer
+    class="absolute bottom-0 min-w-full text-center h-12 bg-footer flex justify-center items-center text-white">
+    <p>Copyright &copy; 2024</p>
+  </footer>
+
+
+</body>
+
 </html>
 
+</body>
 
-<!-- <main class="padding">
-  <p>test</p>>
-  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-    Button
-  </button>
-  <div class="flex mb-4">
-    <div class="w-1/2 bg-gray-400 h-12">
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Button
-      </button>
-    </div>
-    <div class="w-1/2 bg-gray-500 h-12">
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Button
-      </button>
-    </div>
-  </div>  
-</main> -->
+</html>
