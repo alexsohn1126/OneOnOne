@@ -13,7 +13,6 @@ module.exports = {
         'green-5': '#333D29',
         'header': '#475569',
         'footer': '#475569',
-        'background': '#333D29',
         'active-link': '#CCFFDC',
         'non-active-link': '#C2C5AA',
       },
