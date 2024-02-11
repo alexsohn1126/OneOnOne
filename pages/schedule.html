@@ -62,19 +62,35 @@
                             <h3>9:00-10:00</h3>
                         </div>
                         <!--Buttons-->
-                        <div class = "flex flex-row space-x-2 items-center">
+                        <div class = "relative flex flex-row space-x-2 items-center">
                             <!--Accept-->
-                            <button class ="">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" class="w-8 h-8 hover:fill-green-1">
-                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                            <!--Delete-->
-                            <button class ="">           
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
-                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                                </svg>            
-                            </button>           
+                            <div class="group">
+                                <button>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" class="w-8 h-8 hover:fill-green-1">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                <div class="absolute bottom-full mb-2 hidden group-hover:block">
+                                    <span class="text-sm text-white p-2 bg-black rounded">
+                                      Accept
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!--Reschedule-->
+                            <div class="group">
+                                <button>           
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                                    </svg>            
+                                </button>
+                                <div class="absolute bottom-full mb-2 hidden group-hover:block">
+                                    <span class="text-sm text-white p-2 bg-black rounded">
+                                      Reschedule
+                                    </span>
+                                </div>
+                            </div>    
+
                         </div>   
                     </div>                 
                     <!--Timeslot-->
@@ -85,21 +101,37 @@
                            <h3>Calendar 1</h3>
                            <h3>16:00-17:00</h3>
                        </div>
-                       <!--Buttons-->
-                       <div class = "flex flex-row space-x-2 items-center">
-                           <!--Accept-->
-                           <button class="">
-                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" class="w-8 h-8 hover:fill-green-1">
-                                   <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                               </svg>
-                           </button>
-                           <!--Delete/Rescedule-->
-                           <button class="">           
-                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
-                                   <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                               </svg>            
-                           </button>              
-                       </div>
+                        <!--Buttons-->
+                        <div class = "relative flex flex-row space-x-2 items-center">
+                            <!--Accept-->
+                            <div class="group">
+                                <button>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" class="w-8 h-8 hover:fill-green-1">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                <div class="absolute bottom-full mb-2 hidden group-hover:block">
+                                    <span class="text-sm text-white p-2 bg-black rounded">
+                                      Accept
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!--Reschedule-->
+                            <div class="group">
+                                <button>           
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                                    </svg>            
+                                </button>
+                                <div class="absolute bottom-full mb-2 hidden group-hover:block">
+                                    <span class="text-sm text-white p-2 bg-black rounded">
+                                      Reschedule
+                                    </span>
+                                </div>
+                            </div>    
+                                   
+                        </div>  
                     </div>                   
                 </div>
             </div>
@@ -116,14 +148,23 @@
                             <h3>Calendar 1</h3>
                             <h3>14:00-15:00</h3>
                         </div>
-                        <!--Cancel Button-->
-                        <div class = "flex flex-row items-center">
-                            <button>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
-                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                                </svg>            
-                            </button>              
-                        </div>               
+                        <!--Buttons-->
+                        <div class = "relative flex flex-row space-x-2 items-center">
+                            <!--Cancel-->
+                            <div class="group">
+                                <button>           
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                                    </svg>            
+                                </button>
+                                <div class="absolute bottom-full mb-2 hidden group-hover:block">
+                                    <span class="text-sm text-white p-2 bg-black rounded">
+                                      Cancel
+                                    </span>
+                                </div>
+                            </div>    
+                                   
+                        </div>                
                     </div>
                 </div>
             </div>
