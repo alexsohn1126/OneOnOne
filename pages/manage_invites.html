@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/output.css">
+</head>
+
+<body class="min-h-screen relative pb-12">
+  <header class="min-w-full h-12 bg-header text-white pl-12 flex justify-start items-center text-left space-x-6">
+    <div class="container mx-auto flex">
+      <ul class="flex space-x-4">
+        <li><a href="home.html" class="text-green-600 hover:text-green-300">Home</a></li>
+        <li><a href="contacts.html" class="text-green-600 hover:text-green-300">My Contacts</a></li>
+        <li><a href="calendars.html" class="text-green-400 font-bold hover:text-green-300">My Calendars</a></li>
+      </ul>
+    </div>
+  </header>
+  <main class="container mx-auto p-4 pb-12">
+    <div class="flex flex-wrap -mx-2">
+      <!-- First Column -->
+      <div class="">
+        <div class="bg-gray-100 p-4 rounded-lg shadow ">
+
+          <div class="py-2">
+            <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded-full inline-flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 me-2">
+                <path fill-rule="evenodd"
+                  d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
+                  clip-rule="evenodd" />
+              </svg>
+              Create Calendar
+            </button>
+          </div>
+          <div class="py-2">
+            <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded inline-flex items-center">
+              My Calendar 1
+            </button>
+          </div>
+
+          <div class="py-2">
+            <button class="bg-green-600 hover:bg-green-500 text-white py-2 px-4 rounded inline-flex items-center">
+              My Calendar 1
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Second Column -->
+      <div class="w-full md:w-1/2 px-2 mb-4">
+        <div class="bg-gray-100 p-4 rounded-lg shadow">
+          <!-- <h2 class="font-semibold text-lg mb-2">My Calendar 1</h2> -->
+          <!-- Table Navigator -->
+          <div class="flex justify-center text-center">
+            <h2 class="font-semibold text-lg inline mb-2">Invitations for "My Calendar 1"</h2>
+          </div>
+          <div class="flex items-stretch pt-4">
+            <!-- Time Column (Fixed) -->
+            <!-- <div class="flex flex-col flex-grow ">
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-black border-r border-r-gray-400 font-bold">Time</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">8:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">9:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">10:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">11:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">12:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">13:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">14:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">15:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">16:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">17:00</div>
+              <div class="flex flex-grow justify-center items-center pr-2 border-b border-b-gray-300 border-r border-r-gray-400">18:00</div>
+            </div> -->
+            <!-- Schedules by day -->
+            <div class="overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+              <table class="border-collapse flex justify-center">
+                <tr class="h-12">
+                  <th class="border-b px-4 border-b-black border-r border-r-gray-300">Invite Contacts</th>
+                  <th class="border-b px-4 border-b-black border-r border-r-gray-300">Invited Contacts</th>
+                  <th class="border-b px-4 border-b-black border-r border-r-gray-300">Confirmed Contacts</th>
+                  <th class="border-b px-4 border-b-black border-r border-r-gray-300">Incorrect Email Addresses</th>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300">
+                    
+
+                  </td>
+
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300">
+
+                    <!-- contact card div -->
+                    <div
+                    class="py-8 px-8 mb-8 max-w-md  bg-green-400 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 relative">
+    
+                    <div class="text-center sm:text-left mt-4 sm:mt-0">
+                        <p class="text-lg text-black font-semibold">
+                            Jane Doe
+                        </p>
+                        <p class="text-gray-700">
+                            <a class=" hover:bg-green-500" href="mailto:janedoe@gmail.com">Invite Contact</a>
+                        </p>
+                        <!-- More text elements as needed -->
+                    </div>
+    
+                    </div>
+
+                    <div
+                    class="py-8 px-8 mb-8 max-w-md  bg-green-400 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 relative">
+    
+                    <div class="text-center sm:text-left mt-4 sm:mt-0">
+                        <p class="text-lg text-black font-semibold">
+                            John Doe
+                        </p>
+                        <p class="text-gray-700">
+                            <a class=" hover:bg-green-500" href="mailto:janedoe@gmail.com">Invite Contact</a>
+                        </p>
+                        <!-- More text elements as needed -->
+                    </div>
+    
+                    </div>
+
+                  </td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                </tr>
+                <!-- <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr> -->
+              </table>
+            </div>
+          </div>
+          <!-- <div class="my-2">
+            <button class="bg-green-300 cursor-not-allowed text-white font-bold py-2 px-4 rounded-full" disabled>
+              Reset
+            </button>
+
+            <button class="bg-green-300 cursor-not-allowed text-white font-bold py-2 px-4 rounded-full" disabled>
+              Save
+            </button>
+          </div> -->
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer
+    class="absolute bottom-0 min-w-full text-center h-12 bg-footer flex justify-center items-center text-white">
+    <p>Copyright &copy; 2024</p>
+  </footer>
+
+
+</body>
+
+</html>
+
+</body>
+
+</html>
