@@ -7,21 +7,43 @@
 </head>
 
 <body class="min-h-screen relative pb-12">
-    <header class="min-w-full h-12 bg-header text-white pl-12 flex justify-start items-center text-left space-x-6">
-        <div class="container mx-auto flex">
-            <ul class="flex space-x-4">
-            <li><a href="home.html" class="text-non-active-link hover:text-hover-nav-link">Home</a></li>
-            <li><a href="contacts.html" class="text-active-link font-bold hover:text-hover-nav-link">My Contacts</a></li>
-            <li><a href="calendars.html" class="text-non-active-link font-bold hover:text-hover-nav-link">My Calendars</a></li>
-            <li><a href="schedule.html" class="text-non-active-link  hover:text-hover-nav-link">My Schedule</a></li>
-            </ul>
+    <header class="min-w-full min-h-12 bg-header text-white flex items-center text-left">
+      <!-- Default Header -->
+      <div class="hidden sm:flex container mx-auto">
+        <ul class="flex space-x-4">
+          <li><a href="contacts.html" class="text-active-link font-bold hover:text-hover-nav-link">My Contacts</a></li>
+          <li><a href="calendars.html" class="text-non-active-link  hover:text-hover-nav-link">My Calendars</a></li>
+          <li><a href="schedule.html" class="text-non-active-link hover:text-hover-nav-link">My Schedule</a></li>
+        </ul>
+      </div>
+      <!-- Mobile Header -->
+      <div class="flex flex-col items-center sm:hidden w-full min-h-12">
+        <input id="dropdown" type="checkbox" class="hidden peer">
+        <label for="dropdown" class="w-full h-12 flex justify-center items-center">
+          <svg class="w-8 h-8 inline" viewBox="0 0 20 20">
+            <path class="fill-green-1"
+              d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314
+              c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743
+              s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314
+              c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+          </svg>
+        </label>
+        <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+          <a href="contacts.html" class="text-active-link hover:text-hover-nav-link font-bold">My Contacts</a>
         </div>
+        <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+          <a href="calendars.html" class="text-non-active-link hover:text-hover-nav-link ">My Calendars</a>
+        </div>
+        <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+          <a href="schedule.html" class="text-non-active-link hover:text-hover-nav-link">My Schedule</a>
+        </div>
+      </div>
     </header>
     
     <div id="content-wrap" class="pt-32 pb-44 text-center">
 
         <!-- Search button -->
-        <div class="bg-gray-100 p-4 rounded-lg shadow mx-auto my-8 max-w-4xl">
+        <div class="p-4 rounded-lg shadow mx-auto my-8 max-w-4xl">
             <div class="mb-8">
                 <label for="User">Search for user</label>
                 <br>
@@ -29,32 +51,31 @@
             </div>
 
             <!-- this is the code for the hidden form that pops up when add contact button is pressed. TO BE FINISHED -->
-            <div id="addContactModal"
+            <!-- <div id="addContactModal"
                 class="hidden fixed z-10 max-w-full max-h-full overflow-auto bg-black bg-opacity-40 target:block">
                 <div class="bg-white/0.5 p-5 border border-solid w-4/5" style="margin: 15% auto;">
                     <a href="#" class="float-right bg-gray-400 font-bold text-xl">&times; Close</a>
-                    <h2>Add Contact Form</h2>
+                    <h2>Add Contact Form</h2> -->
                     <!-- Your form here -->
-                    <form>
+                    <!-- <form>
                         <input type="text" placeholder="Name" class="">
                         <input type="email" placeholder="Email">
                         <button type="submit">Submit</button>
                     </form>
                 </div>
-            </div>
+            </div> -->
 
             <!-- when the button below is pressed it leads to a page url fragment to #addContactModal which matches the id of the modal 
             div above. The :target selector then applies to the modal div  -->
             <form action="#addContactModal">
                 <button
-                    class="py-8 px-8 mb-8 max-w-md mx-auto bg-green-400  hover:bg-green-500 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
-                    <div
-                        class=" mx-auto h-24 w-24 rounded-full sm:mx-0 sm:shrink-0 inline-flex items-center justify-center text-purple-600 text-4xl font-semibold border border-black">
-                        +
-                    </div>
+                    class="py-8 px-8 mb-8 max-w-md mx-auto bg-green-3 hover:bg-green-2 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
 
                     <div class="text-center sm:text-left mt-4 sm:mt-0">
-                        <p class="text-xl text-black font-semibold">
+                        <p class="text-xl text-white font-semibold">
                             Add contact
                         </p>
                     </div>
@@ -63,7 +84,7 @@
 
             <!-- Contact card start -->
             <div
-                class="py-8 px-8 mb-8 max-w-md mx-auto bg-green-400 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 relative">
+                class="py-8 px-8 mb-8 max-w-md mx-auto rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 relative">
                 <!-- <img class="block mx-auto h-24 rounded-full sm:mx-0 sm:shrink-0" src="/img/erin-lindford.jpg" alt="Woman's Face" /> -->
 
                 <!-- For now only adding initials but if we want to add a picture, that would need JS functionality -->
@@ -87,15 +108,14 @@
 
                 <div class="absolute right-2 top-2">
                     <button
-                        class="bg-green-400 hover:bg-green-500 text-white py-2 px-4 mx-0  inline-flex items-end h-10 ">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                            class="w-6 h-6 my-auto">
-                            <path fill-rule="evenodd"
-                                d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z"
-                                clip-rule="evenodd" />
-                        </svg>
+                        class=" py-2 px-4 mx-0  inline-flex items-end h-10 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 hover:fill-green-1">
+                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                          </svg>
                     </button>
                 </div>
+
+                
                 <!-- skipping the hovering tool tip for now as what i tried so far didn't work too well -->
 
             </div>
@@ -104,7 +124,7 @@
 
             <!-- Contact card start -->
             <div
-                class="py-8 px-8 mb-8 max-w-md mx-auto bg-green-400 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 relative">
+                class="py-8 px-8 mb-8 max-w-md mx-auto border-gray-300 rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 relative">
                 <!-- <img class="block mx-auto h-24 rounded-full sm:mx-0 sm:shrink-0" src="/img/erin-lindford.jpg" alt="Woman's Face" /> -->
 
                 <!-- For now only adding initials but if we want to add a picture, that would need JS functionality -->
@@ -128,13 +148,10 @@
 
                 <div class="absolute right-2 top-2">
                     <button
-                        class="bg-green-400 hover:bg-green-500 text-white py-2 px-4 mx-0  inline-flex items-end h-10 ">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                            class="w-6 h-6 my-auto">
-                            <path fill-rule="evenodd"
-                                d="M11.013 2.513a1.75 1.75 0 0 1 2.475 2.474L6.226 12.25a2.751 2.751 0 0 1-.892.596l-2.047.848a.75.75 0 0 1-.98-.98l.848-2.047a2.75 2.75 0 0 1 .596-.892l7.262-7.261Z"
-                                clip-rule="evenodd" />
-                        </svg>
+                        class=" py-2 px-4 mx-0  inline-flex items-end h-10 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 hover:fill-green-1">
+                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />
+                          </svg>
                     </button>
                 </div>
                 <!-- skipping the hovering tool tip for now as what i tried so far didn't work too well -->
@@ -142,6 +159,7 @@
             </div>
             <!-- Contact card end -->
 
+            
         </div>
 
     </div>
