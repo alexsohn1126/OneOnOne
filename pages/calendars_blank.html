@@ -11,6 +11,7 @@
     <!-- Default Header -->
     <div class="hidden sm:flex container mx-auto">
       <ul class="flex space-x-4">
+        <li><a href="home.html" class="text-non-active-link hover:text-hover-nav-link">Home</a></li>
         <li><a href="contacts.html" class="text-non-active-link hover:text-hover-nav-link">My Contacts</a></li>
         <li><a href="calendars.html" class="text-active-link font-bold hover:text-hover-nav-link">My Calendars</a></li>
         <li><a href="schedule.html" class="text-non-active-link hover:text-hover-nav-link">My Schedule</a></li>
@@ -29,13 +30,16 @@
         </svg>
       </label>
       <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+        <a href="home.html" class="text-non-active-link hover:text-hover-nav-link">Home</a>
+      </div>
+      <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
         <a href="contacts.html" class="text-non-active-link hover:text-hover-nav-link">My Contacts</a>
       </div>
       <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
         <a href="calendars.html" class="text-active-link hover:text-hover-nav-link font-bold">My Calendars</a>
       </div>
       <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
-        <a href="schedule.html" class="text-non-active-link hover:text-hover-nav-link">My Schedule</a>
+        <a href="schedule.html" class="text-non-active-link font-bold hover:text-hover-nav-link">My Schedule</a>
       </div>
     </div>
   </header>
@@ -164,7 +168,9 @@
       <!-- Second Column -->
       <div class="w-full md:w-1/2 px-2 mb-4">
         <div class="bg-gray-100 p-4 rounded-lg shadow">
-          <h2 class="font-semibold text-lg mb-2 text-center">My Calendar 1</h2>
+          <div class="flex">
+            <input class="mx-auto font-bold" type="text" value="Untitled Calendar">
+          </div>
           <!-- Table Navigator -->
           <div class="flex justify-between">
             <a class="" href="">
@@ -237,29 +243,6 @@
                 </tr>
                 <tr class="h-12">
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300">
-                    <!--Calendar Booking-->
-                    <div class = "flex flex-row items-center justify-between space-x-2 shadow-md border p-1 text-sm rounded-[10px] bg-green-400 border-gray-300">
-                      <!--Name-->
-                      <div class = "w-max bg-green-400">
-                          <p class = "font-bold">John Doe</p>
-                      </div>
-                      <!--Confirmed-->
-                      <div class = "hidden flex flex-row space-x-2 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="green" class="w-8 h-8">
-                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                        </svg>
-                      </div>   
-                    </div>
-                  </td>
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
-                  <td class="border-b border-b-gray-300 "></td>
-                </tr>
-                <tr class="h-12">
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
@@ -306,21 +289,7 @@
                 <tr class="h-12">
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300">
-                    <!--Calendar Booking-->
-                    <div class = "flex flex-row items-center justify-between space-x-2 shadow-md border p-1 text-sm rounded-[10px] bg-yellow-400 border-gray-300">
-                      <!--Name-->
-                      <div class = "w-max">
-                          <p class = "font-bold">Misty Water</p>
-                      </div>
-                      <!--Confirmed-->
-                      <div class = "hidden flex flex-row space-x-2 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="green" class="w-8 h-8">
-                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                        </svg>
-                      </div>   
-                    </div>
-                  </td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
@@ -329,21 +298,7 @@
                 <tr class="h-12">
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300">
-                    <!--Calendar Booking-->
-                    <div class = "flex flex-row items-center justify-between space-x-2 shadow-md border p-1 text-sm rounded-[10px] bg-yellow-400 border-gray-300">
-                      <!--Name-->
-                      <div class = "w-max">
-                          <p class = "font-bold">Brock Rock</p>
-                      </div>
-                      <!--Confirmed-->
-                      <div class = "hidden flex flex-row space-x-2 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="green" class="w-8 h-8">
-                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                        </svg>
-                      </div>   
-                    </div>
-                  </td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
@@ -352,21 +307,16 @@
                 <tr class="h-12">
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
-                  <td class="border-b border-b-gray-300 border-r border-r-gray-300">
-                    <!--Calendar Booking-->
-                    <div class = "flex flex-row items-center justify-between space-x-2 shadow-md border p-1 text-sm rounded-[10px] bg-yellow-400 border-gray-300">
-                      <!--Name-->
-                      <div class = "w-max">
-                          <p class = "font-bold">Ash Ketchum</p>
-                      </div>
-                      <!--Confirmed-->
-                      <div class = "hidden flex flex-row space-x-2 items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="green" class="w-8 h-8">
-                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
-                        </svg>
-                      </div>   
-                    </div>
-                  </td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 "></td>
+                </tr>
+                <tr class="h-12">
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
+                  <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
                   <td class="border-b border-b-gray-300 border-r border-r-gray-300"></td>
@@ -398,7 +348,7 @@
               Reset
             </button>
 
-            <button class="bg-gray-400 cursor-not-allowed text-white py-2 px-4 rounded-full" disabled>
+            <button class="bg-green-3 hover:bg-green-2 text-white py-2 px-4 rounded-full">
               Save
             </button>
           </div>
