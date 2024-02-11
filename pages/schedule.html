@@ -21,6 +21,10 @@
     </header>
     <main class = "container mx-auto p-4 pb-12 flex flex-col justify-center items-center space-y-9">
         <h1 class = "text-4xl font-bold mt-11">My Schedule</h1>
+        <select name="calendar" id="calendar" class="border p-2 text-sm rounded-[10px] border-gray-500">
+            <option value="cal-1">Calendar 1</option>
+            <option value="cal-2">Calendar 2</option>
+        </select>
         <div class = "flex flex-row max-[450px]:flex-col space-x-16 max-[450px]:space-x-0 max-[450px]:space-y-10">
             <!--Suggested column-->
             <div class = "w-full space-y-5">
@@ -50,8 +54,7 @@
                                 </svg>            
                             </button>              
                         </div>   
-                    </div>
-                    
+                    </div>                 
                     <!--Timeslot-->
                     <div class = "flex flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300">
                        <!--Details-->
