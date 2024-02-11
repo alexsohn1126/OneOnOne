@@ -9,16 +9,38 @@
 </head> 
 <body class="text-[#404040] min-h-screen relative pb-12">
     <!--Nav Bar-->
-    <header class="min-w-full h-12 bg-header text-white pl-12 flex justify-start items-center text-left space-x-6">
-        <div class="container mx-auto flex">
+    <header class="min-w-full min-h-12 bg-header text-white flex items-center text-left">
+        <!-- Default Header -->
+        <div class="hidden sm:flex container mx-auto">
           <ul class="flex space-x-4">
-            <li><a href="home.html" class="text-non-active-link hover:text-hover-nav-link">Home</a></li>
             <li><a href="contacts.html" class="text-non-active-link hover:text-hover-nav-link">My Contacts</a></li>
             <li><a href="calendars.html" class="text-non-active-link hover:text-hover-nav-link">My Calendars</a></li>
             <li><a href="schedule.html" class="text-active-link font-bold hover:text-hover-nav-link">My Schedule</a></li>
           </ul>
         </div>
-    </header>
+        <!-- Mobile Header -->
+        <div class="flex flex-col items-center sm:hidden w-full min-h-12">
+          <input id="dropdown" type="checkbox" class="hidden peer">
+          <label for="dropdown" class="w-full h-12 flex justify-center items-center">
+            <svg class="w-8 h-8 inline" viewBox="0 0 20 20">
+              <path class="fill-green-1"
+                d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314
+                c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743
+                s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314
+                c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
+            </svg>
+          </label>
+          <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+            <a href="contacts.html" class="text-non-active-link hover:text-hover-nav-link">My Contacts</a>
+          </div>
+          <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+            <a href="calendars.html" class="text-non-active-link hover:text-hover-nav-link">My Calendars</a>
+          </div>
+          <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+            <a href="schedule.html" class="text-active-link hover:text-hover-nav-link font-bold">My Schedule</a>
+          </div>
+        </div>
+      </header>
     <main class = "container mx-auto p-4 pb-12 flex flex-col justify-center items-center space-y-9">
         <h1 class = "text-4xl font-bold mt-11">My Schedule</h1>
         <select name="calendar" id="calendar" class="border p-2 text-sm rounded-[10px] border-gray-500">
@@ -52,7 +74,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
                                     <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                                 </svg>            
-                            </button>              
+                            </button>           
                         </div>   
                     </div>                 
                     <!--Timeslot-->
@@ -66,13 +88,13 @@
                        <!--Buttons-->
                        <div class = "flex flex-row space-x-2 items-center">
                            <!--Accept-->
-                           <button class ="">
+                           <button class="">
                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" class="w-8 h-8 hover:fill-green-1">
                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
                                </svg>
                            </button>
-                           <!--Delete-->
-                           <button class ="">           
+                           <!--Delete/Rescedule-->
+                           <button class="">           
                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                                </svg>            
@@ -96,7 +118,7 @@
                         </div>
                         <!--Cancel Button-->
                         <div class = "flex flex-row items-center">
-                            <button class ="">
+                            <button>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-8 h-8 hover:fill-green-1">
                                     <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
                                 </svg>            
