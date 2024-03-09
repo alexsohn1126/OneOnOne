@@ -2,3 +2,4 @@
 tailwindcss-*
 # don't add venv
 */venv
+.DS_Store
