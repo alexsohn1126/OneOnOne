@@ -1,2 +1,4 @@
 # ignore tailwindcss standalone 
 tailwindcss-*
+# don't add venv
+*/venv
