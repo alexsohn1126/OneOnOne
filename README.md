@@ -1,4 +1,4 @@
-# One On One
+# 1 on 1
 
 ## How to Setup Tailwind CSS
 
