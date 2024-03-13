@@ -1,10 +1,10 @@
-# CSC309 Project Phase 1
+# One On One
 
 ## How to Setup Tailwind CSS
 
 1. Go to https://github.com/tailwindlabs/tailwindcss/releases 
 2. Download the latest tailwindcss standalone executable version for your machine (v3.4.1 used at the time of writing)
-3. Move the executable into the project's root (Where this readme is located)
+3. Move the executable into the project's root (where this readme is located)
 4. Open your terminal (Powershell if on windows) and cd into the project root
 5. Enter `[tailwindcss executable path] -i styles\input.css -o styles\output.css --watch`
     - It was `.\tailwindcss-windows-x64.exe -i styles\input.css -o styles\output.css --watch` for Windows
