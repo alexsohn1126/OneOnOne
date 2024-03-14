@@ -2,7 +2,7 @@ from django.db import models
 from .user import User
 
 # Create your models here.
-class Contact:
+class Contact(models.Model):
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
     email = models.EmailField(max_length=120, unique = True)
