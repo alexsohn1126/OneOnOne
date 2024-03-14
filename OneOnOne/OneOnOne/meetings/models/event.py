@@ -1,5 +1,5 @@
 from django.db import models
-from .calendar import Timeslot
+from .timeslot import Timeslot
 
 class Event(models.Model):
     date = models.DateField()
