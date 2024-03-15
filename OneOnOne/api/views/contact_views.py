@@ -17,6 +17,6 @@ class ContactListCreate(generics.ListCreateAPIView):
             raise ParseError('Request has no resource file attached')
         product = Contact.objects.create(image=file)
 
-class ContactDetail(generics.RetrieveDestroyAPIView):
+class ContactDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
