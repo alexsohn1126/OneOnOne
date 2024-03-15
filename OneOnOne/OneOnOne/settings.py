@@ -132,14 +132,14 @@ AUTH_USER_MODEL = 'users.User'
 
 # -- REST FRAMEWORK (Permission and Authentication Classes) --
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        # Requires authentication to see views 
-        'rest_framework.permissions.IsAuthenticated',
-    ], 
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+    ], 
+    'DEFAULT_PERMISSION_CLASSES': [
+        # Requires authentication to see views 
+        'rest_framework.permissions.IsAuthenticated',
     ], 
 }
 
@@ -148,4 +148,5 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     # Access token is valid for <x> minutes 
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1440),
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
