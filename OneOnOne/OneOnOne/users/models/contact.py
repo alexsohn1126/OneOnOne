@@ -2,6 +2,9 @@ from django.db import models
 from .user import User
 
 # Create your models here.
+
+# We could add a custom model manager
+
 class Contact(models.Model):
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
