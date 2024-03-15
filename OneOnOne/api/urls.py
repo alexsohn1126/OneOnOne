@@ -2,10 +2,14 @@ from django.urls import path
 from .views.event_views import EventList, EventCreate, EventReadUpdate
 from .views.post_views import PostList, PostDetail
 from .views.calendar_views import CalendarList, CalendarDetail, GetCalendarAddTimeslotView, TimeslotUpdateDestroy
+from .views.accounts_views import SignUpView, SignInView, ProfileUpdate
 
 app_name = "api"
 
 urlpatterns = [
+    path('accounts/signup/', SignUpView.as_view(), name="signup"),
+    path('accounts/signin/', SignInView.as_view(), name="signin"),
+    path('accounts/profile/', ProfileUpdate.as_view(), name="profileedit"),
     path('contacts/<int:pk>', PostDetail.as_view(), name="detailcreate"),
     path('contacts/', PostList.as_view(), name='listcreate'),
     path('timeslots/<int:timeslot_id>/events/', EventList.as_view(), name='list_events'),
