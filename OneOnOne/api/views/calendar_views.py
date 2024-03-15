@@ -33,3 +33,10 @@ class GetCalendarAddTimeslotView(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+class TimeslotUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Timeslot.objects.all()
+    serializer_class = TimeslotSerializer
+    lookup_field = 'id'
+
+    
