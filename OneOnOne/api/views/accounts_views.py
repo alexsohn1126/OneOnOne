@@ -6,6 +6,8 @@ from ..serializer.auth_serializer import RegisterSerializer, SignInSerializer, U
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from users.models import User
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
 
 
 
@@ -60,6 +62,12 @@ class ProfileUpdate(generics.RetrieveUpdateAPIView):
     def get(self, request):
         '''Get user info'''
         return Response(self.serializer_class(request.user).data, status=status.HTTP_200_OK)
+    
+    def get_object(self):
+        obj = get_object_or_404(User, pk = self.kwargs["pk"])
+        if obj == self.request.user:
+            return obj
+        raise PermissionDenied('You can\'t view this profile')
     
     def update(self, request):
         # Create an instance with user's info and changes from request
