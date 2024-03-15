@@ -14,4 +14,4 @@ class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='contact')
     
     def __str__(self):
-        return (f"Contact's name is {self.first_name} {self.last_name} and their email is {self.email}")
+        return (f"CONTACT:{self.first_name} {self.last_name}, {self.email}")
