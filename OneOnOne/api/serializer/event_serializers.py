@@ -24,7 +24,7 @@ class EventSerializer(serializers.ModelSerializer):
     instance = super().create(validated_data)
     # remove confirmed status on every other events in the timeslot
     # if created with confirmed == True
-    if validated_data['confirmed']:
+    if validated_data.get('confirmed'):
       instance.timeslot.events.exclude(pk=instance.pk).update(confirmed=False)
     return instance
   
