@@ -133,9 +133,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             # Check if the email is valid
             if email == "" or '@' not in email:
                 errors['email'] = "Enter a valid email address"
-            # Make sure another user (besides the current user) exist with the same email
-            elif "username" in data and User.objects.filter(email=email).exclude(username=data["username"]).exists():
-                errors['email'] = 'This email is taken'
             else:
                 filtered_data['email'] = email
         # Check username 
@@ -143,11 +140,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             username = data["username"]
             if data["username"] == "":
                 errors["username"] = "Username can't be blank"
-            # Make sure another user (besides the current user) exist with the same email
-            elif "email" in data and User.objects.filter(username=username).exclude(email=data["email"]).exists():
-                errors['username'] = 'This username is taken'
             else:
-                filtered_data["username"] = data["username"]
+                filtered_data["username"] = username
         # Check password 
         if "password" in data: 
             if len(data["password"]) < 6: 
