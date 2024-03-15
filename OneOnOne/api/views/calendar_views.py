@@ -11,21 +11,39 @@ from ..serializer.invitee_serializers import InviteeSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class CalendarList(generics.ListCreateAPIView):
-    queryset = Calendar.objects.all()
+    # Set the permission for this view 
+    permission_classes = [IsAuthenticated]
+
     serializer_class = CalendarSerializer
+
+    def get_queryset(self):
+        return Calendar.objects.filter(owner=self.request.user)
 
 
 class CalendarDetail(APIView):
     def get(self, request, calendar_id, format=None):
+        # Set the permission for this view 
+        permission_classes = [IsAuthenticated]
+
         calendar = get_object_or_404(Calendar, id=calendar_id)
+
+        if request.user != calendar.owner:
+            return Response('FORBIDDEN', status=status.HTTP_403_FORBIDDEN)
+
         serializer = CalendarSerializer(calendar)
         return Response(serializer.data)
 
     def post(self, request, calendar_id, format=None):
+        # Set the permission for this view 
+        permission_classes = [IsAuthenticated]
+
         # Fetch calendar, return 404 if calendar id is not found
         calendar = get_object_or_404(Calendar, id=calendar_id)
 
-        # Serialize timeslot with the calendar_id and return the timeslot
+        if request.user != calendar.owner:
+            return Response('FORBIDDEN', status=status.HTTP_403_FORBIDDEN)
+
+        # Serialize timeslot with the calendar_id and create the timeslot
         serializer = TimeslotSerializer(data=request.data, context={'calendar': calendar})
         if serializer.is_valid():
             serializer.save()
@@ -34,16 +52,26 @@ class CalendarDetail(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, calendar_id, format=None):
+        # Set the permission for this view 
+        permission_classes = [IsAuthenticated]
+
         calendar = get_object_or_404(Calendar, id=calendar_id)
+
+        if request.user != calendar.owner:
+            return Response('FORBIDDEN', status=status.HTTP_403_FORBIDDEN)
 
         calendar.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class TimeslotUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Timeslot.objects.all()
+    # Set the permission for this view 
+    permission_classes = [IsAuthenticated]
     serializer_class = TimeslotSerializer
     lookup_field = 'id'
+
+    def get_queryset(self):
+        return Timeslot.objects.filter(calendar__owner=self.request.user)
 
 
 class CreateInvitee(APIView):
