@@ -9,4 +9,4 @@ class Event(models.Model):
     confirmed = models.BooleanField(default=False)
 
     def __str__(self):
-        return(f"EVENT: {self.contact}, {self.start_time}")
+        return(f"EVENT {self.id}: {self.contact}, {self.timeslot}")

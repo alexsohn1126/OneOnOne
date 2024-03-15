@@ -9,4 +9,4 @@ class Timeslot(models.Model):
     high_priority = models.BooleanField(default=False)
 
     def __str__(self):
-        return(f"TIMESLOT in {self.calendar}")
+        return(f"TIMESLOT {self.id} in {self.calendar}")
