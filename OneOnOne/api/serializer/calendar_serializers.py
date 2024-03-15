@@ -5,4 +5,4 @@ from users.models import User, Contact
 class CalendarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calendar
-        fields = ('id', 'name', 'start_date', 'end_date', 'owner')
+        fields = '__all__'
