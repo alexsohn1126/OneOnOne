@@ -1,7 +1,7 @@
 from django.urls import path
 from .views.event_views import EventList, EventCreate, EventReadUpdate
 from .views.contact_views import ContactListCreate, ContactDetail
-from .views.calendar_views import CalendarList, CalendarDetail, GetCalendarAddTimeslotView, TimeslotUpdateDestroy
+from .views.calendar_views import CalendarList, CalendarDetail, CreateInvitee, TimeslotUpdateDestroy
 from .views.accounts_views import SignUpView, SignInView, ProfileUpdate
 
 app_name = "api"
@@ -15,7 +15,7 @@ urlpatterns = [
     path('timeslots/<int:timeslot_id>/events/', EventList.as_view(), name='list_events'),
     path('events/', EventCreate.as_view(), name='create_events'),
     path('events/<int:event_id>/', EventReadUpdate.as_view(), name='read_update_event'),
-    path('calendars/<int:calendar_id>/', GetCalendarAddTimeslotView.as_view(), name="GetCalendarAddTimeslot"),
+    path('calendars/<int:calendar_id>/', CalendarDetail.as_view(), name="calendardetail"),
     path('calendars/', CalendarList.as_view(), name='calendars_list'),
     path('calendars/<int:calendar_id>/timeslots/<int:id>/', TimeslotUpdateDestroy.as_view(), name='timeslot_update_destroy'),
     path('calendars/<int:calendar_id>/contacts/<int:contact_id>/', CreateInvitee.as_view(), name='create_invitee'),
