@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'meetings', 
-    'contacts_api',
+    'api',
 ]
 
 MIDDLEWARE = [
