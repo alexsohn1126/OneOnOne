@@ -75,10 +75,9 @@ class TimeslotUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CreateInvitee(APIView):
-    # Set the permission for this view 
-    permission_classes = [IsAuthenticated]
-
     def post(self, request, calendar_id, contact_id, format=None):
+        # Set the permission for this view 
+        permission_classes = [IsAuthenticated]
         # Fetch calendar and contact, return 404 if calendar id is not found
         calendar = get_object_or_404(Calendar, id=calendar_id)
         contact = get_object_or_404(Contact, id=contact_id)
@@ -92,3 +91,10 @@ class CreateInvitee(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SuggestedSchedules(APIView):
+
+    def get(self, request, calendar_id, format=None):
+        # Set the permission for this view 
+        permission_classes = [IsAuthenticated]
