@@ -17,8 +17,6 @@ class EventList(generics.ListAPIView):
     return super().list(request, *args, **kwargs)
 
   def get(self, request, timeslot_id, *args, **kwargs):
-    if not request.user.is_authenticated:
-      return Response('UNAUTHORIZED', status=status.HTTP_401_UNAUTHORIZED)
     timeslot = Timeslot.objects.filter(pk=timeslot_id)
     # Make sure timeslot exists
     if not timeslot.exists():
@@ -35,8 +33,6 @@ class EventCreate(generics.CreateAPIView):
   permission_classes = [IsAuthenticated]
 
   def post(self, request, *args, **kwargs):
-    if not request.user.is_authenticated:
-      return Response('UNAUTHORIZED', status=status.HTTP_401_UNAUTHORIZED)
     timeslot = Timeslot.objects.filter(pk=request.data.get('timeslot'))
     contact = Contact.objects.filter(pk=request.data.get('contact'))
     # Make sure timeslot and contact exists
@@ -51,6 +47,7 @@ class EventCreate(generics.CreateAPIView):
 class EventReadUpdate(generics.RetrieveUpdateAPIView):
   queryset = Event.objects.all()
   serializer_class = EventSerializer
+  permission_classes = [IsAuthenticated]
   lookup_url_kwarg = 'event_id'
 
   def get(self, request, *args, **kwargs):
