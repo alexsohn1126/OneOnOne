@@ -150,3 +150,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1440),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
+# -- PILLOW --
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = '/media/'
