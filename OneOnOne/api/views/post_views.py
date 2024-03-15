@@ -1,7 +1,7 @@
 from rest_framework import generics 
 from meetings.models import Calendar, Timeslot, Event
 from users.models import User, Contact
-from ..serializer.serializers import ContactSerializer
+from ..serializer.contact_serializers import ContactSerializer
 
 class PostList(generics.ListCreateAPIView):
     queryset = Contact.objects.all()
@@ -10,4 +10,3 @@ class PostList(generics.ListCreateAPIView):
 class PostDetail(generics.RetrieveDestroyAPIView):
     querset = Contact.objects.all()
     serializer_class = ContactSerializer
-
