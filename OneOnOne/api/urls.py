@@ -18,4 +18,5 @@ urlpatterns = [
     path('calendars/<int:calendar_id>/', GetCalendarAddTimeslotView.as_view(), name="GetCalendarAddTimeslot"),
     path('calendars/', CalendarList.as_view(), name='calendars_list'),
     path('calendars/<int:calendar_id>/timeslots/<int:id>/', TimeslotUpdateDestroy.as_view(), name='timeslot_update_destroy'),
+    path('calendars/<int:calendar_id>/contacts/<int:contact_id>/', CreateInvitee.as_view(), name='create_invitee'),
 ]
