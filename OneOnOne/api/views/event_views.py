@@ -44,3 +44,39 @@ class EventCreate(generics.CreateAPIView):
         request.user != contact.first().user):
       return Response('FORBIDDEN', status=status.HTTP_403_FORBIDDEN)
     return super().post(request, *args, **kwargs)
+  
+class EventReadUpdate(generics.RetrieveUpdateAPIView):
+  queryset = Event.objects.all()
+  serializer_class = EventSerializer
+  lookup_url_kwarg = 'event_id'
+
+  def get(self, request, *args, **kwargs):
+    error_res = self._check_req(request, *args, **kwargs)
+    if error_res:
+      return error_res
+    return super().get(request, *args, **kwargs)
+
+  def put(self, request, *args, **kwargs):
+    error_res = self._check_req(request, *args, **kwargs)
+    if error_res:
+      return error_res
+    return super().put(request, *args, **kwargs)
+
+  def patch(self, request, *args, **kwargs):
+    error_res = self._check_req(request, *args, **kwargs)
+    if error_res:
+      return error_res
+    return super().patch(request, *args, **kwargs)
+
+  def _check_req(self, request, *args, **kwargs):
+    event = Event.objects.filter(pk=kwargs['event_id'])
+    if not event.exists():
+      return Response('NOT FOUND', status=status.HTTP_404_NOT_FOUND)
+    print(kwargs)
+    timeslot = event.first().timeslot
+    contact = event.first().contact
+    # User must be the owner of the calendar AND the contact to access event
+    if (request.user != timeslot.calendar.owner or 
+        request.user != contact.user):
+      return Response('FORBIDDEN', status=status.HTTP_403_FORBIDDEN)
+    
