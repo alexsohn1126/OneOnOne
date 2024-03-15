@@ -20,6 +20,14 @@ class EventSerializer(serializers.ModelSerializer):
       raise ValidationError("You may not edit contact")
     return value
   
+  def create(self, validated_data):
+    instance = super().create(validated_data)
+    # remove confirmed status on every other events in the timeslot
+    # if created with confirmed == True
+    if validated_data['confirmed']:
+      instance.timeslot.events.exclude(pk=instance.pk).update(confirmed=False)
+    return instance
+  
   def update(self, instance, validated_data):
     instance.timeslot.events.all().update(confirmed=False)
     instance = super().update(instance, validated_data)
