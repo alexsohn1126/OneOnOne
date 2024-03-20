@@ -8,7 +8,7 @@ class CalendarSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Calendar
-        fields = ('name', 'start_date', 'end_date', 'owner')
+        fields = ('id', 'name', 'start_date', 'end_date', 'owner')
 
     def validate(self, data):
         if data['start_date'] > data['end_date']:

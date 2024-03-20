@@ -24,7 +24,7 @@ class EventSerializer(serializers.ModelSerializer):
     instance = super().create(validated_data)
     # remove confirmed status on every other events in the timeslot
     # if created with confirmed == True
-    if validated_data['confirmed']:
+    if validated_data.get('confirmed'):
       instance.timeslot.events.exclude(pk=instance.pk).update(confirmed=False)
     return instance
   
@@ -36,12 +36,16 @@ class EventSerializer(serializers.ModelSerializer):
     return instance
   
   def send_event_confirmed_email(self, timeslot, contact):
-    send_mail(
-      f'{contact.first_name}, Your Meeting with {timeslot.calendar.owner.first_name} is Finalized!',
-      f'Your meeting from {date_format(timeslot.start_time, "DATETIME_FORMAT")} to {date_format(timeslot.end_time, "DATETIME_FORMAT")} has been finalized.',
-      from_email='OneToOne@test.com',
-      recipient_list=[contact.email]
-    )
+    try:
+      send_mail(
+        f'{contact.first_name}, Your Meeting with {timeslot.calendar.owner.first_name} is Finalized!',
+        f'Your meeting from {date_format(timeslot.start_time, "DATETIME_FORMAT")} to {date_format(timeslot.end_time, "DATETIME_FORMAT")} has been finalized.',
+        from_email='OneToOne@test.com',
+        recipient_list=[contact.email]
+      )
+      return
+    except ConnectionRefusedError as error:
+      raise ValidationError(f"Email did not send. Error:{error}")
 
 
   class Meta:

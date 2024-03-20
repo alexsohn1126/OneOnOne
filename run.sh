@@ -1,0 +1,1 @@
+python3 OneOnOne/manage.py runserver
