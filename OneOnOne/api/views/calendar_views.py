@@ -18,13 +18,17 @@ class CalendarList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Calendar.objects.filter(owner=self.request.user)
+    
+    def perform_create(self, serializer):
+        # Assign the currently authenticated user as the owner of the calendar
+        serializer.save(owner=self.request.user)
 
 
 class CalendarDetail(APIView):
-    def get(self, request, calendar_id, format=None):
-        # Set the permission for this view 
-        permission_classes = [IsAuthenticated]
+    # Set the permission for this view 
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request, calendar_id, format=None):
         calendar = get_object_or_404(Calendar, id=calendar_id)
 
         if request.user != calendar.owner:
@@ -34,9 +38,6 @@ class CalendarDetail(APIView):
         return Response(serializer.data)
 
     def post(self, request, calendar_id, format=None):
-        # Set the permission for this view 
-        permission_classes = [IsAuthenticated]
-
         # Fetch calendar, return 404 if calendar id is not found
         calendar = get_object_or_404(Calendar, id=calendar_id)
 
@@ -52,9 +53,6 @@ class CalendarDetail(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, calendar_id, format=None):
-        # Set the permission for this view 
-        permission_classes = [IsAuthenticated]
-
         calendar = get_object_or_404(Calendar, id=calendar_id)
 
         if request.user != calendar.owner:
@@ -75,9 +73,10 @@ class TimeslotUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CreateInvitee(APIView):
+    # Set the permission for this view 
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, calendar_id, contact_id, format=None):
-        # Set the permission for this view 
-        permission_classes = [IsAuthenticated]
         # Fetch calendar and contact, return 404 if calendar id is not found
         calendar = get_object_or_404(Calendar, id=calendar_id)
         contact = get_object_or_404(Contact, id=contact_id)
@@ -94,7 +93,14 @@ class CreateInvitee(APIView):
 
 
 class SuggestedSchedules(APIView):
+    # Set the permission for this view 
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, calendar_id, format=None):
-        # Set the permission for this view 
-        permission_classes = [IsAuthenticated]
+        lookup_field = 'id'
+
+        queryset = Timeslot.objects.filter(calendar=calendar_id, high_priority=True)
+        high_priortity_events = []
+
+        for ts in queryset:
+            queryset2 = Event.objects.filter()

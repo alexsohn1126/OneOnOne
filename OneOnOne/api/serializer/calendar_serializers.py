@@ -3,6 +3,9 @@ from meetings.models import Calendar, Timeslot, Event
 from users.models import User, Contact
 
 class CalendarSerializer(serializers.ModelSerializer):
+    # Set read_only=True so it's not required in the request payload
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    
     class Meta:
         model = Calendar
         fields = ('name', 'start_date', 'end_date', 'owner')
