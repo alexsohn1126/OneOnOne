@@ -6,3 +6,4 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = ('id', 'first_name', 'last_name', 'email', 'user', 'image')
+        read_only_fields = ('user',)  # Makes 'user' field read-only
