@@ -35,8 +35,8 @@ function Signin() {
                 localStorage.setItem('accessToken', data.access);
                 localStorage.setItem('refreshToken', data.refresh);
                 localStorage.setItem('userId', data.user_id);
-                // Redirect to contacts 
-                navigate('/api/contacts/');
+                // Go to calendars page 
+                navigate('/api/calendars/');
     
             } else {
                 // If we're here, the login info is invalid. Render which field has the error 
