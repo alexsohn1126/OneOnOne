@@ -89,8 +89,8 @@ class SignInSerializer(serializers.ModelSerializer):
             if User.objects.filter(email=email).exists():
                 # Attempt to authenticate email and password 
                 found_user = User.objects.filter(email=email).first()
-                if found_user is not None and found_user.check_password(password):
-                    errors['email'] = 'This user doesn\'t exist or the email or password is invalid'
+                if found_user is not None and found_user.password != password:
+                    errors['password'] = 'Password is invalid'
             else: 
                 errors['email'] = 'This user doesn\'t exist or the email or password is invalid'
             # Check if errors dictionary is empty or not
