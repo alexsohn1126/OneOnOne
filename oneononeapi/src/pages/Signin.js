@@ -55,7 +55,7 @@ function Signin() {
             }
           })
           .catch(error => {
-            setLoginFailed('Error during login. Please try again.');
+            setLoginFailed('There was an error during login. Please try again.');
           }); 
     };
 
