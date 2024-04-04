@@ -2,6 +2,8 @@
 
 ## How to Setup Tailwind CSS
 
+Ignore whatever is below, with the addition of Create React App, tailwindcss comes with it. Just run `npm start` and use tailwindcss as usual in js files.
+
 1. Go to https://github.com/tailwindlabs/tailwindcss/releases 
 2. Download the latest tailwindcss standalone executable version for your machine (v3.4.1 used at the time of writing)
 3. Move the executable into the project's root (where this readme is located)
