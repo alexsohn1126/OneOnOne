@@ -58,7 +58,7 @@ function Signin() {
     };
 
     return (
-      <div className="flex flex-col justify-center items-center mt-20 text-[#404040]">
+      <div className="flex flex-col justify-center items-center mt-20">
         <h1 className="text-5xl font-bold text-transparent bg-gradient-to-br from-[#001233] to-[#979DAC] bg-clip-text">1 on 1</h1>
         <div className="w-full max-w-md p-6 space-y-6">
           <h2 className="font-bold text-2xl">Sign in</h2>
