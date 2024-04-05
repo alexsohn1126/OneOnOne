@@ -7,7 +7,7 @@ function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Set up hooks for validation
+  // Set up hooks for validation errors
   const [errorEmail, setErrorEmail] = useState(''); 
   const [errorPassword, setErrorPassword] = useState(''); 
   const [loginFailed, setLoginFailed] = useState(''); 
