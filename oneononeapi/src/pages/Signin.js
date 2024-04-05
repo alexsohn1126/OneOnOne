@@ -72,7 +72,7 @@ function Signin() {
                 <input id="remember-me" type="checkbox" className="mr-2 rounded-[10px]"></input>
                 <label htmlFor="remember-me" className="">Remember me</label>
               </div>
-              <a className="hover:underline text-green-3" href="forgot_password">Forgot password?</a>
+              <a className="hover:underline text-green-3" href="forgotpassword">Forgot password?</a>
             </div>
             <button type="submit" className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-green-3 hover:bg-green-2">Log in</button>
             <p className="text-sm font-medium text-center">Don’t have an account yet? <a href="signup" className="hover:underline text-green-3">Sign up</a></p>
