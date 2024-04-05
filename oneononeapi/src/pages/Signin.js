@@ -61,12 +61,12 @@ function Signin() {
       <div className="flex flex-col justify-center items-center mt-20 text-[#404040]">
         <h1 className="text-5xl font-bold text-transparent bg-gradient-to-br from-[#001233] to-[#979DAC] bg-clip-text">1 on 1</h1>
         <div className="w-full max-w-md p-6 space-y-6">
-          <h2 className = "font-bold text-2xl">Sign in</h2>
+          <h2 className="font-bold text-2xl">Sign in</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="Email Address"></input>
-            <p className ="text-sm">{errorEmail}</p>
+            <p className="text-sm">{errorEmail}</p>
             <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" placeholder="Password" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500"></input>
-            <p className = "text-sm">{errorPassword}</p>
+            <p className= "text-sm">{errorPassword}</p>
             <div className="flex flex-row max-[350px]:flex-col items-center justify-between text-sm font-medium">
               <div className="flex items-center">
                 <input id="remember-me" type="checkbox" className="mr-2 rounded-[10px]"></input>
@@ -76,7 +76,7 @@ function Signin() {
             </div>
             <button type="submit" className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-green-3 hover:bg-green-2">Log in</button>
             <p className="text-sm font-medium text-center">Don’t have an account yet? <a href="signup" className="hover:underline text-green-3">Sign up</a></p>
-            <p className ="text-sm">{loginFailed}</p>
+            <p className="text-sm">{loginFailed}</p>
           </form>
         </div>
       </div>
