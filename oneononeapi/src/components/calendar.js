@@ -38,7 +38,7 @@ function Calendar() {
     return (
         <div>
             {calendarsList ? (
-                <List_Calendars data={calendarsList} /> // Render child with fetched data
+                <List_Calendars data={calendarsList} setCalendars={setCalendars} /> // Render child with fetched data
             ) : (
                 <p>Loading...</p> 
             )}
@@ -46,13 +46,14 @@ function Calendar() {
     )
 }
 
-function List_Calendars({ data }) {
+function List_Calendars({ data, setCalendars }) {
     // setting up data for the create calendar form:
     const [formData, setFormData] = useState({
         "name": '',
         "start_date": '',
         "end_date": '',
     })
+    const [error, setError] = useState('');  // State to store the error message
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -60,18 +61,21 @@ function List_Calendars({ data }) {
             ...prevFormData,
             [name]: value
         }));
+        setError('');  // Clear error message when the user starts editing again
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-        await send_create_request(formData); // Wait for the request to complete
-        setIsOpen(false); // Close the overlay on successful POST
-        console.log('Calendar created successfully');
-    } catch (error) {
-        alert('Failed to create calendar.'); // Show an error message
-        console.error('Error:', error);
-    }
+            const newCalendar = await send_create_request(formData); // This should return the newly created calendar
+            setCalendars(prevCalendars => [...prevCalendars, newCalendar]); // Add the new calendar to the current list
+            setIsOpen(false); // Close the overlay on successful POST
+            setError(''); // Clear any previous errors
+            console.log('Calendar created successfully');
+        } catch (error) {
+            setError(error.message); // Set the error message to display in the UI
+            console.error(error);
+        }
     };
 
     const handleDelete = async (calendarId) => {
@@ -88,11 +92,14 @@ function List_Calendars({ data }) {
             });
             if (!response.ok) throw new Error('Deletion failed');
             console.log('Calendar deleted successfully');
+            setCalendars(data.filter(calendar => calendar.id !== calendarId));
         } catch (error) {
             console.error('Error deleting calendar:', error);
             alert('Failed to delete calendar.');
         }
     };
+
+    
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -108,7 +115,8 @@ function List_Calendars({ data }) {
                 <p>Calendar Name: {calendar.name}</p>
                 <p>Start Date: {calendar.start_date}</p>
                 <p>End Date: {calendar.end_date}</p>
-                <button onClick={() => handleDelete(calendar.id)}>Delete</button>
+                {/* <button onClick={() => handleEdit(calendar)}>Edit</button> */}
+                <button onClick={() => handleDelete(calendar.id)}>DELETE</button>
             </div>
         </li>
     ))
@@ -117,6 +125,7 @@ function List_Calendars({ data }) {
         <div className="container">
             <div>
                 <h1>List of Calendars</h1>
+                {error && <p className="error">{error}</p>}
             </div>
         
             <ul>{calendars}</ul>
@@ -178,11 +187,17 @@ function send_create_request(formData) {
         },
         body: JSON.stringify(formData),
     })
-    .then((response) => response.json())
-    .catch((error) => {
-        console.error('Calendar creation failed:', error);
-        throw new Error('Failed to create calendar');  // Throw an error to handle in handleSubmit
-    });
+    .then(async (response) => {
+        const data = await response.json();  // Always parse the response body
+        if (!response.ok) {
+            // Extract error message from the server's response
+            const errorMessages = Object.keys(data).map(key => {
+                return `${key}: ${data[key].join(" ")}`;  // Assuming each key can have multiple messages
+            }).join("\n");
+            throw new Error(`Failed to create calendar: ${errorMessages}`);
+        }
+        return data;  // Return the successful data to handle in the caller
+    })
 }
 
 
