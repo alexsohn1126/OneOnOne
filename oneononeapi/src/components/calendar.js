@@ -74,6 +74,26 @@ function List_Calendars({ data }) {
     }
     };
 
+    const handleDelete = async (calendarId) => {
+        const apiUrl = `http://localhost:8000/api/calendars/${calendarId}/`;
+        const accessToken = localStorage.getItem('accessToken');
+    
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) throw new Error('Deletion failed');
+            console.log('Calendar deleted successfully');
+        } catch (error) {
+            console.error('Error deleting calendar:', error);
+            alert('Failed to delete calendar.');
+        }
+    };
+
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOverlay = () => {
@@ -84,10 +104,12 @@ function List_Calendars({ data }) {
     // data has some number of calendars that we fetched from the server. We now display this calendar on the page along with a <Create_new_calendar> button 
     const calendars = data.map((calendar) => (
         <li key={'calendar ' + calendar.id}>
-            <p>_</p>
-            <p>Calendar Name: {calendar.name}</p>
-            <p>Start Date: {calendar.start_date}</p>
-            <p>End Date: {calendar.end_date}</p>
+            <div>
+                <p>Calendar Name: {calendar.name}</p>
+                <p>Start Date: {calendar.start_date}</p>
+                <p>End Date: {calendar.end_date}</p>
+                <button onClick={() => handleDelete(calendar.id)}>Delete</button>
+            </div>
         </li>
     ))
 
