@@ -46,21 +46,25 @@ import {Contacts, ContactsInfo} from './components/Contacts';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* the home.js page needs to be defined */}
-        <Route path ="/" element={<Home/>}></Route>
-        <Route path='/login' element={<Login />}></Route>
-        <Route path="/contacts" element={<Contacts />} />
-        <Route path="/contacts/:id" element={<ContactsInfo />}></Route>
-        <Route path="*" element={<NoPage />} />
-      </Routes>
-    
-    </BrowserRouter>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p class="text-slate-100">
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
-//         <Route path='/login' element={<Login />}></Route>
 export default App;
 
 
