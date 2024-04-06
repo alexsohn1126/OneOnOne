@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function InputField({ onChange, type, name, error, placeholder, extraStyle}) {
   const inputStyle = "w-full p-2 text-sm rounded-[10px] border-gray-500 border";
@@ -11,8 +11,8 @@ function InputField({ onChange, type, name, error, placeholder, extraStyle}) {
 }
 
 function SignUp() {
-  const inputStyle = "w-full p-2 text-sm rounded-[10px] border-gray-500 border";
   const signUpAPI = "http://localhost:8000/api/accounts/signup/"
+  const navigate = useNavigate();
   let [signUpForm, setSignUpForm] = useState({
     first_name: "",
     last_name: "",
@@ -49,9 +49,10 @@ function SignUp() {
       },
       body: JSON.stringify(signUpForm),
     }).then(async res => {
-      // redirect to signin if signup successful
-      if (res.status == 200) {
-        return redirect("/signin");
+      // redirect to signin if account creation successful
+      if (res.status == 201) {
+        navigate("/signin");
+        return;
       }
       let errors = await res.json();
       handleErrors(errors);
@@ -60,7 +61,6 @@ function SignUp() {
 
   function handleErrors(e) {
     let newErrors = {}
-    console.log(e);
     for (const errorElement in errors) {
       // if an element is in returned error object, change it to show error
       // otherwise reset to empty string
