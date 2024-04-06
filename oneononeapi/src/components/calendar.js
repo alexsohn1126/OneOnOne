@@ -115,7 +115,7 @@ function List_Calendars({ data, setCalendars }) {
                 <p>Calendar Name: {calendar.name}</p>
                 <p>Start Date: {calendar.start_date}</p>
                 <p>End Date: {calendar.end_date}</p>
-                {/* <button onClick={() => handleEdit(calendar)}>Edit</button> */}
+                <button onClick={() => handleEdit(calendar)}>Edit</button>
                 <button onClick={() => handleDelete(calendar.id)}>DELETE</button>
             </div>
         </li>
@@ -125,7 +125,6 @@ function List_Calendars({ data, setCalendars }) {
         <div className="container">
             <div>
                 <h1>List of Calendars</h1>
-                {error && <p className="error">{error}</p>}
             </div>
         
             <ul>{calendars}</ul>
@@ -135,6 +134,7 @@ function List_Calendars({ data, setCalendars }) {
 
             <Overlay isOpen={isOpen} onClose={toggleOverlay}>
                 <form onSubmit={handleSubmit}>
+                {error && <p className="error">{error}</p>}
                 <div>
                     <label>Calendar Name</label>
                     <input
