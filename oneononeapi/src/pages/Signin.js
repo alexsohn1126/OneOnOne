@@ -8,9 +8,9 @@ function Signin() {
   const [password, setPassword] = useState('');
 
   // Set up hooks for validation errors
-  const [errorEmail, setErrorEmail] = useState(''); 
-  const [errorPassword, setErrorPassword] = useState(''); 
-  const [loginFailed, setLoginFailed] = useState(''); 
+  const [errorEmail, setErrorEmail] = useState('');
+  const [errorPassword, setErrorPassword] = useState('');
+  const [loginFailed, setLoginFailed] = useState('');
 
   // handleSubmit: Attempt to sign in by making a request with info needed for logging in when button is clicked
   async function handleSubmit(e) {
@@ -30,31 +30,31 @@ function Signin() {
       .then(data => {
         // at this point the data variable contains the response sent by the server after a successful login
         if (data.access) {
-            localStorage.setItem('accessToken', data.access);
-            localStorage.setItem('refreshToken', data.refresh);
-            localStorage.setItem('userId', data.user_id);
-            // Go to calendars page 
-            navigate('/api/calendars/');
+          localStorage.setItem('accessToken', data.access);
+          localStorage.setItem('refreshToken', data.refresh);
+          localStorage.setItem('userId', data.user_id);
+          // Go to calendars page 
+          navigate('/api/calendars/');
 
         } else {
-            // If we're here, the login info is invalid. Render which field has the error 
-            if (data !== "" && "email" in data) {
-              setErrorEmail(data.email.toString());
-            }
-            else {
-              setErrorEmail('');
-            }
-            if (data !== "" && "password" in data) {
-              setErrorPassword(data.password.toString());
-            }
-            else {
-              setErrorPassword('');
-            }
+          // If we're here, the login info is invalid. Render which field has the error 
+          if (data !== "" && "email" in data) {
+            setErrorEmail(data.email.toString());
+          }
+          else {
+            setErrorEmail('');
+          }
+          if (data !== "" && "password" in data) {
+            setErrorPassword(data.password.toString());
+          }
+          else {
+            setErrorPassword('');
+          }
         }
       })
       .catch(error => {
         setLoginFailed('There was an error during login. Please try again.');
-      }); 
+      });
   };
 
   return (
@@ -66,14 +66,7 @@ function Signin() {
           <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="Email Address"></input>
           <p className="text-sm">{errorEmail}</p>
           <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" placeholder="Password" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500"></input>
-          <p className= "text-sm">{errorPassword}</p>
-          <div className="flex flex-row max-[350px]:flex-col items-center justify-between text-sm font-medium">
-            <div className="flex items-center">
-              <input id="remember-me" type="checkbox" className="mr-2 rounded-[10px]"></input>
-              <label htmlFor="remember-me" className="">Remember me</label>
-            </div>
-            <Link className="hover:underline text-green-3" to="/forgotpassword">Forgot password?</Link>
-          </div>
+          <p className="text-sm">{errorPassword}</p>
           <button type="submit" className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-green-3 hover:bg-green-2">Log in</button>
           <p className="text-sm font-medium text-center">Don’t have an account yet? <Link to="/signup" className="hover:underline text-green-3">Sign up</Link></p>
           <p className="text-sm">{loginFailed}</p>
