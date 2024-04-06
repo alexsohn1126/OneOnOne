@@ -64,7 +64,14 @@ function List_Calendars({ data }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // send_create_request(formData);
+        try {
+        await send_create_request(formData); // Wait for the request to complete
+        setIsOpen(false); // Close the overlay on successful POST
+        console.log('Calendar created successfully');
+    } catch (error) {
+        alert('Failed to create calendar.'); // Show an error message
+        console.error('Error:', error);
+    }
     };
 
     const [isOpen, setIsOpen] = useState(false);
@@ -77,6 +84,7 @@ function List_Calendars({ data }) {
     // data has some number of calendars that we fetched from the server. We now display this calendar on the page along with a <Create_new_calendar> button 
     const calendars = data.map((calendar) => (
         <li key={'calendar ' + calendar.id}>
+            <p>_</p>
             <p>Calendar Name: {calendar.name}</p>
             <p>Start Date: {calendar.start_date}</p>
             <p>End Date: {calendar.end_date}</p>
@@ -95,7 +103,6 @@ function List_Calendars({ data }) {
             <button onClick={toggleOverlay}>Create new calendar</button>
 
             <Overlay isOpen={isOpen} onClose={toggleOverlay}>
-                {/* <h1>Hello from overlay</h1> */}
                 <form onSubmit={handleSubmit}>
                 <div>
                     <label>Calendar Name</label>
@@ -137,6 +144,24 @@ function List_Calendars({ data }) {
 
 }
 
+function send_create_request(formData) {
+    const apiUrl = "http://localhost:8000/api/calendars/";
+    const accessToken = localStorage.getItem('accessToken');
+
+    return fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(formData),
+    })
+    .then((response) => response.json())
+    .catch((error) => {
+        console.error('Calendar creation failed:', error);
+        throw new Error('Failed to create calendar');  // Throw an error to handle in handleSubmit
+    });
+}
 
 
 export default Calendar;
