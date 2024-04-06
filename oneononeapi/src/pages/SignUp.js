@@ -1,10 +1,28 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
+
+function InputField({ onChange, type, name, error, placeholder, extraStyle}) {
+  const inputStyle = "w-full p-2 text-sm rounded-[10px] border-gray-500 border";
+  return (<div>
+    <input onChange={onChange} type={type} name={name} id={name} required="" 
+      className={[inputStyle, extraStyle, (error ? " border-red-600" : "")].join(' ')} placeholder={placeholder} />
+    <p className={error ? "text-red-600" : ""}>{error}</p>
+  </div>);
+}
 
 function SignUp() {
   const inputStyle = "w-full p-2 text-sm rounded-[10px] border-gray-500 border";
   const signUpAPI = "http://localhost:8000/api/accounts/signup/"
   let [signUpForm, setSignUpForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    username: "",
+    password: "",
+    repeat_password: ""
+  });
+
+  let [errors, setErrors] = useState({
     first_name: "",
     last_name: "",
     email: "",
@@ -21,22 +39,38 @@ function SignUp() {
     });
   }
 
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
-    console.log(signUpForm);
 
-    fetch(signUpAPI,{
+    fetch(signUpAPI, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(signUpForm),
     }).then(async res => {
-      let s = await res.json();
-      if (Object.keys(s).length){
-        console.log('hi');
+      // redirect to signin if signup successful
+      if (res.status == 200) {
+        return redirect("/signin");
       }
-    })
+      let errors = await res.json();
+      handleErrors(errors);
+    });
+  }
+
+  function handleErrors(e) {
+    let newErrors = {}
+    console.log(e);
+    for (const errorElement in errors) {
+      // if an element is in returned error object, change it to show error
+      // otherwise reset to empty string
+      if (errorElement in e){
+        newErrors[errorElement] = e[errorElement][0];
+      } else {
+        newErrors[errorElement] = "";
+      }
+    }
+    setErrors(newErrors);
   }
 
   return (
@@ -47,14 +81,12 @@ function SignUp() {
       <div className="w-full max-w-md p-6 space-y-6">
         <h2 className="text-2xl font-bold">Sign up</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex">
-            <input onChange={handleChange} type="first_name" name="first_name" id="first_name" required="" className={inputStyle + " mr-3"} placeholder="First Name" />
-            <input onChange={handleChange} type="last_name" name="last_name" id="last_name" required="" className={inputStyle} placeholder="Last Name" />
-          </div>
-          <input onChange={handleChange} type="email" name="email" id="email" required="" className={inputStyle} placeholder="Email Address" />
-          <input onChange={handleChange} type="username" name="username" id="username" required="" className={inputStyle} placeholder="Username" />
-          <input onChange={handleChange} type="password" name="password" id="password" required="" className={inputStyle} placeholder="Password" />
-          <input onChange={handleChange} type="repeat_password" name="repeat_password" id="repeat_password" required="" className={inputStyle} placeholder="Repeat Password" />
+          <InputField onChange={handleChange} name="first_name" error={errors.first_name} placeholder="First Name"/>
+          <InputField onChange={handleChange} name="last_name" error={errors.last_name} placeholder="Last Name"/>
+          <InputField onChange={handleChange} type="email" name="email" error={errors.email} placeholder="Email Address"/>
+          <InputField onChange={handleChange} name="username" error={errors.username} placeholder="Username"/>
+          <InputField onChange={handleChange} type="password" name="password" error={errors.password} placeholder="Password"/>
+          <InputField onChange={handleChange} type="password" name="repeat_password" error={errors.repeat_password} placeholder="Repeat Password"/>
           <button type="submit" className="w-full px-5 py-3 bg-green-3 text-white rounded-[10px]">Register</button>
         </form>
         <p className="text-sm font-medium text-center">
