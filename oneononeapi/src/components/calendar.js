@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { Fragment } from "react";
 import './Overlay.css';
 import Overlay from '../index';
 
@@ -38,7 +35,7 @@ function Calendar() {
     return (
         <div>
             {calendarsList ? (
-                <List_Calendars data={calendarsList} setCalendars={setCalendars} /> // Render child with fetched data
+                <ListCalendars data={calendarsList} setCalendars={setCalendars} /> // Render child with fetched data
             ) : (
                 <p>Loading...</p> 
             )}
@@ -46,7 +43,7 @@ function Calendar() {
     )
 }
 
-function List_Calendars({ data, setCalendars }) {
+function ListCalendars({ data, setCalendars }) {
     // setting up data for the create calendar form:
     const [formData, setFormData] = useState({
         "name": '',
@@ -54,6 +51,8 @@ function List_Calendars({ data, setCalendars }) {
         "end_date": '',
     })
     const [error, setError] = useState('');  // State to store the error message
+
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -97,16 +96,7 @@ function List_Calendars({ data, setCalendars }) {
             console.error('Error deleting calendar:', error);
             alert('Failed to delete calendar.');
         }
-    };
-
-    
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleOverlay = () => {
-        setIsOpen(!isOpen);
-    };
-
+    };    
 
     // data has some number of calendars that we fetched from the server. We now display this calendar on the page along with a <Create_new_calendar> button 
     const calendars = data.map((calendar) => (
@@ -115,11 +105,14 @@ function List_Calendars({ data, setCalendars }) {
                 <p>Calendar Name: {calendar.name}</p>
                 <p>Start Date: {calendar.start_date}</p>
                 <p>End Date: {calendar.end_date}</p>
-                <button onClick={() => handleEdit(calendar)}>Edit</button>
                 <button onClick={() => handleDelete(calendar.id)}>DELETE</button>
             </div>
         </li>
     ))
+
+    const toggleOverlay = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
         <div className="container">
