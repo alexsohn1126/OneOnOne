@@ -99,13 +99,13 @@ class SignInSerializer(serializers.ModelSerializer):
         return data
     
 class UserProfileSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(required=False, write_only = True)
+    new_password = serializers.CharField(required=False, write_only = True)
     
     class Meta: 
         model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'password')
+        fields = ('first_name', 'last_name', 'username', 'email', 'new_password')
         # To ensure protection for users 
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {'new_password': {'write_only': True}}
         
     def validate(self, data):
         '''
@@ -143,11 +143,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
             else:
                 filtered_data["username"] = username
         # Check password 
-        if "password" in data: 
-            if len(data["password"]) < 6 and len(data["password"]) != 0: 
-                errors["password"] = 'The password is too short. Enter a password that is at least 6 characters'
-            elif len(data["password"]) != 0: 
-                filtered_data["password"] = data["password"]
+        if "new_password" in data: 
+            if len(data["new_password"]) < 6 and len(data["new_password"]) != 0: 
+                errors["new_password"] = 'The password is too short. Enter a password that is at least 6 characters'
+            elif len(data["new_password"]) != 0: 
+                filtered_data["new_password"] = data["new_password"]
         # Check if errors dictionary is empty or not
         if len(errors) != 0: 
             raise ValidationError(errors)
