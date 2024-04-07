@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom/'
 
 function EditProfile() {
@@ -27,30 +27,30 @@ function EditProfile() {
   const accessToken = localStorage.getItem('accessToken');
 
   // useEffect: function will run what is inside its body when it is rendered
-
-  // Check if authorized to access this page 
-  fetch(editProfileAPI, {
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + accessToken, // Pass in access token
-    },
-  })
-  .then(response => response.json())
-  .then(data => {
-    if ("first_name" in data){
-      // If reached here, this User is authorized to access the page and set the form up 
-      // with the User's info that is retrieved from the database
-      setEditProfileInfo({"first_name": data["first_name"], "last_name": data["last_name"], "username": data["username"], "email": data["email"], "password": ""})
-    }
-    else {;
-      // If reached here, then it means that this person isn't authorized to access this page and direct them to the 404 page
+  useEffect(() => {
+    // Check if authorized to access this page 
+    fetch(editProfileAPI, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken, // Pass in access token
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      if ("first_name" in data){
+        // If reached here, this User is authorized to access the page and set the form up 
+        // with the User's info that is retrieved from the database
+        setEditProfileInfo({"first_name": data["first_name"], "last_name": data["last_name"], "username": data["username"], "email": data["email"], "password": ""})
+      }
+      else {;
+        // If reached here, then it means that this person isn't authorized to access this page and direct them to the 404 page
+        navigate('/*/');
+      }
+    })
+    .catch(error => {
       navigate('/*/');
-    }
-  })
-  .catch(error => {
-    navigate('/*/');
-  });
-
+    });
+  }, [navigate, accessToken]);
 
   // handleChange: Function is called to set state when info is added into the input fields 
   // Referenced https://www.geeksforgeeks.org/how-to-use-handlechange-function-in-react-component/
