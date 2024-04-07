@@ -152,3 +152,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         if len(errors) != 0: 
             raise ValidationError(errors)
         return filtered_data
+    
+class DeleteProfileSerializer(serializers.ModelSerializer):
+    
+    class Meta: 
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email', 'password')

@@ -2,7 +2,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response 
 from rest_framework import generics
 from rest_framework import views
-from ..serializer.auth_serializer import RegisterSerializer, SignInSerializer, UserProfileSerializer
+from ..serializer.auth_serializer import RegisterSerializer, SignInSerializer, UserProfileSerializer, DeleteProfileSerializer
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from users.models import User
@@ -75,3 +75,18 @@ class ProfileUpdate(generics.RetrieveUpdateAPIView):
         the_serializer.is_valid(raise_exception=True)
         the_serializer.save()
         return Response(the_serializer.data, status=status.HTTP_200_OK)
+    
+class DeleteProfile(generics.DestroyAPIView):
+    # Set the permission for this view 
+    permission_classes = [IsAuthenticated]
+    serializer_class = DeleteProfileSerializer
+    
+    def destroy(self, request, *args, **kwargs):
+        # Check if authorized to delete 
+        obj = get_object_or_404(User, pk = self.kwargs["pk"])
+        if obj != request.user:
+            raise PermissionDenied('You can\'t delete this profile.')
+        else:
+            # Delete the profile
+            self.perform_destroy(obj)
+            return Response(status=status.HTTP_204_NO_CONTENT)
