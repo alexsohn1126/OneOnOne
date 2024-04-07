@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom/'
 
 function EditProfile() {
@@ -27,30 +27,30 @@ function EditProfile() {
   const accessToken = localStorage.getItem('accessToken');
 
   // useEffect: function will run what is inside its body when it is rendered
-  useEffect(() => {
-    // Check if authorized to access this page 
-    fetch(editProfileAPI, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + accessToken, // Pass in access token
-      },
-    })
-    .then(response => response.json())
-    .then(data => {
-      if ("first_name" in data){
-        // If reached here, this User is authorized to access the page and set the form up 
-        // with the User's info that is retrieved from the database
-        setEditProfileInfo({"first_name": data["first_name"], "last_name": data["last_name"], "username": data["username"], "email": data["email"], "password": ""})
-      }
-      else {;
-        // If reached here, then it means that this person isn't authorized to access this page and direct them to the 404 page
-        navigate('/*/');
-      }
-    })
-    .catch(error => {
+
+  // Check if authorized to access this page 
+  fetch(editProfileAPI, {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + accessToken, // Pass in access token
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if ("first_name" in data){
+      // If reached here, this User is authorized to access the page and set the form up 
+      // with the User's info that is retrieved from the database
+      setEditProfileInfo({"first_name": data["first_name"], "last_name": data["last_name"], "username": data["username"], "email": data["email"], "password": ""})
+    }
+    else {;
+      // If reached here, then it means that this person isn't authorized to access this page and direct them to the 404 page
       navigate('/*/');
-    });
-  }, []);
+    }
+  })
+  .catch(error => {
+    navigate('/*/');
+  });
+
 
   // handleChange: Function is called to set state when info is added into the input fields 
   // Referenced https://www.geeksforgeeks.org/how-to-use-handlechange-function-in-react-component/
@@ -92,7 +92,7 @@ function EditProfile() {
     )
   }
   return (
-    <div className="flex flex-col justify-center items-center mt-32">
+    <div className="flex flex-col justify-center items-center mt-20">
       <h2 className="font-bold text-2xl">Edit Profile</h2>
       <form onSubmit={handleSubmit} className="w-full max-w-md p-6 space-y-4">
         <input value={editProfileInfo.first_name} onChange={handleChange} type="text" name="first_name" id="firstname" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="First Name"></input>
