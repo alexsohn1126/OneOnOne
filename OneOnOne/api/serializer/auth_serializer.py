@@ -144,9 +144,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 filtered_data["username"] = username
         # Check password 
         if "password" in data: 
-            if len(data["password"]) < 6: 
+            if len(data["password"]) < 6 and len(data["password"]) != 0: 
                 errors["password"] = 'The password is too short. Enter a password that is at least 6 characters'
-            else: 
+            elif len(data["password"]) != 0: 
                 filtered_data["password"] = data["password"]
         # Check if errors dictionary is empty or not
         if len(errors) != 0: 
