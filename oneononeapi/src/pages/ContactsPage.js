@@ -14,7 +14,6 @@ function ContactsPage() {
         "email": ''
     };
 
-
     const [formData, setFormData] = useState(initialFormData);
 
     const [editInfo, setEditInfo] = useState({
@@ -24,6 +23,48 @@ function ContactsPage() {
         "email": ''
     });
 
+    // setting up states that we can use to track form input
+    const [input, setInput] = useState('');
+
+    // setting up function which fetches data after user enters something in the search bar 
+    const fetchData = (value) => {
+        const apiUrl = "http://localhost:8000/api/contacts/";
+        const accessToken = localStorage.getItem('accessToken');
+
+        // the get request below should fetch the list of contacts
+        fetch(apiUrl, {
+            method: 'GET', 
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, // Use Bearer scheme for JWT
+            },
+        })
+        .then((response) => response.json())
+        // TODO: need to set up await so that we wait for data from the server
+        .then((json) => {
+            // console.log(value);
+            // console.log(json)
+            const results = json.filter((user) => {
+                // console.log(user);
+                // console.log(user.first_name);
+                // last 2 conditions check if the users first and last name include the values being entered in the search field
+                // console.log(user.first_name.toLowerCase().includes(value) || user.last_name.toLowerCase().includes(value));
+                // initial return statements had return (value && ...) but this wouldn't allow results to contains all the usernames in the DB.
+                return (user && user.first_name && user.last_name && (user.first_name.toLowerCase().includes(value) || user.last_name.toLowerCase().includes(value)));
+            })
+            setContactsList(results);
+        })
+        .catch((error) => {
+          alert('Login failed');
+          console.error('Error during login:', error);
+        });
+    }
+
+
+    const handleSearchChange = (value) => {
+        setInput(value);
+        fetchData(value);
+    }
+
     // need to use another state for the contacts list so that everytime a contact is added or deleted, it will render a new card on the page 
     // instead of asking the page to be reloaded
 
@@ -31,7 +72,7 @@ function ContactsPage() {
     const send_delete_request = (id) => {
         // we can use the fetch method again to delete the data. Will the page be reloaded after contact is deleted?
         const apiUrl = "http://localhost:8000/api/contacts/" + id + '/';
-        console.log(apiUrl);
+        // console.log(apiUrl);
         const accessToken = localStorage.getItem('accessToken');
         // var navigate = useNavigate();
 
@@ -43,7 +84,7 @@ function ContactsPage() {
         })
         .then(response => {
             if (response.ok) {
-                console.log("contact has been successfully deleted");
+                // console.log("contact has been successfully deleted");
                 // also need to update the contactsList state here so that the contact can be removed 
                 const updatedContacts = contactsList.filter(contact => contact.id !== id);
                 setContactsList(updatedContacts);
@@ -85,7 +126,7 @@ function ContactsPage() {
             .then((data) => {
                 // at this point, the contact has been created so we update the contactslist state to reflect that change
                 setContactsList([...contactsList, data]);
-                console.log(data);
+                // console.log(data);
             })
             .catch((error) => {
                 alert('failed');
@@ -175,8 +216,8 @@ function ContactsPage() {
                   setContactsList(updatedContacts);
             })
             .catch((error) => {
-                console.log(formData);
-                console.log(apiUrl);
+                // console.log(formData);
+                // console.log(apiUrl);
                 alert('failed');
                 console.error('Contact update failed:', error);
             });
@@ -246,15 +287,7 @@ function ContactsPage() {
         })
           .then((response) => response.json())
           .then((data) => {
-            // TODO: contact data is in the arrays that are in the dictionary by indices.
-            console.log(data);
-            if (data.length === 0) {
-                console.log("there are no contacts to show");
-            } else {
-                // when we have fetched the initial list of contacts, this will save those contacts in the contactsList state.
-                // everytime
-                setContactsList(data);
-            }
+            setContactsList(data);
             // return <h1>Contacts list returned in console</h1>;
           })
           .catch((error) => {
@@ -272,9 +305,8 @@ function ContactsPage() {
 
         <div class="p-4 rounded-lg shadow mx-auto my-8 max-w-4xl">
             <div class="mb-8">
-                <label for="User">Search for user</label>
                 <br/>
-                <input type="email" class="py-1 px-1 border border-black rounded-xl"/>
+                <input class="py-1 px-1 border border-black rounded-xl" placeholder='Search for contact' value={input} onChange={(e) => handleSearchChange(e.target.value)}/>
             </div>
 
             <div className="App">
