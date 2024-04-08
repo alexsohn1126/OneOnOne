@@ -42,6 +42,7 @@ function Contacts() {
 
 
     return (
+        // the intial template of the contacts page should be returned here including the add contact button
         <div>
             {contactsList ? (
                 <List_Contacts data={contactsList} /> // Render child with fetched data
@@ -103,7 +104,8 @@ function List_Contacts({ data }) {
                 <h1>List of contacts</h1>
             </div>
         
-            <ul>{contacts}</ul>
+            {/* we would need to save the contact cards in the contacts variable and then assign that here. Should work  */}
+            <ul>{contacts}</ul>     
 
             <div className="App">
             <button onClick={toggleOverlay}>Create new contact</button>
@@ -142,14 +144,12 @@ function List_Contacts({ data }) {
                     onChange={handleChange}
                     />
                 </div>
-                <button type="submit">Update contact information</button>
+                <button type="submit">Create contact</button>
                 </form>
             </Overlay>
             </div>
         </div>
       );
-
-
 }
 
 
@@ -206,7 +206,6 @@ function delete_contact(data) {
         // alert('Login failed');
         console.error('Error during login:', error);
       });
-
 }
 
 function send_edit_request(id, formData) {
