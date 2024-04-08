@@ -20,7 +20,6 @@ function Calendar() {
         })
         .then(response => response.json())
         .then(data => {
-            // TODO: Calendar data is in the arrays that are in the dictionary by indices.
             console.log(data);
             if (data.length === 0) {
                 console.log("There are no calendars to show");
@@ -54,14 +53,16 @@ function ListCalendars({ data, setCalendars }) {
         "end_date": '',
     })
     const [error, setError] = useState('');  // State to store the error message
-
     const [isOpen, setIsOpen] = useState(false);
-
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [currCalendarName, setCurrCalendarName] = useState('Please select a calendar');
 
-    const [currCalendarName, setCurrCalendarName] = useState('Please select a calendar')
+    const toggleOverlay = () => {
+        setIsOpen(!isOpen);
+    };
 
-    const handleChange = (e) => {
+    // Handle changes for form data
+    const handleFormChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevFormData => ({
             ...prevFormData,
@@ -70,6 +71,7 @@ function ListCalendars({ data, setCalendars }) {
         setError('');  // Clear error message when the user starts editing again
     };
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -84,6 +86,7 @@ function ListCalendars({ data, setCalendars }) {
         }
     };
 
+    // Handle calendar deletion
     const handleDelete = async (calendarId) => {
         const apiUrl = `http://localhost:8000/api/calendars/${calendarId}/`;
         const accessToken = localStorage.getItem('accessToken');
@@ -105,17 +108,19 @@ function ListCalendars({ data, setCalendars }) {
         }
     };
     
+    // Handle changing the react calendar when interacting directly with it
     const handleCalendarChange = (calendar) => {
-        // `calendar` object has `start_date` and `end_date` properties
         setSelectedDate(new Date(calendar.start_date));  // Or `end_date` depending on the requirement
     };
 
+    // Handle changing the react calendar when choosing a different calendar from the list
     const handleCalendarSelect = (calendar) => {
         const startDate = new Date(calendar.start_date); // Parsing might be needed depending on format
         setSelectedDate(startDate);
         setCurrCalendarName(calendar.name);
     };
 
+    // Logic and formatting for listing the calendars
     const calendars = data.map((calendar) => (
         <li key={calendar.id}>
             <div className="relative flex items-stretch py-2">
@@ -155,9 +160,7 @@ function ListCalendars({ data, setCalendars }) {
         </li>
     ))
 
-    const toggleOverlay = () => {
-        setIsOpen(!isOpen);
-    };
+    
 
     return (
         <div className="container mx-auto p-2 pb-12">
@@ -209,7 +212,7 @@ function ListCalendars({ data, setCalendars }) {
                     id="name"
                     name="name"
                     value={formData.name}
-                    onChange={handleChange}
+                    onChange={handleFormChange}
                     />
                 </div>
                 <div>
@@ -219,7 +222,7 @@ function ListCalendars({ data, setCalendars }) {
                     id="start_date"
                     name="start_date"
                     value={formData.start_date}
-                    onChange={handleChange}
+                    onChange={handleFormChange}
                     />
                 </div>
                 <div>
@@ -229,7 +232,7 @@ function ListCalendars({ data, setCalendars }) {
                     id="end_date"
                     name="end_date"
                     value={formData.end_date}
-                    onChange={handleChange}
+                    onChange={handleFormChange}
                     />
                 </div>
                 <button type="submit">Create Calendar</button>
