@@ -1,5 +1,7 @@
-import React, { useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom/'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom/';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 function EditProfile() {
   let navigate = useNavigate();
@@ -10,7 +12,7 @@ function EditProfile() {
     "username": "",
     "email": "",
     "password": ""
-  }) 
+  });
 
   // Set up hook for profile validation errors
   const [editProfileErrors, setEditProfileErrors] = useState({
@@ -19,7 +21,7 @@ function EditProfile() {
     username: "",
     email: "",
     password: ""
-  }) 
+  });
 
   // Set up hook for changes to border color 
   const [borderColor, setBorderColor] = useState({
@@ -44,27 +46,27 @@ function EditProfile() {
         'Authorization': 'Bearer ' + accessToken, // Pass in access token
       },
     })
-    .then(response => response.json())
-    .then(data => {
-      if ("first_name" in data){
-        // If reached here, this User is authorized to access the page and set the form up 
-        // with the User's info that is retrieved from the database
-        setEditProfileInfo({"first_name": data["first_name"], "last_name": data["last_name"], "username": data["username"], "email": data["email"], "password": ""})
-      }
-      else {;
-        // If reached here, then it means that this person isn't authorized to access this page and direct them to the 404 page
+      .then(response => response.json())
+      .then(data => {
+        if ("first_name" in data) {
+          // If reached here, this User is authorized to access the page and set the form up 
+          // with the User's info that is retrieved from the database
+          setEditProfileInfo({ "first_name": data["first_name"], "last_name": data["last_name"], "username": data["username"], "email": data["email"], "password": "" })
+        }
+        else {
+          // If reached here, then it means that this person isn't authorized to access this page and direct them to the 404 page
+          navigate('/*/');
+        }
+      })
+      .catch(error => {
         navigate('/*/');
-      }
-    })
-    .catch(error => {
-      navigate('/*/');
-    });
+      });
   }, [navigate, accessToken]);
 
   // handleChange: Function is called to set state when info is added into the input fields 
   // Referenced https://www.geeksforgeeks.org/how-to-use-handlechange-function-in-react-component/
   const handleChange = (e) => {
-    setEditProfileInfo(prevEditProfile => ({...prevEditProfile, [e.target.name]: e.target.value}));
+    setEditProfileInfo(prevEditProfile => ({ ...prevEditProfile, [e.target.name]: e.target.value }));
   };
 
   // handleSubmit: If this function is called, it means that edits could have been made and we should validate their inputted info  
@@ -78,31 +80,56 @@ function EditProfile() {
       },
       body: JSON.stringify({ "first_name": editProfileInfo.first_name, "last_name": editProfileInfo.last_name, "username": editProfileInfo.username, "email": editProfileInfo.email, "password": editProfileInfo.password }),
     })
-    .then(newresponse => newresponse.json())
-    .then(newdata => { 
-      // Clear any previous errors 
-      setEditProfileErrors({first_name: "", last_name: "", username: "", email: "", password: ""});
-      // Error checking
-      let all_errors = {}
-      let all_border_error_colors = {}
-      for (let err in newdata) {
-        if (typeof newdata[err] != "string") {
-          all_errors[err] = (newdata[err]).toString();
-          all_border_error_colors[err] = "border-red-600";
+      .then(newresponse => newresponse.json())
+      .then(newdata => {
+        // Clear any previous errors 
+        setEditProfileErrors({ first_name: "", last_name: "", username: "", email: "", password: "" });
+        // Error checking
+        let all_errors = {}
+        let all_border_error_colors = {}
+        for (let err in newdata) {
+          if (typeof newdata[err] != "string") {
+            all_errors[err] = (newdata[err]).toString();
+            all_border_error_colors[err] = "border-red-600";
+          }
         }
-      } 
-      setEditProfileErrors(all_errors);
-      setBorderColor(all_border_error_colors);
-      if ("first_name" in newdata && (typeof newdata["first_name"]) == "string"){
-        // Show a success message if there's no error in the form 
-        setSuccessMsg("Profile was updated.");
-      } 
-    })
-    .catch(error => {
-      setSuccessMsg("There was an error. Please try submitting again or refresh the page.");
+        setEditProfileErrors(all_errors);
+        setBorderColor(all_border_error_colors);
+        if ("first_name" in newdata && (typeof newdata["first_name"]) == "string") {
+          // Show a success message if there's no error in the form 
+          setSuccessMsg("Profile was updated.");
+        }
+      })
+      .catch(error => {
+        setSuccessMsg("There was an error. Please try submitting again or refresh the page.");
       }
-    )
+      )
   }
+
+  const deleteProfile = (e) => {
+    // Make request to delete profile 
+    const deleteProfileAPI = 'http://localhost:8000/api/accounts/delete/';
+    fetch(deleteProfileAPI, { 
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + accessToken, // Pass in access token
+      }
+    })
+      .then(response => {
+        if (response.status === 204) {
+          navigate("/signin/");
+        }
+        else {
+          setSuccessMsg("Something went wrong when deleting your profile.");
+        }
+      })
+      .catch(error => {
+        // If something goes wrong, just navigate them back to the edit profile page
+        setSuccessMsg("Something went wrong when deleting your profile.");
+      })
+  }
+
   return (
     <div className="flex flex-col justify-center items-center mt-20">
       <h2 className="font-bold text-2xl">Edit Profile</h2>
@@ -120,6 +147,23 @@ function EditProfile() {
         <button type="submit" className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-green-3 hover:bg-green-2">Submit</button>
         <p className="text-sm">{success}</p>
       </form>
+      <div className="w-full max-w-md p-6 space-y-4">
+        <h2 className="font-bold text-xl">Delete Profile</h2>
+        <Popup trigger={<button type="submit" className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-red-800 hover:bg-red-700">I wish to delete my profile</button>} modal nested>
+          {
+            close => (
+              <div className='modal'>
+                <div className = "p-6 space-y-4">
+                  <p className='text-sm'>Do you confirm that you want to delete your profile?</p>
+                  <button className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-red-800 hover:bg-red-700" onClick={(e) => deleteProfile(e)}>Yes! Please delete my profile.</button>
+                  <button className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-green-3 hover:bg-green-2" onClick={() => close()}>No! Please close this popup.</button>
+                </div>
+              </div>
+            )
+          }
+        </Popup>
+      </div>
+
     </div>
   );
 }
