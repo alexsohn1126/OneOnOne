@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Overlay.css';
 import Overlay from '../index';
 import ReactCalendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 function Calendar() {
     const [calendarsList, setCalendars] = useState([]);
@@ -113,13 +114,50 @@ function ListCalendars({ data, setCalendars }) {
     };
 
     // data has some number of calendars that we fetched from the server. We now display this calendar on the page along with a <Create_new_calendar> button 
+    // const calendars = data.map((calendar) => (
+    //     <li key={calendar.id} onClick={() => handleCalendarSelect(calendar)} >
+    //         <div>
+    //             <p>Calendar Name: {calendar.name}</p>
+    //             <p>Start Date: {calendar.start_date}</p>
+    //             <p>End Date: {calendar.end_date}</p>
+    //             <button onClick={() => handleDelete(calendar.id)}>DELETE</button>
+    //         </div>
+    //     </li>
+    // ))
     const calendars = data.map((calendar) => (
-        <li key={calendar.id} onClick={() => handleCalendarSelect(calendar)} >
-            <div>
-                <p>Calendar Name: {calendar.name}</p>
-                <p>Start Date: {calendar.start_date}</p>
-                <p>End Date: {calendar.end_date}</p>
-                <button onClick={() => handleDelete(calendar.id)}>DELETE</button>
+        <li key={calendar.id}>
+            <div className="relative flex items-stretch py-2">
+                <button className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0 rounded-l inline-flex items-center h-full" onClick={() => handleCalendarSelect(calendar)} >
+                {calendar.name}
+                </button>
+
+                {/* <!-- Contact Button --> */}
+                <div className="group">
+                    <a href="/" type="button" className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0  inline-flex items-center h-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
+                        <path d="M8.5 4.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10.9 12.006c.11.542-.348.994-.9.994H2c-.553 0-1.01-.452-.902-.994a5.002 5.002 0 0 1 9.803 0ZM14.002 12h-1.59a2.556 2.556 0 0 0-.04-.29 6.476 6.476 0 0 0-1.167-2.603 3.002 3.002 0 0 1 3.633 1.911c.18.522-.283.982-.836.982ZM12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                        </svg>
+                    </a>
+                    <div className="absolute bottom-full mb-2 hidden group-hover:block">
+                        <span className="text-sm text-white p-2 bg-black rounded">
+                        Manage Contacts
+                        </span>
+                    </div>
+                </div>
+                
+                {/* <!-- Delete Button --> */}
+                <div className="group">
+                    <button className="bg-green-3 hover:bg-green-2 text-white py-2 mx-0 px-4  inline-flex items-center h-full rounded-r" onClick={() => handleDelete(calendar.id)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
+                        <path fillRule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clipRule="evenodd" />
+                        </svg>       
+                    </button>
+                    <div className="absolute bottom-full mb-2 hidden group-hover:block">
+                        <span className="text-sm text-white p-2 bg-black rounded">
+                        Delete Calendar
+                        </span>
+                    </div>
+                </div>
             </div>
         </li>
     ))
