@@ -59,6 +59,8 @@ function ListCalendars({ data, setCalendars }) {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
 
+    const [currCalendarName, setCurrCalendarName] = useState('Please select a calendar')
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevFormData => ({
@@ -111,27 +113,18 @@ function ListCalendars({ data, setCalendars }) {
     const handleCalendarSelect = (calendar) => {
         const startDate = new Date(calendar.start_date); // Parsing might be needed depending on format
         setSelectedDate(startDate);
+        setCurrCalendarName(calendar.name);
     };
 
-    // data has some number of calendars that we fetched from the server. We now display this calendar on the page along with a <Create_new_calendar> button 
-    // const calendars = data.map((calendar) => (
-    //     <li key={calendar.id} onClick={() => handleCalendarSelect(calendar)} >
-    //         <div>
-    //             <p>Calendar Name: {calendar.name}</p>
-    //             <p>Start Date: {calendar.start_date}</p>
-    //             <p>End Date: {calendar.end_date}</p>
-    //             <button onClick={() => handleDelete(calendar.id)}>DELETE</button>
-    //         </div>
-    //     </li>
-    // ))
     const calendars = data.map((calendar) => (
         <li key={calendar.id}>
             <div className="relative flex items-stretch py-2">
+                {/* -- Calendar Name -- */}
                 <button className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0 rounded-l inline-flex items-center h-full" onClick={() => handleCalendarSelect(calendar)} >
                 {calendar.name}
                 </button>
 
-                {/* <!-- Contact Button --> */}
+                {/* -- Contact Button -- */}
                 <div className="group">
                     <a href="/" type="button" className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0  inline-flex items-center h-full">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
@@ -145,7 +138,7 @@ function ListCalendars({ data, setCalendars }) {
                     </div>
                 </div>
                 
-                {/* <!-- Delete Button --> */}
+                {/* -- Delete Button -- */}
                 <div className="group">
                     <button className="bg-green-3 hover:bg-green-2 text-white py-2 mx-0 px-4  inline-flex items-center h-full rounded-r" onClick={() => handleDelete(calendar.id)}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
@@ -167,30 +160,45 @@ function ListCalendars({ data, setCalendars }) {
     };
 
     return (
-        <div className="container">
-            <ReactCalendar
-                onChange={handleCalendarChange}
-                value={selectedDate}
-            />
-            <div>
-                <h1>List of Calendars</h1>
-            </div>
-        
-            <ul>{calendars}</ul>
+        <div className="container mx-auto p-2 pb-12">
+            {/* -- Two Columns -- */}
+            <div className="flex flex-wrap -mx-8">
+                {/* -- First Column -- */}
+                <div className="w-full md:w-1/2 px-2 mb-4">
+                    
+                    <div className="bg-gray-100 p-4 rounded-lg shadow ">
+                        <h2 className="font-semibold text-lg mb-2 text-center">Your Calendars</h2>
+                        
+                        {/* -- Calendars List -- */}
+                        <ul>{calendars}</ul>
 
-            <div className="App">
-            
-            <div class="py-2">
-                <button className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 rounded-full inline-flex items-center" onClick={toggleOverlay}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 me-2">
-                        <path fillRule="evenodd"
-                        d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
-                        clipRule="evenodd" />
-                    </svg>
-                    Create Calendar
-                </button>
+                        <div className="App">
+                        
+                            <div className="py-2">
+                                <button className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 rounded-full inline-flex items-center" onClick={toggleOverlay}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 me-2">
+                                        <path fillRule="evenodd"
+                                        d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
+                                        clipRule="evenodd" />
+                                    </svg>
+                                    Create Calendar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* -- Second Column -- */}
+                <div className="w-full md:w-1/2 px-2 mb-4">
+                    <div className="bg-gray-100 p-4 rounded-lg shadow">
+                        <h2 className="font-semibold text-lg mb-2 text-center"> {currCalendarName} </h2>
+                        {/* -- Calendar -- */}
+                        <ReactCalendar
+                            onChange={handleCalendarChange}
+                            value={selectedDate}
+                        />
+                    </div>
+                </div>
             </div>
-
             <Overlay isOpen={isOpen} onClose={toggleOverlay}>
                 <form onSubmit={handleSubmit}>
                 {error && <p className="error">{error}</p>}
@@ -227,7 +235,6 @@ function ListCalendars({ data, setCalendars }) {
                 <button type="submit">Create Calendar</button>
                 </form>
             </Overlay>
-            </div>
         </div>
       );
 
