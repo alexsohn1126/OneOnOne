@@ -83,7 +83,7 @@ class DeleteProfile(generics.DestroyAPIView):
     
     def destroy(self, request, *args, **kwargs):
         # Check if authorized to delete 
-        obj = get_object_or_404(User, pk = self.kwargs["pk"])
+        obj = get_object_or_404(User, pk = request.user.pk)
         if obj != request.user:
             raise PermissionDenied('You can\'t delete this profile.')
         else:
