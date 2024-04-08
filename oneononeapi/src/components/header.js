@@ -1,21 +1,31 @@
 // tBD: the <a> tags need to be replaced with links or navlinks
-
+import {Link, NavLink} from "react-router-dom";
 
 export default function Header() {
-    console.log(window.location.pathname);
-    const curr_page = (window.location.pathname).replace('/', '');
+    const page_name = window.location.pathname;
     const active_page = "text-active-link font-bold hover:text-hover-nav-link";
     const inactive_page = "text-non-active-link  hover:text-hover-nav-link";
 
     return(
         <>
-
         <header class="min-w-full min-h-12 bg-header text-white flex items-center text-left">
         <div class="hidden sm:flex container mx-auto">
             <ul class="flex space-x-4">
-            <li><a href="contacts.html" class={(curr_page === 'contacts' ? active_page : inactive_page)}>My Contacts</a></li>
-            <li><a href="calendars.html" class={(curr_page === 'calendars' ? active_page : inactive_page)}>My Calendars</a></li>
-            <li><a href="schedule.html" class={(curr_page === 'schedule' ? active_page : inactive_page)}>My Schedule</a></li>
+            <li>
+                <NavLink to="/contacts" className={({ isActive }) => isActive ? active_page : inactive_page}>
+                            My Contacts
+                </NavLink>
+            </li>
+            <li>
+                <NavLink to="/calendars" className={({ isActive }) => isActive ? active_page : inactive_page}>
+                            My Calendars
+                </NavLink>
+            </li>
+            <li>
+                <NavLink to="/schedules" className={({ isActive }) => isActive ? active_page : inactive_page}>
+                            My Schedules
+                </NavLink>
+            </li>
             </ul>
         </div>
         <div class="flex flex-col items-center sm:hidden w-full min-h-12">

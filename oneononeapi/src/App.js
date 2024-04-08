@@ -35,8 +35,9 @@ import Home from './pages/Home';
 import NoPage from './pages/NoPage';
 import {Contacts, ContactsInfo} from './pages/Contacts';
 import Signin from './pages/Signin';
-import ContactsPage from './pages/ContactsPage'
-import HeaderLayout from './components/layout'
+import {ContactsPage} from './pages/ContactsPage';
+import HeaderLayout from './components/layout';
+import Calendar from './pages/Calendar';
 // import ContactsInfo from './pages/Contacts';
 
 // don't need the header and the footer since that is used by index.js which uses app.js (gotta love these
@@ -77,8 +78,9 @@ function App() {
         <Route element={<HeaderLayout />}>
           <Route path ="/" element={<Home/>}></Route>
           <Route path="/contacts" element={<ContactsPage />} />
-          {/* <Route path="/calendars" element={<Calendar />} /> */}
+          <Route path="/calendars" element={<Calendar />} />
           <Route path="/contacts/:id" element={<ContactsInfo />}></Route>
+          <Route path='/schedules' element={<NoPage/>}></Route>
         </Route>
         
         <Route path='/signin' element={<Signin />}></Route>
