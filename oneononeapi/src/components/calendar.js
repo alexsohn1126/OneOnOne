@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Overlay.css';
+import './calendar_styling.css';
 import Overlay from '../index';
 import ReactCalendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -56,6 +57,8 @@ function ListCalendars({ data, setCalendars }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [currCalendarName, setCurrCalendarName] = useState('Please select a calendar');
+    const [startDateRange, setStartDateRange] = useState(new Date());  // Start of range
+    const [endDateRange, setEndDateRange] = useState(new Date());    // End of range
 
     const toggleOverlay = () => {
         setIsOpen(!isOpen);
@@ -115,9 +118,22 @@ function ListCalendars({ data, setCalendars }) {
 
     // Handle changing the react calendar when choosing a different calendar from the list
     const handleCalendarSelect = (calendar) => {
-        const startDate = new Date(calendar.start_date); // Parsing might be needed depending on format
+        const startDate = new Date(calendar.start_date);
+        const endDate = new Date(calendar.end_date);
+
+        startDate.setDate(startDate.getDate() + 1);
+        endDate.setDate(endDate.getDate() + 1);
+
+        setStartDateRange(startDate);
+        setEndDateRange(endDate);
+
         setSelectedDate(startDate);
         setCurrCalendarName(calendar.name);
+    };
+
+    // Function to check if a date is within a range
+    const isInRange = (date) => {
+        return date >= startDateRange && date <= endDateRange;
     };
 
     // Logic and formatting for listing the calendars
@@ -162,6 +178,7 @@ function ListCalendars({ data, setCalendars }) {
 
     
 
+
     return (
         <div className="container mx-auto p-2 pb-12">
             {/* -- Two Columns -- */}
@@ -196,6 +213,11 @@ function ListCalendars({ data, setCalendars }) {
                         <h2 className="font-semibold text-lg mb-2 text-center"> {currCalendarName} </h2>
                         {/* -- Calendar -- */}
                         <ReactCalendar
+                            tileClassName={({ date, view }) => {
+                                if (view === 'month' && isInRange(date)) {
+                                    return 'calendar-day-in-range';
+                                }
+                            }}
                             onChange={handleCalendarChange}
                             value={selectedDate}
                         />
@@ -239,7 +261,7 @@ function ListCalendars({ data, setCalendars }) {
                 </form>
             </Overlay>
         </div>
-      );
+    );
 
 
 }
