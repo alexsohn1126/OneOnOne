@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Overlay.css';
 import Overlay from '../index';
+import ReactCalendar from 'react-calendar';
 
 function Calendar() {
     const [calendarsList, setCalendars] = useState([]);
@@ -39,6 +40,7 @@ function Calendar() {
             ) : (
                 <p>Loading...</p> 
             )}
+            
         </div>
     )
 }
@@ -53,6 +55,8 @@ function ListCalendars({ data, setCalendars }) {
     const [error, setError] = useState('');  // State to store the error message
 
     const [isOpen, setIsOpen] = useState(false);
+
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -96,11 +100,21 @@ function ListCalendars({ data, setCalendars }) {
             console.error('Error deleting calendar:', error);
             alert('Failed to delete calendar.');
         }
-    };    
+    };
+    
+    const handleCalendarChange = (calendar) => {
+        // `calendar` object has `start_date` and `end_date` properties
+        setSelectedDate(new Date(calendar.start_date));  // Or `end_date` depending on the requirement
+    };
+
+    const handleCalendarSelect = (calendar) => {
+        const startDate = new Date(calendar.start_date); // Parsing might be needed depending on format
+        setSelectedDate(startDate);
+    };
 
     // data has some number of calendars that we fetched from the server. We now display this calendar on the page along with a <Create_new_calendar> button 
     const calendars = data.map((calendar) => (
-        <li key={'calendar ' + calendar.id}>
+        <li key={calendar.id} onClick={() => handleCalendarSelect(calendar)} >
             <div>
                 <p>Calendar Name: {calendar.name}</p>
                 <p>Start Date: {calendar.start_date}</p>
@@ -116,6 +130,10 @@ function ListCalendars({ data, setCalendars }) {
 
     return (
         <div className="container">
+            <ReactCalendar
+                onChange={handleCalendarChange}
+                value={selectedDate}
+            />
             <div>
                 <h1>List of Calendars</h1>
             </div>
