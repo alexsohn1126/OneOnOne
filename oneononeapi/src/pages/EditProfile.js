@@ -21,6 +21,15 @@ function EditProfile() {
     password: ""
   }) 
 
+  // Set up hook for changes to border color 
+  const [borderColor, setBorderColor] = useState({
+    first_name: "border-gray-500",
+    last_name: "border-gray-500",
+    username: "border-gray-500",
+    email: "border-gray-500",
+    password: "border-gray-500",
+  });
+
   const [success, setSuccessMsg] = useState('');
 
   const editProfileAPI = 'http://localhost:8000/api/accounts/profile/';
@@ -75,12 +84,15 @@ function EditProfile() {
       setEditProfileErrors({first_name: "", last_name: "", username: "", email: "", password: ""});
       // Error checking
       let all_errors = {}
+      let all_border_error_colors = {}
       for (let err in newdata) {
         if (typeof newdata[err] != "string") {
           all_errors[err] = (newdata[err]).toString();
+          all_border_error_colors[err] = "border-red-600";
         }
       } 
       setEditProfileErrors(all_errors);
+      setBorderColor(all_border_error_colors);
       if ("first_name" in newdata && (typeof newdata["first_name"]) == "string"){
         // Show a success message if there's no error in the form 
         setSuccessMsg("Profile was updated.");
@@ -95,15 +107,15 @@ function EditProfile() {
     <div className="flex flex-col justify-center items-center mt-20">
       <h2 className="font-bold text-2xl">Edit Profile</h2>
       <form onSubmit={handleSubmit} className="w-full max-w-md p-6 space-y-4">
-        <input value={editProfileInfo.first_name} onChange={handleChange} type="text" name="first_name" id="firstname" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="First Name"></input>
+        <input value={editProfileInfo.first_name} onChange={handleChange} type="text" name="first_name" id="firstname" required="" className={["border w-full p-2 text-sm rounded-[10px] border-gray-500", borderColor.first_name].join(' ')} placeholder="First Name"></input>
         <p className="text-red-600 text-sm">{editProfileErrors.first_name}</p>
-        <input value={editProfileInfo.last_name} onChange={handleChange} type="text" name="last_name" id="lastname" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="Last Name"></input>
+        <input value={editProfileInfo.last_name} onChange={handleChange} type="text" name="last_name" id="lastname" required="" className={["border w-full p-2 text-sm rounded-[10px] border-gray-500", borderColor.last_name].join(' ')} placeholder="Last Name"></input>
         <p className="text-red-600 text-sm">{editProfileErrors.last_name}</p>
-        <input value={editProfileInfo.username} onChange={handleChange} type="text" name="username" id="username" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="Username"></input>
+        <input value={editProfileInfo.username} onChange={handleChange} type="text" name="username" id="username" required="" className={["border w-full p-2 text-sm rounded-[10px] border-gray-500", borderColor.username].join(' ')} placeholder="Username"></input>
         <p className="text-red-600 text-sm">{editProfileErrors.username}</p>
-        <input value={editProfileInfo.email} onChange={handleChange} type="text" name="email" id="email" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="Email Address"></input>
+        <input value={editProfileInfo.email} onChange={handleChange} type="text" name="email" id="email" required="" className={["border w-full p-2 text-sm rounded-[10px] border-gray-500", borderColor.email].join(' ')} placeholder="Email Address"></input>
         <p className="text-red-600 text-sm">{editProfileErrors.email}</p>
-        <input value={editProfileInfo.password} onChange={handleChange} type="password" name="password" id="password" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="New Password/Current Password"></input>
+        <input value={editProfileInfo.password} onChange={handleChange} type="password" name="password" id="password" required="" className={["border w-full p-2 text-sm rounded-[10px] border-gray-500", borderColor.password].join(' ')} placeholder="New Password/Current Password"></input>
         <p className="text-red-600 text-sm">{editProfileErrors.password}</p>
         <button type="submit" className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-green-3 hover:bg-green-2">Submit</button>
         <p className="text-sm">{success}</p>
