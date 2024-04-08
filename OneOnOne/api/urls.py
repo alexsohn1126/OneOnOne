@@ -2,7 +2,7 @@ from django.urls import path
 from .views.event_views import EventList, EventCreate, EventReadUpdate
 from .views.contact_views import ContactListCreate, ContactDetail
 from .views.calendar_views import CalendarList, CalendarDetail, CreateInvitee, TimeslotUpdateDestroy
-from .views.accounts_views import SignUpView, SignInView, ProfileUpdate
+from .views.accounts_views import SignUpView, SignInView, ProfileUpdate, DeleteProfile
 
 app_name = "api"
 
@@ -10,6 +10,7 @@ urlpatterns = [
     path('accounts/signup/', SignUpView.as_view(), name="signup"),
     path('accounts/signin/', SignInView.as_view(), name="signin"),
     path('accounts/profile/', ProfileUpdate.as_view(), name="profileedit"),
+    path('accounts/delete/', DeleteProfile.as_view(), name="profiledelete"),
     path('contacts/<int:pk>/', ContactDetail.as_view(), name="detailcreate"),
     path('contacts/', ContactListCreate.as_view(), name='listcreate'),
     path('timeslots/<int:timeslot_id>/events/', EventList.as_view(), name='list_events'),

@@ -12,6 +12,12 @@ function Signin() {
   const [errorPassword, setErrorPassword] = useState('');
   const [loginFailed, setLoginFailed] = useState('');
 
+  // Set up hook for changes to border color 
+  const [borderColor, setBorderColor] = useState({
+    "email": "border-gray-500",
+    "password": "border-gray-500",
+  });
+
   // handleSubmit: Attempt to sign in by making a request with info needed for logging in when button is clicked
   async function handleSubmit(e) {
     e.preventDefault();
@@ -38,18 +44,24 @@ function Signin() {
 
         } else {
           // If we're here, the login info is invalid. Render which field has the error 
+          let allBorderErrors = {}
           if (data !== "" && "email" in data) {
             setErrorEmail(data.email.toString());
+            allBorderErrors["email"] = 'border-red-600';
           }
           else {
             setErrorEmail('');
+            allBorderErrors["email"] = 'border-gray-500';
           }
           if (data !== "" && "password" in data) {
             setErrorPassword(data.password.toString());
+            allBorderErrors["password"] = 'border-red-600';
           }
           else {
             setErrorPassword('');
+            allBorderErrors["password"] = 'border-gray-500';
           }
+          setBorderColor(allBorderErrors);
         }
       })
       .catch(error => {
@@ -63,13 +75,13 @@ function Signin() {
       <div className="w-full max-w-md p-6 space-y-6">
         <h2 className="font-bold text-2xl">Sign in</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500" placeholder="Email Address"></input>
-          <p className="text-sm">{errorEmail}</p>
-          <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" placeholder="Password" required="" className="border w-full p-2 text-sm rounded-[10px] border-gray-500"></input>
-          <p className="text-sm">{errorPassword}</p>
+          <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" required="" className={["border w-full p-2 text-sm rounded-[10px] border-gray-500", borderColor.email].join(' ')} placeholder="Email Address"></input>
+          <p className="text-red-600 text-sm">{errorEmail}</p>
+          <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" placeholder="Password" required="" className={["border w-full p-2 text-sm rounded-[10px] border-gray-500", borderColor.password].join(' ')}></input>
+          <p className="text-red-600 text-sm">{errorPassword}</p>
           <button type="submit" className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-green-3 hover:bg-green-2">Log in</button>
           <p className="text-sm font-medium text-center">Don’t have an account yet? <Link to="/signup" className="hover:underline text-green-3">Sign up</Link></p>
-          <p className="text-sm">{loginFailed}</p>
+          <p className="text-red-600 text-sm">{loginFailed}</p>
         </form>
       </div>
     </div>
