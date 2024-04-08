@@ -1,5 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './components/login';
+import Layout from './components/layout';
+import Home from './components/Home';
+import NoPage from './components/NoPage';
+import Calendar from './components/calendar';
+import {Contacts, ContactsInfo} from './components/Contacts';
+
 
 // function App() {
 //   return (
