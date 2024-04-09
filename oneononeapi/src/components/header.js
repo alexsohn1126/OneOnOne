@@ -26,29 +26,37 @@ export default function Header() {
                             My Schedules
                 </NavLink>
             </li>
+            <li>
+                <NavLink to="/edit-profile" className={({ isActive }) => isActive ? active_page : inactive_page}>
+                            Edit Profile
+                </NavLink>
+            </li>
             </ul>
         </div>
-        <div class="flex flex-col items-center sm:hidden w-full min-h-12">
-            <input id="dropdown" type="checkbox" class="hidden peer"/>
-            <label for="dropdown" class="w-full h-12 flex justify-center items-center">
-            <svg class="w-8 h-8 inline" viewBox="0 0 20 20">
-                <path class="fill-green-1"
+        <div className="flex flex-col items-center sm:hidden w-full min-h-12">
+            <input id="dropdown" type="checkbox" className="hidden peer"/>
+            <label htmlFor="dropdown" className="w-full h-12 flex justify-center items-center">
+            <svg className="w-8 h-8 inline" viewBox="0 0 20 20">
+                <path className="fill-green-1"
                 d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314
                 c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743
                 s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314
                 c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path>
             </svg>
             </label>
-            <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
-            <a href="contacts.html" class="text-active-link hover:text-hover-nav-link font-bold">My Contacts</a>
+            <div className="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+            <NavLink to="/contacts" className="text-active-link hover:text-hover-nav-link font-bold">My Contacts</NavLink>
             </div>
-            <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
-            <a href="calendars.html" class="text-non-active-link hover:text-hover-nav-link ">My Calendars</a>
+            <div className="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+            <NavLink to="/calendars" className="text-non-active-link hover:text-hover-nav-link ">My Calendars</NavLink>
             </div>
-            <div class="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
-            <a href="schedule.html" class="text-non-active-link hover:text-hover-nav-link">My Schedule</a>
+            <div className="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+            <NavLink to="/schedules" className="text-non-active-link hover:text-hover-nav-link">My Schedule</NavLink>
             </div>
-      </div>
+            <div className="hidden peer-checked:flex peer-checked:justify-left bg-green-3  hover:bg-green-4 w-full p-2">
+            <NavLink to="/edit-profile" className="text-non-active-link hover:text-hover-nav-link">Edit Profile</NavLink>
+            </div>
+        </div>
     </header>
 
         </>
