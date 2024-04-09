@@ -9,7 +9,8 @@ from meetings.models import Calendar, Timeslot, Event, Invitee
 from ..serializer.calendar_serializers import CalendarSerializer
 from ..serializer.timeslot_serializers import TimeslotSerializer
 from ..serializer.invitee_serializers import InviteeSerializer
-from rest_framework.permissions import IsAuthenticated
+from ..serializer.event_serializers import EventSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class CalendarList(generics.ListCreateAPIView):
     # Set the permission for this view 
@@ -72,6 +73,14 @@ class TimeslotUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Timeslot.objects.filter(calendar__owner=self.request.user)
 
+class TimeslotsInCalendar(APIView):
+    serializer_class = TimeslotSerializer
+    permission_classes = [AllowAny]
+
+    def get(self, request, calendar_id, format=None):
+        calendar = get_object_or_404(Calendar, id=calendar_id)
+        serializer = TimeslotSerializer(calendar.timeslots, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CreateInvitee(APIView):
     # Set the permission for this view 
@@ -98,13 +107,18 @@ class SuggestedSchedules(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, calendar_id, format=None):
-        lookup_field = 'id'
+        calendar = get_object_or_404(Calendar, id=calendar_id)
 
-        queryset = Timeslot.objects.filter(calendar=calendar_id, high_priority=True)
-        high_priortity_events = []
+        if request.user != calendar.owner:
+            return Response('FORBIDDEN', status=status.HTTP_403_FORBIDDEN)
+        # high priority ones first, then earlier start times first
+        valid_timeslots = calendar.timeslots.exclude(events__confirmed=True).order_by("-high_priority", "start_time")
+        events = []
+        for timeslot in valid_timeslots:
+            events += list(timeslot.events.all())
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        for ts in queryset:
-            queryset2 = Event.objects.filter()
 
 class TimeslotListView(generics.ListCreateAPIView):
     # Set the permission for this view 
