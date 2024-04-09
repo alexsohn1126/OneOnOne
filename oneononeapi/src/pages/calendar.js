@@ -327,7 +327,7 @@ function ListCalendars({ data, setCalendars }) {
             <ul>
                 {timeslotsList.map(timeslot => (
                     <li key={timeslot.id}>
-                        <div className="py-2">
+                        <div className="py-2 shadow-md border p-4 m-2 rounded-lg bg-white space-y-2">
                             <p>Start: {new Date(timeslot.start_time).toLocaleString()}</p>
                             <p>End: {new Date(timeslot.end_time).toLocaleString()}</p>
                             <p>Priority: {timeslot.high_priority ? "High" : "Normal"}</p>
@@ -447,94 +447,112 @@ function ListCalendars({ data, setCalendars }) {
                     </div>
                 </div>
             </div>
-            <Overlay isOpen={isOpen} onClose={toggleOverlay}>
-                <form onSubmit={handleSubmit}>
-                {error && <p className="error">{error}</p>}
-                <div>
-                    <label>Calendar Name: </label>
-                    <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    onChange={handleFormChange}
-                    />
-                </div>
-                <div>
-                    <label>Start Date: </label>
-                    <DatePicker
-                        selected={formData.start_date}
-                        onChange={(date) => handleDateChange(date, 'start_date')}
-                        dateFormat="yyyy-MM-dd"
-                        required={true}
-                        id="start_date"
-                        name="start_date"
-                    />
-                </div>
-                <div>
-                    <label>End Date: </label>
-                    <DatePicker
-                        selected={formData.end_date}
-                        onChange={(date) => handleDateChange(date, 'end_date')}
-                        dateFormat="yyyy-MM-dd"
-                        required={true}
-                        id="end_date"
-                        name="end_date"
-                    />
-                </div>
-                <button type="submit">Create Calendar</button>
+            <Overlay isOpen={isOpen} onClose={toggleOverlay} className="bg-white rounded-lg shadow-xl p-5 max-w-lg mx-auto my-12">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
+                    
+                    <div className="flex flex-col">
+                        <label htmlFor="name" className="font-semibold">Calendar Name:</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            onChange={handleFormChange}
+                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                            required
+                        />
+                    </div>
+                    
+                    <div className="flex flex-col">
+                        <label htmlFor="start_date" className="font-semibold">Start Date:</label>
+                        <DatePicker
+                            selected={formData.start_date}
+                            onChange={(date) => handleDateChange(date, 'start_date')}
+                            dateFormat="yyyy-MM-dd"
+                            required={true}
+                            id="start_date"
+                            name="start_date"
+                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+                    
+                    <div className="flex flex-col">
+                        <label htmlFor="end_date" className="font-semibold">End Date:</label>
+                        <DatePicker
+                            selected={formData.end_date}
+                            onChange={(date) => handleDateChange(date, 'end_date')}
+                            dateFormat="yyyy-MM-dd"
+                            required={true}
+                            id="end_date"
+                            name="end_date"
+                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+                    
+                    <button type="submit" className="bg-green-3 hover:bg-green-2 text-white font-bold py-2 px-4 rounded">
+                        Create Calendar
+                    </button>
                 </form>
             </Overlay>
-            <Overlay isOpen={timeslotIsOpen} onClose={toggleTimeslotOverlay}>
-                <form onSubmit={handleTimeslotSubmit}>
-                {error && <p className="error">{error}</p>}
-                <div>
-                    <label>Start Time: </label>
-                    <DateTimePicker
-                        onChange={(value) => handleDateTimeChange(value, 'start_time')}
-                        disableClock={true}
-                        dayPlaceholder='dd'
-                        monthPlaceholder='mm'
-                        yearPlaceholder='yyyy'
-                        hourPlaceholder='hh'
-                        minutePlaceholder='mm'
-                        required={true}
-                        id="start_time"
-                        name="start_time"
-                        value={new Date(timeslotFormData.start_time)} // Ensure this is a Date object
-                    />
-                </div>
-                <div>
-                    <label>End Time: </label>
-                    <DateTimePicker
-                        onChange={(value) => handleDateTimeChange(value, 'end_time')}
-                        disableClock={true}
-                        dayPlaceholder='dd'
-                        monthPlaceholder='mm'
-                        yearPlaceholder='yyyy'
-                        hourPlaceholder='hh'
-                        minutePlaceholder='mm'
-                        required={true}
-                        id="end_time"
-                        name="end_time"
-                        value={new Date(timeslotFormData.end_time)} // Ensure this is a Date object
-                    />
-                </div>
-                <div>
-                    <fieldset>
-                        <label>
-                            High Priority: 
-                            <input
-                                type="checkbox"
-                                name="high_priority"
-                                checked={timeslotFormData.high_priority}
-                                onChange={handleTimeslotFormChange}
-                            />
-                        </label>
-                    </fieldset>
-                </div>
-                <button type="submit">Create Timeslot</button>
+
+            <Overlay isOpen={timeslotIsOpen} onClose={toggleTimeslotOverlay} className="bg-white rounded-lg shadow-xl p-5 max-w-lg mx-auto my-12">
+                <form onSubmit={handleTimeslotSubmit} className="space-y-4">
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
+                    
+                    <div className="flex flex-col">
+                        <label htmlFor="start_time" className="font-semibold">Start Time:</label>
+                        <DateTimePicker
+                            onChange={(value) => handleDateTimeChange(value, 'start_time')}
+                            disableClock={true}
+                            dayPlaceholder='dd'
+                            monthPlaceholder='mm'
+                            yearPlaceholder='yyyy'
+                            hourPlaceholder='hh'
+                            minutePlaceholder='mm'
+                            required={true}
+                            id="start_time"
+                            name="start_time"
+                            value={new Date(timeslotFormData.start_time)}
+                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+                    
+                    <div className="flex flex-col">
+                        <label htmlFor="end_time" className="font-semibold">End Time:</label>
+                        <DateTimePicker
+                            onChange={(value) => handleDateTimeChange(value, 'end_time')}
+                            disableClock={true}
+                            dayPlaceholder='dd'
+                            monthPlaceholder='mm'
+                            yearPlaceholder='yyyy'
+                            hourPlaceholder='hh'
+                            minutePlaceholder='mm'
+                            required={true}
+                            id="end_time"
+                            name="end_time"
+                            value={new Date(timeslotFormData.end_time)}
+                            className="mt-1 p-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+                    
+                    <div className="flex items-center mt-4">
+                        <label htmlFor="high_priority" className="font-semibold mr-2">High Priority:</label>
+                        <input
+                            type="checkbox"
+                            id="high_priority"
+                            name="high_priority"
+                            checked={timeslotFormData.high_priority}
+                            onChange={handleTimeslotFormChange}
+                            className="w-4 h-4 text-green-3 focus:ring-green-2 border-gray-300 rounded"
+                        />
+                    </div>
+                    
+                    <button type="submit" className="bg-green-3 hover:bg-green-2 text-white font-bold py-2 px-4 rounded">
+                        Create Timeslot
+                    </button>
                 </form>
             </Overlay>
+
         </div>
     );
 
