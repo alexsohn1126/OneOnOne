@@ -18,6 +18,7 @@ import HeaderLayout from './components/layout';
 import Calendar from './pages/calendar';
 import NotFoundPage from './pages/NotFoundPage';
 import EditProfile from './pages/EditProfile';
+import Schedule from './pages/Schedule';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/contacts" element={<ContactsPage />} />
           <Route path="/calendars" element={<Calendar />} />
           <Route path='/schedules' element={<NotFoundPage/>}></Route>
+
           {/* TODO: CHANGE ABOVE TO SCHEDULES PAGE */}
           <Route path='/edit-profile/' element={<EditProfile/>}></Route>
           
