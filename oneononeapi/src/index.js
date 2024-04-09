@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Header from './components/header';
-import Footer from './components/footer';
+import Header from './pages/header';
+import Footer from './pages/footer';
 import { Fragment } from "react";
-import "./components/Overlay.css";
+import "./pages/Overlay.css";
 
 // the router paths are added in app.js only. The header and the footer doesn't change in between calls
 
@@ -16,9 +16,9 @@ import "./components/Overlay.css";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Header />
+    {/* <Header /> */}
     <App />
-    <Footer />
+    {/* <Footer /> */}
   </React.StrictMode>
   // <>
   //   <Header />
