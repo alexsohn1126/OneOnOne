@@ -356,17 +356,6 @@ function ListCalendars({ data, setCalendars }) {
         }
     };
 
-    // NEW
-    const updateEventStatus = (timeslotId, updatedEvent) => {
-        setTimeslotsList(prevTimeslots => prevTimeslots.map(timeslot =>
-            timeslot.id === timeslotId
-                ? {...timeslot, events: timeslot.events.map(event =>
-                    event.id === updatedEvent.id ? updatedEvent : event
-                  )}
-                : timeslot
-        ));
-    };
-
     const fetchContactDetails = async (contactId) => {
         const apiUrl = `http://localhost:8000/api/contacts/${contactId}`;
         const accessToken = localStorage.getItem('accessToken');
