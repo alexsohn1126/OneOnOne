@@ -75,7 +75,8 @@ function ListCalendars({ data, setCalendars }) {
     const [currCalendarName, setCurrCalendarName] = useState('Please select a calendar');
     const [startDateRange, setStartDateRange] = useState(new Date());  // Start of range
     const [endDateRange, setEndDateRange] = useState(new Date());    // End of range
-    
+    const [timeslotsList, setTimeslotsList] = useState();
+    const [events, setEvents] = useState(null);
 
     const toggleOverlay = () => {
         setIsOpen(!isOpen);
@@ -189,16 +190,19 @@ function ListCalendars({ data, setCalendars }) {
     const handleCalendarSelect = (calendar) => {
         const startDate = new Date(calendar.start_date);
         const endDate = new Date(calendar.end_date);
-
+    
         startDate.setDate(startDate.getDate() + 1);
         endDate.setDate(endDate.getDate() + 1);
-
+    
         setStartDateRange(startDate);
         setEndDateRange(endDate);
-
         setSelectedDate(startDate);
         setCurrCalendarName(calendar.name);
+    
+        // Fetch and update timeslots for the selected calendar
+        get_timeslots(calendar.id, setTimeslotsList);
     };
+    
 
     // Function to check if a date is within a range
     const isInRange = (date) => {
@@ -259,7 +263,50 @@ function ListCalendars({ data, setCalendars }) {
         </li>
     ))
 
+    const renderTimeslots = () => {
+        if (!timeslotsList) {
+            return <div>Select a calendar with timeslots.</div>;
+        }
+        return (
+            <ul>
+                {timeslotsList.map(timeslot => (
+                    <li key={timeslot.id}>
+                        <div className="py-2">
+                            <p>Start: {new Date(timeslot.start_time).toLocaleString()}</p>
+                            <p>End: {new Date(timeslot.end_time).toLocaleString()}</p>
+                            <p>Priority: {timeslot.high_priority ? "High" : "Normal"}</p>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        );
+    };
 
+    async function get_timeslots(currentCalendarId, setTimeslotsList) {
+        const apiUrl = `http://localhost:8000/api/calendars/${currentCalendarId}/timeslots`;
+        const accessToken = localStorage.getItem('accessToken');
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`, // Use Bearer scheme for JWT
+                }
+            });
+    
+            if (!response.ok) throw new Error('Failed to fetch timeslots');
+            
+            const data = await response.json();
+            console.log(data);
+            setTimeslotsList(data);
+        } catch (error) {
+            console.error('Error fetching timeslots:', error);
+            alert('Failed to load timeslots');
+        }
+    }
+
+    // RENDERING
     return (
         <div className="container mx-auto p-2 pb-12">
             {/* -- Two Columns -- */}
@@ -271,20 +318,18 @@ function ListCalendars({ data, setCalendars }) {
                         
                         {/* -- Calendars List -- */}
                         <ul>{calendars}</ul>
-
-                        <div className="App">
                         
-                            <div className="py-2">
-                                <button className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 rounded-full inline-flex items-center" onClick={toggleOverlay}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 me-2">
-                                        <path fillRule="evenodd"
-                                        d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
-                                        clipRule="evenodd" />
-                                    </svg>
-                                    Create Calendar
-                                </button>
-                            </div>
+                        <div className="py-2">
+                            <button className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 rounded-full inline-flex items-center" onClick={toggleOverlay}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 me-2">
+                                    <path fillRule="evenodd"
+                                    d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm.75-10.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"
+                                    clipRule="evenodd" />
+                                </svg>
+                                Create Calendar
+                            </button>
                         </div>
+
                     </div>
                 </div>
                 {/* -- Second Column -- */}
@@ -292,7 +337,7 @@ function ListCalendars({ data, setCalendars }) {
                     <div className="bg-gray-100 p-4 rounded-lg shadow">
                         <h2 className="font-semibold text-lg mb-2 text-center"> {currCalendarName} </h2>
                         {/* -- Calendar -- */}
-                        <div>
+                        <div className="flex justify-center items-center w-full">
                             <ReactCalendar
                                 tileClassName={({ date, view }) => {
                                     if (view === 'month' && isInRange(date)) {
@@ -303,6 +348,8 @@ function ListCalendars({ data, setCalendars }) {
                                 value={selectedDate}
                             />
                         </div>
+                        {/* -- Timeslots List Here -- */}
+                        {renderTimeslots()}
                     </div>
                 </div>
             </div>
@@ -449,6 +496,7 @@ function send_timeslot_create_request(timeslotFormData, currentCalendarId) {
         return data;  // Return the successful data to handle in the caller
     })
 }
+
 
 
 export default Calendar;
