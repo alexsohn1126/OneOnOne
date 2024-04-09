@@ -28,9 +28,7 @@ function App() {
           <Route path ="/" element={<NotFoundPage/>}></Route>
           <Route path="/contacts" element={<ContactsPage />} />
           <Route path="/calendars" element={<Calendar />} />
-          <Route path='/schedules' element={<NotFoundPage/>}></Route>
-
-          {/* TODO: CHANGE ABOVE TO SCHEDULES PAGE */}
+          <Route path='/schedules' element={<Schedule/>}></Route>
           <Route path='/edit-profile/' element={<EditProfile/>}></Route>
           
         </Route>
