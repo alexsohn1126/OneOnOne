@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import generics 
 from rest_framework.views import APIView
@@ -104,3 +105,21 @@ class SuggestedSchedules(APIView):
 
         for ts in queryset:
             queryset2 = Event.objects.filter()
+
+class TimeslotListView(generics.ListCreateAPIView):
+    # Set the permission for this view 
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = TimeslotSerializer
+
+    def get_queryset(self):
+        calendar_id = self.kwargs['calendar_id']
+        try:
+            calendar = Calendar.objects.get(pk=calendar_id)
+        except Calendar.DoesNotExist:
+            raise Http404("Calendar not found")
+
+        if calendar.owner != self.request.user:
+            raise Response('FORBIDDEN', status=status.HTTP_403_FORBIDDEN)
+
+        return Timeslot.objects.filter(calendar=calendar)
