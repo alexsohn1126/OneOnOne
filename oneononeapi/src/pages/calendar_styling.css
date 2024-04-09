@@ -1,0 +1,7 @@
+.calendar-day-in-range {
+    background: #656D4A !important; /* Use your color variable or a direct color */
+    color: white;
+}
+.calendar-day-in-range:hover {
+    background-color: #A4AC86 !important; /* Lighter green on hover */
+}
