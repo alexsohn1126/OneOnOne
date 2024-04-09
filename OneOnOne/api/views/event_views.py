@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from ..serializer.event_serializers import EventSerializer
 from meetings.models.event import Event
 from meetings.models.timeslot import Timeslot
@@ -30,7 +30,7 @@ class EventList(generics.ListAPIView):
 class EventCreate(generics.CreateAPIView):
   queryset = Event.objects.all()
   serializer_class = EventSerializer
-  permission_classes = [IsAuthenticated]
+  permission_classes = [AllowAny]
 
   def post(self, request, *args, **kwargs):
     timeslot = Timeslot.objects.filter(pk=request.data.get('timeslot'))
@@ -38,10 +38,12 @@ class EventCreate(generics.CreateAPIView):
     # Make sure timeslot and contact exists
     if not timeslot.exists() or not contact.exists():
       return Response('NOT FOUND', status=status.HTTP_404_NOT_FOUND)
-    # User must be the owner of the calendar AND the contact to create event
-    if (request.user != timeslot.first().calendar.owner or 
-        request.user != contact.first().user):
-      return Response('FORBIDDEN', status=status.HTTP_403_FORBIDDEN)
+    # Make sure contact is in the calenader as an invitee
+    if not (set(contact.first().invitee_contact.all()).intersection(timeslot.first().calendar.invitee.all())):
+      return Response('NOT FOUND', status=status.HTTP_404_NOT_FOUND)
+    # Check whether there already is an event with timeslot and contact
+    if Event.objects.filter(timeslot = timeslot.first(), contact = contact.first()).exists():
+      return Response('Event Already Exists', status=status.HTTP_208_ALREADY_REPORTED)
     return super().post(request, *args, **kwargs)
   
 class EventReadUpdate(generics.RetrieveUpdateAPIView):
