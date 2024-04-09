@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom/';
 
@@ -10,7 +11,8 @@ import { useNavigate } from 'react-router-dom/';
 
 // reschedule
 
-function UnconfirmedTimeslot({specificTimeslotInfo, specificContact}) {
+function SuggestedTimeslot({handleConfirm, specificTimeslotInfo, specificContact}) {
+
     return(
         <div className = "flex flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300">
             <div className = "w-max">
@@ -20,7 +22,7 @@ function UnconfirmedTimeslot({specificTimeslotInfo, specificContact}) {
             
             <div className = "relative flex flex-row space-x-2 items-center">
                 <div>
-                    <button>
+                    <button onClick={handleConfirm}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" className="w-8 h-8 hover:fill-green-1">
                             <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clipRule="evenodd" />
                         </svg>
@@ -30,59 +32,17 @@ function UnconfirmedTimeslot({specificTimeslotInfo, specificContact}) {
                             Accept
                         </span>
                     </div>
-                </div>
-                <div>
-                    <button>           
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" className="w-8 h-8 hover:fill-green-1">
-                            <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clipRule="evenodd" />
-                        </svg>            
-                    </button>
-                    <div className="absolute bottom-full mb-2 hidden group-hover:block">
-                        <span className="text-sm text-white p-2 bg-black rounded">
-                            Reschedule
-                        </span>
-                    </div>
-                </div>   
+                </div> 
             </div>
 
         </div>
     );
 }
-function ConfirmedTimeslot({specificTimeslotInfo, specificContact}) {
-    return (
-        <div className = "flex flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300">
-            <div className = "w-max">
-            <h3 className = "font-bold">{specificContact}</h3>
-                <h3>{specificTimeslotInfo}</h3>
-            </div>
-            <div className = "relative flex flex-row space-x-2 items-center">
-                <div>
-                    <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" className="w-8 h-8 hover:fill-green-1">
-                            <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clipRule="evenodd" />
-                        </svg>
-                    </button>
-                    <div className="absolute bottom-full mb-2 hidden group-hover:block">
-                        <span className="text-sm text-white p-2 bg-black rounded">
-                            Accept
-                        </span>
-                    </div>
-                </div>  
-            </div>
-        </div>
-    );
-}
 
-function UnconfirmedTimeslots({allUnconfirmedEvents, theContacts, timeslotInfo}) {
-    const allEventsFuncNotConfirmed = allUnconfirmedEvents.map((event) => (<UnconfirmedTimeslot specificTimeslotInfo={timeslotInfo[event.timeslot]} specificContact = {theContacts[event.contact]}></UnconfirmedTimeslot>)); 
+function SuggestedTimeslots({handleConfirm, suggestedEvents, theContacts, timeslotInfo}) {
+    const allEventsFuncNotConfirmed = suggestedEvents.map((event) => (<SuggestedTimeslot handleConfirm={() => handleConfirm(event.id)} key={event.id} specificTimeslotInfo={timeslotInfo[event.timeslot]} specificContact={theContacts[event.contact]} />)); 
     return (<div className = "space-y-5">{allEventsFuncNotConfirmed}</div>);
 }
-
-function ConfirmedTimeslots({allConfirmedEvents, theContacts, timeslotInfo}) {
-    const allEventsFuncConfirmed = allConfirmedEvents.map((event) => (<ConfirmedTimeslot specificTimeslotInfo={timeslotInfo[event.timeslot]} specificContact = {theContacts[event.contact]}></ConfirmedTimeslot>));
-    return (<div className = "space-y-5">{allEventsFuncConfirmed}</div>);
-}
-
 
 function Schedule() {
     const navigate = useNavigate();
@@ -94,53 +54,58 @@ function Schedule() {
     const [selectedCalToShow, setSelectedCal] = useState('');
 
     // Set up hook that stores all suggested schedules
-    const [allSuggestedSchedules, setAllSuggestedSchedules] = useState([]);
-
-    // Set up hook that stores all confirmed events 
-    const [allConfirmedEvents, setAllConfirmedEvents] = useState([]);
-
-    // Set up hook that stores all unconfirmed events
-    const [allUnconfirmedEvents, setAllUnconfirmedEvents] = useState([]);
+    const [allSuggestedSchedules, setAllSuggestedSchedules] = useState({});
 
     // Set up hook for contacts/invitee in suggested schedules 
-    const [theContacts, setTheContacts] = useState([]);
+    const [theContacts, setTheContacts] = useState({});
 
     // Set up hook for timeslot info
-    const [timeslotInfo, setTimeslotInfo] = useState([]);
+    const [timeslotInfo, setTimeslotInfo] = useState({});
 
     // Get information about the event's invitee
     async function getEventContact(contact_id)  {
-        console.log("In Get Event Contact");
-        console.log(contact_id);
-        const contactAPI = "http://localhost:8000/api/contacts/" + contact_id + "/";
-        fetch(contactAPI, {
+        return fetch(`http://localhost:8000/api/contacts/${contact_id}/`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + accessToken, // Pass in access token
             },
         })
         .then(response => response.json())
-        .then(data => { 
-            setTheContacts(prevAddedContacts => ({...prevAddedContacts, [contact_id]: data}));
-        })
+        .then(resJson => `${resJson.first_name} ${resJson.last_name}`);
     }
-    
     
     // Get information about the timeslot
-    async function getEventTimeslot({calendar_id, timeslot_id}) {   
-        const timeslotAPI = "http://localhost:8000/api/calendars/" + calendar_id + "/timeslots/" + timeslot_id + "/";
-        fetch(timeslotAPI, {
+    async function getEventTimeslot(timeslot_id) {   
+        return fetch(`http://localhost:8000/api/calendars/${selectedCalToShow}/timeslots/${timeslot_id}/`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + accessToken, // Pass in access token
             },
         })
         .then(response => response.json())
-        .then(data => { 
-            let time = data.start_time + "-" + data.end_time;
-            setTimeslotInfo(prevTimeslotInfo => ({...prevTimeslotInfo, [timeslot_id]: time}));
+        .then(data => {
+            return new Date(data.start_time).toString().split(' ').slice(0, 5).join(' ') + ' - ' + new Date(data.end_time).toString().split(' ').slice(0, 5).join(' ');
         })
     }
+
+    async function handleConfirmSchedule(eventId) {
+        // PATCH event
+        await fetch(`http://localhost:8000/api/events/${eventId}/`,{
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            },
+            body: JSON.stringify({confirmed: true}),
+        });
+        retrieveSuggestedSchedules(accessToken, selectedCalToShow);
+    }
+
+    useEffect(() => {
+        if (allCalendars.length > 0){
+            setSelectedCal(`${allCalendars[0].id}`);
+        }
+    }, [allCalendars])
 
     useEffect(() => {
         // Check if authorized to access this page and get all calendars
@@ -152,7 +117,13 @@ function Schedule() {
                 'Authorization': 'Bearer ' + accessToken, // Pass in access token
             },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok){
+                    return response.json();
+                } else {
+                    return {};
+                }
+            })
             .then(data => {
                 if ("code" in data && data["code"] === 'token_not_valid') {
                     // If reached here, then it means that this person isn't authorized to access this page and direct them to the 404 page
@@ -173,10 +144,31 @@ function Schedule() {
             });
     }, [accessToken]);
 
-    // Add options 
-    const allCalendarsFunc = allCalendars.map((cal) => <option value={cal.id}>{cal.name}</option>);
+    async function updateThings(allSuggestedSchedules) {
+        setTheContacts({});
+        setTimeslotInfo({});
+        let contacts = {}
+        let ts = {};
+        for (const [event, obj] of Object.entries(allSuggestedSchedules)) {
+            // Get all contact info 
+            let newContact = await getEventContact(obj.contact);
+            contacts = {...contacts, [obj.contact]:newContact};
+            // Get all event info 
+            let newts = await getEventTimeslot(obj.timeslot);
+            ts = {...ts, [obj.timeslot]:newts}
+        }
+        setTheContacts(contacts);
+        setTimeslotInfo(ts);
+    }
 
-    async function retrieveSuggestedSchedules(accessToken, calendar_id) {
+    useEffect(() => {
+        updateThings(allSuggestedSchedules);
+    }, [allSuggestedSchedules]);
+
+    // Add options 
+    const allCalendarsFunc = allCalendars.map((cal) => <option value={cal.id} key={cal.id}>{cal.name}</option>);
+
+    function retrieveSuggestedSchedules(accessToken, calendar_id) {
         // retrieveSuggestedSchedules: function retrieves the suggested schedules for all calendars
         const scheduleAPI = "http://localhost:8000/api/calendars/" + calendar_id + "/suggested/";
     
@@ -190,19 +182,6 @@ function Schedule() {
             .then(response => response.json())
             .then(data => {
                 setAllSuggestedSchedules(data);
-                // Check if the timeslot is confirmed or not
-                let allConfirmed = []
-                let allUnconfirmed= []
-                for (let cal in data) {
-                    if (data[cal].confirmed === false) {
-                        allUnconfirmed.push(data[cal]);
-                    }
-                    else {
-                        allConfirmed.push(data[cal]);
-                    }
-                }
-                setAllConfirmedEvents(allConfirmed);
-                setAllUnconfirmedEvents(allUnconfirmed);
             })
             .catch(error => {
                 console.log(error);
@@ -215,20 +194,9 @@ function Schedule() {
     }
 
     // Handles on submit
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
-        await retrieveSuggestedSchedules(accessToken, selectedCalToShow);
-        setTheContacts({});
-        setTimeslotInfo({});
-        console.log(allSuggestedSchedules);
-        if (allSuggestedSchedules.length !== 0) {
-            for (let anEvent in allSuggestedSchedules) {
-                // Get all contact info 
-                await getEventContact(anEvent.contact);
-                // Get all event info 
-                await getEventTimeslot(selectedCalToShow, anEvent.timeslot_id);
-            }
-        }
+        retrieveSuggestedSchedules(accessToken, selectedCalToShow);
     }
     
 
@@ -251,11 +219,7 @@ function Schedule() {
                 <div className = "flex flex-row max-[450px]:flex-col space-x-16 max-[450px]:space-x-0 max-[450px]:space-y-10">
                     <div className = "w-full space-y-5">
                         <h2 className = "font-bold text-2xl text-center">Suggested</h2>
-                        <UnconfirmedTimeslots allUnconfirmedEvents={allUnconfirmedEvents} theContacts={theContacts} timeslotInfo={timeslotInfo}></UnconfirmedTimeslots>
-                    </div>
-                    <div className = "w-full space-y-5">
-                        <h2 className = "font-bold text-2xl text-center">Confirmed</h2>
-                        <ConfirmedTimeslots allConfirmedEvents={allConfirmedEvents} theContacts={theContacts} timeslotInfo={timeslotInfo}></ConfirmedTimeslots>
+                        {(Object.keys(theContacts).length > 0 && Object.keys(timeslotInfo).length > 0) ? <SuggestedTimeslots handleConfirm={handleConfirmSchedule} suggestedEvents={allSuggestedSchedules} theContacts={theContacts} timeslotInfo={timeslotInfo} /> :<></>}
                     </div>
                 </div>
             </form>
