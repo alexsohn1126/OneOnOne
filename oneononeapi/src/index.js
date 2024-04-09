@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Header from './pages/header';
-import Footer from './pages/footer';
+import Header from './components/header';
+import Footer from './components/footer';
 import { Fragment } from "react";
 import "./pages/Overlay.css";
 

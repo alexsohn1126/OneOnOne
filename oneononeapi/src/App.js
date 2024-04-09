@@ -36,13 +36,13 @@
 
 // import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './pages/login';
 // import Layout from './pages/layout';
-import Home from './pages/Home';
-import NoPage from './pages/NoPage';
+import Home from './components/Home';
+import NoPage from './components/NoPage';
 import {Contacts, ContactsInfo} from './pages/Contacts';
 import Signin from './pages/Signin';
 import {ContactsPage} from './pages/ContactsPage';
+import ContactScheduling from './pages/ContactScheduling';
 import HeaderLayout from './components/layout';
 import Calendar from './pages/Calendar';
 
@@ -55,10 +55,9 @@ function App() {
           <Route path="/contacts" element={<ContactsPage />} />
           <Route path="/calendars" element={<Calendar />} />
           <Route path="/contacts/:id" element={<ContactsInfo />}></Route>
-          <Route path="calendar/:calendarId/contact/:contactId" element={<ContactScheduling />} />
           <Route path='/schedules' element={<NoPage/>}></Route>
         </Route>
-        
+        <Route path="/calendar/:calendarId/contact/:contactId" element={<ContactScheduling />} />
         <Route path='/signin' element={<Signin />}></Route>
       </Routes>
     </BrowserRouter>
