@@ -131,7 +131,7 @@ function ListCalendars({ data, setCalendars }) {
         }));
     };
 
-    // Handle form submission
+    // Handle form submission for creating a new calendar
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -146,20 +146,26 @@ function ListCalendars({ data, setCalendars }) {
         }
     };
 
-    // Handle form submission
+    // Handle form submission for creating a new timeslot
     const handleTimeslotSubmit = async (e) => {
         e.preventDefault();
         try {
             console.log(timeslotFormData, currentCalendarId);
-            const newTimeslot = await send_timeslot_create_request(timeslotFormData, currentCalendarId); // This should return the newly created calendar
+            const newTimeslot = await send_timeslot_create_request(timeslotFormData, currentCalendarId);
             setIsOpen(false); // Close the overlay on successful POST
             setError(''); // Clear any previous errors
             console.log('Timeslot created successfully');
+
+            // Update the timeslots list to include the new timeslot
+            setTimeslotsList(prevTimeslots => [...prevTimeslots, newTimeslot]);
+            fetchEventsForTimeslot(newTimeslot.id); // Optionally fetch events for the new timeslot
+
         } catch (error) {
             setError(error.message); // Set the error message to display in the UI
-            console.error(error);
+            console.error('Error while creating timeslot:', error);
         }
     };
+
 
     // Handle calendar deletion
     const handleCalendarDelete = async (calendarId) => {
