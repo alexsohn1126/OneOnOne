@@ -34,7 +34,7 @@ function CurrentTimeslots({ currDay, timeslots, onTimeslotAdd, timeslotSelection
   );
 }
 
-function SelectedTimeslots({ timeslotSelection, onTimeslotAdd, handleSubmit, error }) {
+function SelectedTimeslots({ timeslotSelection, onTimeslotAdd, handleSubmit, error, submitted }) {
   let timeslots = [];
   for (const [timeslotid, timeslot] of Object.entries(timeslotSelection)) {
     timeslots.push(<Timeslot onTimeslotAdd={onTimeslotAdd} timeslot={timeslot} key={timeslotid}/>);
@@ -49,7 +49,7 @@ function SelectedTimeslots({ timeslotSelection, onTimeslotAdd, handleSubmit, err
         <button onClick={handleSubmit} className="border border-slate-400 rounded bg-slate-200 hover:bg-slate-300 p-2 w-full mt-2" type="submit">
           <p className="">Submit</p>
         </button>
-        {error? <div className="flex flex-col items-center"><p className="text-red-500 italic">There was an error</p></div> : <div></div>}
+        {error? <div className="flex flex-col items-center"><p className="text-red-500 italic">There was an error</p></div> : (submitted? <p className="text-green-500 italic">Submission Successful</p> : <></> )}
       </div>
     </div>
   );
@@ -73,6 +73,7 @@ function ContactScheduling() {
   // contains timeslots that the user have selected
   let [ timeslotSelection, setTimeslotSelection ] = useState({});
   let [ availableDates, setAvailableDates] = useState([new Date(), new Date()]);
+  let [ submitted, setSubmitted ] = useState(false);
   let [ submitError, setSubmitError ] = useState(false);
   const [currDay, onDateChange] = useState(new Date());
 
@@ -103,6 +104,7 @@ function ContactScheduling() {
       errors = errors || !res.ok;
     }
     setSubmitError(errors);
+    setSubmitted(true);
   }
 
   // get timeslots for this calendar
@@ -137,12 +139,17 @@ function ContactScheduling() {
   }, [calendarId, contactId]);
 
   return (
-    <div className="flex flex-col items-center space-y-4 md:items-baseline md:flex-row md:space-x-4 justify-center mt-24">
-      <div>
-        <Calendar className="rounded" onChange={onDateChange} value={currDay} minDate={new Date(availableDates[0])} maxDate={new Date(availableDates[1])} />
+    <div className="flex flex-col items-center">
+      <h1 className="text-5xl font-bold text-transparent bg-gradient-to-br from-[#001233] to-[#979DAC] bg-clip-text mt-16">
+        1 on 1
+      </h1>
+      <div className="flex flex-col items-center space-y-4 md:items-baseline md:flex-row md:space-x-4 justify-center mt-24">
+        <div>
+          <Calendar className="rounded" onChange={onDateChange} value={currDay} minDate={new Date(availableDates[0])} maxDate={new Date(availableDates[1])} />
+        </div>
+        <CurrentTimeslots currDay={currDay} timeslots={timeslots} timeslotSelection={timeslotSelection} onTimeslotAdd={handleTimeslotAdd}/>
+        <SelectedTimeslots timeslotSelection={timeslotSelection} onTimeslotAdd={handleTimeslotAdd} handleSubmit={handleSubmit} error={submitError} submitted={submitted}/>
       </div>
-      <CurrentTimeslots currDay={currDay} timeslots={timeslots} timeslotSelection={timeslotSelection} onTimeslotAdd={handleTimeslotAdd}/>
-      <SelectedTimeslots timeslotSelection={timeslotSelection} onTimeslotAdd={handleTimeslotAdd} handleSubmit={handleSubmit} error={submitError}/>
     </div>
   );
 }
