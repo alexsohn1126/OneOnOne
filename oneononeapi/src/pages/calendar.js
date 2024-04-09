@@ -77,6 +77,8 @@ function ListCalendars({ data, setCalendars }) {
     const [endDateRange, setEndDateRange] = useState(new Date());    // End of range
     const [timeslotsList, setTimeslotsList] = useState();
     const [events, setEvents] = useState(null);
+    const [timeslotEvents, setTimeslotEvents] = useState({});
+    
 
     const toggleOverlay = () => {
         setIsOpen(!isOpen);
@@ -187,7 +189,7 @@ function ListCalendars({ data, setCalendars }) {
     };
 
     // Handle changing the react calendar when choosing a different calendar from the list
-    const handleCalendarSelect = (calendar) => {
+    const handleCalendarSelect = async (calendar) => {
         const startDate = new Date(calendar.start_date);
         const endDate = new Date(calendar.end_date);
     
@@ -200,7 +202,21 @@ function ListCalendars({ data, setCalendars }) {
         setCurrCalendarName(calendar.name);
     
         // Fetch and update timeslots for the selected calendar
-        get_timeslots(calendar.id, setTimeslotsList);
+        try {
+            const timeslotsData = await get_timeslots(calendar.id);
+            if (timeslotsData && timeslotsData.length > 0) {
+                setTimeslotsList(timeslotsData);
+                // Automatically fetch events for each timeslot
+                timeslotsData.forEach(timeslot => {
+                    fetchEventsForTimeslot(timeslot.id);
+                });
+            } else {
+                setTimeslotsList([]);
+            }
+        } catch (error) {
+            console.error('Failed to load timeslots and events:', error);
+            setTimeslotsList([]);
+        }
     };
     
 
@@ -209,6 +225,130 @@ function ListCalendars({ data, setCalendars }) {
         return date >= startDateRange && date <= endDateRange;
     };
 
+    async function get_timeslots(currentCalendarId) {
+        const apiUrl = `http://localhost:8000/api/calendars/${currentCalendarId}/timeslots`;
+        const accessToken = localStorage.getItem('accessToken');
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`, // Use Bearer scheme for JWT
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch timeslots');
+            }
+    
+            const data = await response.json();
+            console.log("Timeslots data fetched:", data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching timeslots:', error);
+            alert('Failed to load timeslots');
+        }
+    }
+    
+    const fetchEventsForTimeslot = async (timeslotId) => {
+        const apiUrl = `http://localhost:8000/api/timeslots/${timeslotId}/events`;
+        const accessToken = localStorage.getItem('accessToken');
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch events');
+            }
+    
+            let events = await response.json();
+            // Fetch contact details for each event
+            const eventsWithContacts = await Promise.all(events.map(async event => {
+                if (event.contact) {
+                    const contact = await fetchContactDetails(event.contact);
+                    return { ...event, contact: contact };
+                }
+                return event;
+            }));
+    
+            console.log(`Events for timeslot ${timeslotId}:`, eventsWithContacts);
+            updateTimeslotEvents(timeslotId, eventsWithContacts);
+    
+            return eventsWithContacts;
+        } catch (error) {
+            console.error(`Error fetching events for timeslot ${timeslotId}:`, error);
+            alert('Failed to load events');
+        }
+    };
+    
+    
+    const updateTimeslotEvents = (timeslotId, events) => {
+        setTimeslotsList(prevTimeslots => prevTimeslots.map(timeslot =>
+            timeslot.id === timeslotId ? {...timeslot, events: events} : timeslot
+        ));
+    };
+
+    const fetchContactDetails = async (contactId) => {
+        const apiUrl = `http://localhost:8000/api/contacts/${contactId}`;
+        const accessToken = localStorage.getItem('accessToken');
+    
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch contact');
+            }
+    
+            const contact = await response.json();
+            return contact;
+        } catch (error) {
+            console.error(`Error fetching contact ${contactId}:`, error);
+            return null; // Return null or default contact structure
+        }
+    };    
+
+    const renderTimeslots = () => {
+        if (!timeslotsList || timeslotsList.length === 0) {
+            return <div>Select a calendar with timeslots to view timeslots and pending events.</div>;
+        }
+    
+        return (
+            <ul>
+                {timeslotsList.map(timeslot => (
+                    <li key={timeslot.id}>
+                        <div className="py-2">
+                            <p>Start: {new Date(timeslot.start_time).toLocaleString()}</p>
+                            <p>End: {new Date(timeslot.end_time).toLocaleString()}</p>
+                            <p>Priority: {timeslot.high_priority ? "High" : "Normal"}</p>
+                            <div>
+                                <h4>Events:</h4>
+                                {timeslot.events && timeslot.events.map(event => (
+                                <p key={event.id}>
+                                    {event.name} - {event.confirmed ? "Confirmed" : "Unconfirmed"}
+                                    {event.contact ? ` (${event.contact.email})` : ""}
+                                </p>
+                            ))}
+                            </div>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        );
+    };
+    
     // Logic and formatting for listing the calendars
     const calendars = data.map((calendar) => (
         <li key={calendar.id}>
@@ -262,49 +402,6 @@ function ListCalendars({ data, setCalendars }) {
             </div>
         </li>
     ))
-
-    const renderTimeslots = () => {
-        if (!timeslotsList) {
-            return <div>Select a calendar with timeslots.</div>;
-        }
-        return (
-            <ul>
-                {timeslotsList.map(timeslot => (
-                    <li key={timeslot.id}>
-                        <div className="py-2">
-                            <p>Start: {new Date(timeslot.start_time).toLocaleString()}</p>
-                            <p>End: {new Date(timeslot.end_time).toLocaleString()}</p>
-                            <p>Priority: {timeslot.high_priority ? "High" : "Normal"}</p>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        );
-    };
-
-    async function get_timeslots(currentCalendarId, setTimeslotsList) {
-        const apiUrl = `http://localhost:8000/api/calendars/${currentCalendarId}/timeslots`;
-        const accessToken = localStorage.getItem('accessToken');
-        
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`, // Use Bearer scheme for JWT
-                }
-            });
-    
-            if (!response.ok) throw new Error('Failed to fetch timeslots');
-            
-            const data = await response.json();
-            console.log(data);
-            setTimeslotsList(data);
-        } catch (error) {
-            console.error('Error fetching timeslots:', error);
-            alert('Failed to load timeslots');
-        }
-    }
 
     // RENDERING
     return (
