@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
 // export default App;
@@ -16,7 +15,7 @@ import SignUp from './pages/SignUp';
 import {ContactsPage} from './pages/ContactsPage';
 import ContactScheduling from './pages/ContactScheduling';
 import HeaderLayout from './components/layout';
-import Calendar from './pages/Calendar';
+import Calendar from './pages/calendar';
 import NotFoundPage from './pages/NotFoundPage';
 import EditProfile from './pages/EditProfile';
 
