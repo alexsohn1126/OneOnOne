@@ -166,7 +166,6 @@ function ListCalendars({ data, setCalendars }) {
         }
     };
 
-
     // Handle calendar deletion
     const handleCalendarDelete = async (calendarId) => {
         const apiUrl = `http://localhost:8000/api/calendars/${calendarId}/`;
@@ -211,7 +210,6 @@ function ListCalendars({ data, setCalendars }) {
             alert('Failed to delete timeslot.');
         }
     };
-
     
     // Handle changing the react calendar when interacting directly with it
     const handleCalendarChange = (calendar) => {
@@ -324,6 +322,51 @@ function ListCalendars({ data, setCalendars }) {
         ));
     };
 
+    // Function to confirm the event, this will unconfirm other events
+    const confirmEvent = async (event) => {
+        const apiUrl = `http://localhost:8000/api/events/${event.id}/`;
+        const accessToken = localStorage.getItem('accessToken');
+        const eventData = {
+            timeslot: event.timeslot,
+            contact: event.contact.id,
+            confirmed: true
+        };
+    
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(eventData)
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to confirm event");
+            }
+    
+            const updatedEvent = await response.json();
+            console.log('Event confirmed:', updatedEvent);
+            // Refresh all events for this timeslot to reflect new statuses
+            fetchEventsForTimeslot(event.timeslot);
+        } catch (error) {
+            console.error('Error confirming event:', error);
+            alert('Failed to confirm event.');
+        }
+    };
+
+    // NEW
+    const updateEventStatus = (timeslotId, updatedEvent) => {
+        setTimeslotsList(prevTimeslots => prevTimeslots.map(timeslot =>
+            timeslot.id === timeslotId
+                ? {...timeslot, events: timeslot.events.map(event =>
+                    event.id === updatedEvent.id ? updatedEvent : event
+                  )}
+                : timeslot
+        ));
+    };
+
     const fetchContactDetails = async (contactId) => {
         const apiUrl = `http://localhost:8000/api/contacts/${contactId}`;
         const accessToken = localStorage.getItem('accessToken');
@@ -347,7 +390,7 @@ function ListCalendars({ data, setCalendars }) {
             console.error(`Error fetching contact ${contactId}:`, error);
             return null; // Return null or default contact structure
         }
-    };    
+    };
 
     const renderTimeslots = () => {
         if (!timeslotsList || timeslotsList.length === 0) {
@@ -366,15 +409,17 @@ function ListCalendars({ data, setCalendars }) {
                                 <h4>Events:</h4>
                                 {timeslot.events && timeslot.events.map(event => (
                                     <div key={event.id} className={`flex flex-row items-center justify-between space-x-2 shadow-md border p-1 text-sm rounded-[10px] ${event.confirmed ? 'bg-green-400' : 'bg-yellow-400'} border-gray-300`}>
-                                        <p className="font-bold"> {event.confirmed ? `Confirmed: ${event.contact.email}` : `Unconfirmed: ${event.contact.email}`}</p>
+                                        <p className="font-bold">{event.confirmed ? `Confirmed: ${event.contact.email}` : `Unconfirmed: ${event.contact.email}`}</p>
+                                        {!event.confirmed && (
+                                            <button onClick={() => confirmEvent(event)} className="bg-green-3 hover:bg-green-2 text-white font-bold py-1 px-2 rounded">
+                                                Confirm
+                                            </button>
+                                        )}
                                     </div>
                                 ))}
                             </div>
                             <div className="py-2">
                                 <button className="bg-red-600 hover:bg-red-400 text-white py-2 px-4 rounded-full inline-flex items-center" onClick={() => handleTimeslotDelete(timeslot.id)}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
-                                <path fillRule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clipRule="evenodd" />
-                                </svg>  
                                     Delete Timeslot
                                 </button>
                             </div>
@@ -382,6 +427,7 @@ function ListCalendars({ data, setCalendars }) {
                     </li>
                 ))}
             </ul>
+
         );
     };
     
@@ -594,8 +640,6 @@ function ListCalendars({ data, setCalendars }) {
 
         </div>
     );
-
-
 }
 
 function send_create_request(formData) {
