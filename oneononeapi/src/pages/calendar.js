@@ -162,7 +162,7 @@ function ListCalendars({ data, setCalendars }) {
     };
 
     // Handle calendar deletion
-    const handleDelete = async (calendarId) => {
+    const handleCalendarDelete = async (calendarId) => {
         const apiUrl = `http://localhost:8000/api/calendars/${calendarId}/`;
         const accessToken = localStorage.getItem('accessToken');
     
@@ -182,13 +182,37 @@ function ListCalendars({ data, setCalendars }) {
             alert('Failed to delete calendar.');
         }
     };
+
+    // Handle timeslot deletion
+    const handleTimeslotDelete = async (timeslotId) => {
+        const apiUrl = `http://localhost:8000/api/calendars/${currentCalendarId}/timeslots/${timeslotId}`;
+        const accessToken = localStorage.getItem('accessToken');
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) throw new Error('Deletion failed');
+            console.log('Timeslot deleted successfully');
+            // Update the timeslots list by removing the deleted timeslot
+            setTimeslotsList(prevTimeslots => prevTimeslots.filter(timeslot => timeslot.id !== timeslotId));
+        } catch (error) {
+            console.error('Error deleting timeslot:', error);
+            alert('Failed to delete timeslot.');
+        }
+    };
+
     
     // Handle changing the react calendar when interacting directly with it
     const handleCalendarChange = (calendar) => {
         setSelectedDate(new Date(calendar.start_date));  // Or `end_date` depending on the requirement
     };
 
-    // Handle changing the react calendar when choosing a different calendar from the list
+    // Handle choosing a different calendar from the list
     const handleCalendarSelect = async (calendar) => {
         const startDate = new Date(calendar.start_date);
         const endDate = new Date(calendar.end_date);
@@ -200,7 +224,8 @@ function ListCalendars({ data, setCalendars }) {
         setEndDateRange(endDate);
         setSelectedDate(startDate);
         setCurrCalendarName(calendar.name);
-    
+        setCurrentCalendarId(calendar.id)
+
         // Fetch and update timeslots for the selected calendar
         try {
             const timeslotsData = await get_timeslots(calendar.id);
@@ -339,6 +364,14 @@ function ListCalendars({ data, setCalendars }) {
                                     </div>
                                 ))}
                             </div>
+                            <div className="py-2">
+                                <button className="bg-red-600 hover:bg-red-400 text-white py-2 px-4 rounded-full inline-flex items-center" onClick={() => handleTimeslotDelete(timeslot.id)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
+                                <path fillRule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clipRule="evenodd" />
+                                </svg>  
+                                    Delete Timeslot
+                                </button>
+                            </div>
                         </div>
                     </li>
                 ))}
@@ -385,7 +418,7 @@ function ListCalendars({ data, setCalendars }) {
                 
                 {/* -- Delete Button -- */}
                 <div className="group">
-                    <button className="bg-green-3 hover:bg-green-2 text-white py-2 mx-0 px-4  inline-flex items-center h-full rounded-r" onClick={() => handleDelete(calendar.id)}>
+                    <button className="bg-green-3 hover:bg-green-2 text-white py-2 mx-0 px-4  inline-flex items-center h-full rounded-r" onClick={() => handleCalendarDelete(calendar.id)}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
                         <path fillRule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clipRule="evenodd" />
                         </svg>       
