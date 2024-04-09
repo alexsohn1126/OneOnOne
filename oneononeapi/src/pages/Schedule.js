@@ -3,14 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom/';
 
 
-
-// confirming timeslot
-
-// cancelling confirmed timeslot 
-
-
-// reschedule
-
 function SuggestedTimeslot({handleConfirm, specificTimeslotInfo, specificContact}) {
 
     return(
@@ -198,15 +190,6 @@ function Schedule() {
         e.preventDefault();
         retrieveSuggestedSchedules(accessToken, selectedCalToShow);
     }
-    
-
-    // confirming timeslot
-
-    // cancelling confirmed timeslot 
-
-
-    // reschedule
-
 
     return (
         <div className="min-h-screen relative pb-12 container mx-auto p-4 pb-12 flex flex-col justify-center items-center space-y-7">
