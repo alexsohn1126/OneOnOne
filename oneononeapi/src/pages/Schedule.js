@@ -2,13 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom/';
 
 
-function UnconfirmedTimeslots({allUnconfirmedEvents, theContacts, timeslotInfo}) {
-    const allEventsFuncNotConfirmed = allUnconfirmedEvents.map((event) => (
+
+// confirming timeslot
+
+// cancelling confirmed timeslot 
+
+
+// reschedule
+
+function UnconfirmedTimeslot({specificTimeslotInfo, specificContact}) {
+    return(
         <div className = "flex flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300">
             <div className = "w-max">
-                <h3 className = "font-bold">{theContacts[event.contact]}</h3>
-                <h3>{timeslotInfo[event.timeslot]}</h3>
+                <h3 className = "font-bold">{specificContact}</h3>
+                <h3>{specificTimeslotInfo}</h3>
             </div>
+            
             <div className = "relative flex flex-row space-x-2 items-center">
                 <div>
                     <button>
@@ -35,18 +44,16 @@ function UnconfirmedTimeslots({allUnconfirmedEvents, theContacts, timeslotInfo})
                     </div>
                 </div>   
             </div>
+
         </div>
-        )); 
-
-    return (<div className = "space-y-5">{allEventsFuncNotConfirmed}</div>);
+    );
 }
-
-function ConfirmedTimeslots({allConfirmedEvents, theContacts, timeslotInfo}) {
-    const allEventsFuncConfirmed = allConfirmedEvents.map((event) => (
+function ConfirmedTimeslot({specificTimeslotInfo, specificContact}) {
+    return (
         <div className = "flex flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300">
             <div className = "w-max">
-                <h3 className = "font-bold">{theContacts[event.contact]}</h3>
-                <h3>{timeslotInfo[event.timeslot]}</h3>
+            <h3 className = "font-bold">{specificContact}</h3>
+                <h3>{specificTimeslotInfo}</h3>
             </div>
             <div className = "relative flex flex-row space-x-2 items-center">
                 <div>
@@ -63,7 +70,16 @@ function ConfirmedTimeslots({allConfirmedEvents, theContacts, timeslotInfo}) {
                 </div>  
             </div>
         </div>
-        ));
+    );
+}
+
+function UnconfirmedTimeslots({allUnconfirmedEvents, theContacts, timeslotInfo}) {
+    const allEventsFuncNotConfirmed = allUnconfirmedEvents.map((event) => (<UnconfirmedTimeslot specificTimeslotInfo={timeslotInfo[event.timeslot]} specificContact = {theContacts[event.contact]}></UnconfirmedTimeslot>)); 
+    return (<div className = "space-y-5">{allEventsFuncNotConfirmed}</div>);
+}
+
+function ConfirmedTimeslots({allConfirmedEvents, theContacts, timeslotInfo}) {
+    const allEventsFuncConfirmed = allConfirmedEvents.map((event) => (<ConfirmedTimeslot specificTimeslotInfo={timeslotInfo[event.timeslot]} specificContact = {theContacts[event.contact]}></ConfirmedTimeslot>));
     return (<div className = "space-y-5">{allEventsFuncConfirmed}</div>);
 }
 
