@@ -5,6 +5,7 @@ import Layout from './components/layout';
 import Home from './components/Home';
 import NoPage from './components/NoPage';
 import Calendar from './components/calendar';
+import ContactScheduling from './pages/ContactScheduling';
 import {Contacts, ContactsInfo} from './components/Contacts';
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/calendars" element={<Calendar />} />
         <Route path="/contacts/:id" element={<ContactsInfo />}></Route>
+        <Route path="calendar/:calendarId/contact/:contactId" element={<ContactScheduling />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     
