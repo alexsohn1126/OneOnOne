@@ -55,6 +55,7 @@ function App() {
           <Route path="/contacts" element={<ContactsPage />} />
           <Route path="/calendars" element={<Calendar />} />
           <Route path="/contacts/:id" element={<ContactsInfo />}></Route>
+          <Route path="calendar/:calendarId/contact/:contactId" element={<ContactScheduling />} />
           <Route path='/schedules' element={<NoPage/>}></Route>
         </Route>
         

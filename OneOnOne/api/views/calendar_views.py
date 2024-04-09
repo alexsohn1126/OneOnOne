@@ -8,7 +8,7 @@ from meetings.models import Calendar, Timeslot, Event, Invitee
 from ..serializer.calendar_serializers import CalendarSerializer
 from ..serializer.timeslot_serializers import TimeslotSerializer
 from ..serializer.invitee_serializers import InviteeSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class CalendarList(generics.ListCreateAPIView):
     # Set the permission for this view 
@@ -71,6 +71,14 @@ class TimeslotUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Timeslot.objects.filter(calendar__owner=self.request.user)
 
+class TimeslotsInCalendar(APIView):
+    serializer_class = TimeslotSerializer
+    permission_classes = [AllowAny]
+
+    def get(self, request, calendar_id, format=None):
+        calendar = get_object_or_404(Calendar, id=calendar_id)
+        serializer = TimeslotSerializer(calendar.timeslots, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CreateInvitee(APIView):
     # Set the permission for this view 
