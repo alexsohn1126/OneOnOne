@@ -218,7 +218,6 @@ function ListCalendars({ data, setCalendars }) {
             setTimeslotsList([]);
         }
     };
-    
 
     // Function to check if a date is within a range
     const isInRange = (date) => {
@@ -288,7 +287,6 @@ function ListCalendars({ data, setCalendars }) {
         }
     };
     
-    
     const updateTimeslotEvents = (timeslotId, events) => {
         setTimeslotsList(prevTimeslots => prevTimeslots.map(timeslot =>
             timeslot.id === timeslotId ? {...timeslot, events: events} : timeslot
@@ -322,7 +320,7 @@ function ListCalendars({ data, setCalendars }) {
 
     const renderTimeslots = () => {
         if (!timeslotsList || timeslotsList.length === 0) {
-            return <div>Select a calendar with timeslots to view timeslots and pending events.</div>;
+            return <div>Select a calendar with existing timeslots to view timeslot status.</div>;
         }
     
         return (
@@ -336,11 +334,10 @@ function ListCalendars({ data, setCalendars }) {
                             <div>
                                 <h4>Events:</h4>
                                 {timeslot.events && timeslot.events.map(event => (
-                                <p key={event.id}>
-                                    {event.name} - {event.confirmed ? "Confirmed" : "Unconfirmed"}
-                                    {event.contact ? ` (${event.contact.email})` : ""}
-                                </p>
-                            ))}
+                                    <div key={event.id} className={`flex flex-row items-center justify-between space-x-2 shadow-md border p-1 text-sm rounded-[10px] ${event.confirmed ? 'bg-green-400' : 'bg-yellow-400'} border-gray-300`}>
+                                        <p className="font-bold"> {event.confirmed ? `Confirmed: ${event.contact.email}` : `Unconfirmed: ${event.contact.email}`}</p>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </li>
@@ -593,7 +590,5 @@ function send_timeslot_create_request(timeslotFormData, currentCalendarId) {
         return data;  // Return the successful data to handle in the caller
     })
 }
-
-
 
 export default Calendar;
