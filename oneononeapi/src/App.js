@@ -4,8 +4,8 @@ import Login from './components/login';
 import Layout from './components/layout';
 import Home from './components/Home';
 import NoPage from './components/NoPage';
-import Calendar from './components/calendar';
-import {Contacts, ContactsInfo} from './components/Contacts';
+import Calendar from './pages/calendar';
+import {Contacts, ContactsInfo} from './pages/Contacts';
 
 
 function App() {

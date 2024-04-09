@@ -3,7 +3,13 @@ import './Overlay.css';
 import './calendar_styling.css';
 import Overlay from '../index';
 import ReactCalendar from 'react-calendar';
+import DateTimePicker from 'react-datetime-picker';
+import DatePicker from "react-datepicker";
+import moment from 'moment';
 import 'react-calendar/dist/Calendar.css';
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import "react-datepicker/dist/react-datepicker.css";
+import 'react-clock/dist/Clock.css';
 
 function Calendar() {
     const [calendarsList, setCalendars] = useState([]);
@@ -49,19 +55,37 @@ function Calendar() {
 function ListCalendars({ data, setCalendars }) {
     // setting up data for the create calendar form:
     const [formData, setFormData] = useState({
-        "name": '',
-        "start_date": '',
-        "end_date": '',
+        name: '',
+        start_date: new Date(),
+        end_date: new Date(),
+    })
+    // Setting up data for the timeslot creation form
+    const [timeslotFormData, setTimeslotFormData] = useState({
+        start_time: new Date().toISOString(),
+        end_time: new Date().toISOString(),
+        "high_priority": false
     })
     const [error, setError] = useState('');  // State to store the error message
     const [isOpen, setIsOpen] = useState(false);
+    const [timeslotIsOpen, setTimeslotIsOpen] = useState(false);
+    const [currentCalendarId, setCurrentCalendarId] = useState(null);
+    const [currentCalendarStart, setCurrentCalendarStart] = useState(null);
+    const [currentCalendarEnd, setCurrentCalendarEnd] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [currCalendarName, setCurrCalendarName] = useState('Please select a calendar');
     const [startDateRange, setStartDateRange] = useState(new Date());  // Start of range
     const [endDateRange, setEndDateRange] = useState(new Date());    // End of range
+    
 
     const toggleOverlay = () => {
         setIsOpen(!isOpen);
+    };
+
+    const toggleTimeslotOverlay = (calendar) => {
+        setTimeslotIsOpen(!timeslotIsOpen);
+        setCurrentCalendarId(calendar.id)
+        setCurrentCalendarStart(calendar.start_date)
+        setCurrentCalendarEnd(calendar.end_date)
     };
 
     // Handle changes for form data
@@ -74,6 +98,36 @@ function ListCalendars({ data, setCalendars }) {
         setError('');  // Clear error message when the user starts editing again
     };
 
+    // Handle changes for form data
+    const handleTimeslotFormChange = (e) => {
+        const { name, checked } = e.target;
+        setTimeslotFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: checked
+        }));
+        setError('');  // Clear error message when the user starts editing again
+    };
+
+    // Handle changes for form data regarding date/time objects
+    const handleDateTimeChange = (value, fieldName) => {
+        // Format the Date object into a string if necessary, e.g., 'YYYY-MM-DD HH:mm'
+        const formattedDate = value ? value.toISOString() : '';
+        // setTimeslotIsOpen(false)
+        setTimeslotFormData(prevFormData => ({
+            ...prevFormData,
+            [fieldName]: formattedDate
+        }));
+    };
+
+    // Handle changes for form data regarding date objects
+    const handleDateChange = (date, fieldName) => {
+        const formattedDate = date ? moment(date).add(date.getTimezoneOffset(), 'minutes').format('YYYY-MM-DD') : '';
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [fieldName]: formattedDate
+        }));
+    };
+
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -83,6 +137,21 @@ function ListCalendars({ data, setCalendars }) {
             setIsOpen(false); // Close the overlay on successful POST
             setError(''); // Clear any previous errors
             console.log('Calendar created successfully');
+        } catch (error) {
+            setError(error.message); // Set the error message to display in the UI
+            console.error(error);
+        }
+    };
+
+    // Handle form submission
+    const handleTimeslotSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            console.log(timeslotFormData, currentCalendarId);
+            const newTimeslot = await send_timeslot_create_request(timeslotFormData, currentCalendarId); // This should return the newly created calendar
+            setIsOpen(false); // Close the overlay on successful POST
+            setError(''); // Clear any previous errors
+            console.log('Timeslot created successfully');
         } catch (error) {
             setError(error.message); // Set the error message to display in the UI
             console.error(error);
@@ -145,6 +214,20 @@ function ListCalendars({ data, setCalendars }) {
                 {calendar.name}
                 </button>
 
+                {/* -- Add Timeslot Button */}
+                <div className="group">
+                    <button type="button" className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0  inline-flex items-center h-full" onClick={() => toggleTimeslotOverlay(calendar)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
+                    <path fillRule="evenodd" d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7.75-4.25a.75.75 0 0 0-1.5 0V8c0 .414.336.75.75.75h3.25a.75.75 0 0 0 0-1.5h-2.5v-3.5Z" clipRule="evenodd" />
+                    </svg>
+                    </button>
+                    <div className="absolute bottom-full mb-2 hidden group-hover:block">
+                        <span className="text-sm text-white p-2 bg-black rounded">
+                        Add Timeslot
+                        </span>
+                    </div>
+                </div>
+
                 {/* -- Contact Button -- */}
                 <div className="group">
                     <a href="/" type="button" className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0  inline-flex items-center h-full">
@@ -176,8 +259,6 @@ function ListCalendars({ data, setCalendars }) {
         </li>
     ))
 
-    
-
 
     return (
         <div className="container mx-auto p-2 pb-12">
@@ -185,7 +266,6 @@ function ListCalendars({ data, setCalendars }) {
             <div className="flex flex-wrap -mx-8">
                 {/* -- First Column -- */}
                 <div className="w-full md:w-1/2 px-2 mb-4">
-                    
                     <div className="bg-gray-100 p-4 rounded-lg shadow ">
                         <h2 className="font-semibold text-lg mb-2 text-center">Your Calendars</h2>
                         
@@ -212,15 +292,17 @@ function ListCalendars({ data, setCalendars }) {
                     <div className="bg-gray-100 p-4 rounded-lg shadow">
                         <h2 className="font-semibold text-lg mb-2 text-center"> {currCalendarName} </h2>
                         {/* -- Calendar -- */}
-                        <ReactCalendar
-                            tileClassName={({ date, view }) => {
-                                if (view === 'month' && isInRange(date)) {
-                                    return 'calendar-day-in-range';
-                                }
-                            }}
-                            onChange={handleCalendarChange}
-                            value={selectedDate}
-                        />
+                        <div>
+                            <ReactCalendar
+                                tileClassName={({ date, view }) => {
+                                    if (view === 'month' && isInRange(date)) {
+                                        return 'calendar-day-in-range';
+                                    }
+                                }}
+                                onChange={handleCalendarChange}
+                                value={selectedDate}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -228,36 +310,88 @@ function ListCalendars({ data, setCalendars }) {
                 <form onSubmit={handleSubmit}>
                 {error && <p className="error">{error}</p>}
                 <div>
-                    <label>Calendar Name</label>
+                    <label>Calendar Name: </label>
                     <input
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
                     onChange={handleFormChange}
                     />
                 </div>
                 <div>
-                    <label>start_date</label>
-                    <input
-                    type="text"
-                    id="start_date"
-                    name="start_date"
-                    value={formData.start_date}
-                    onChange={handleFormChange}
+                    <label>Start Date: </label>
+                    <DatePicker
+                        selected={formData.start_date}
+                        onChange={(date) => handleDateChange(date, 'start_date')}
+                        dateFormat="yyyy-MM-dd"
+                        required={true}
+                        id="start_date"
+                        name="start_date"
                     />
                 </div>
                 <div>
-                    <label>end_date</label>
-                    <input
-                    type="text"
-                    id="end_date"
-                    name="end_date"
-                    value={formData.end_date}
-                    onChange={handleFormChange}
+                    <label>End Date: </label>
+                    <DatePicker
+                        selected={formData.end_date}
+                        onChange={(date) => handleDateChange(date, 'end_date')}
+                        dateFormat="yyyy-MM-dd"
+                        required={true}
+                        id="end_date"
+                        name="end_date"
                     />
                 </div>
                 <button type="submit">Create Calendar</button>
+                </form>
+            </Overlay>
+            <Overlay isOpen={timeslotIsOpen} onClose={toggleTimeslotOverlay}>
+                <form onSubmit={handleTimeslotSubmit}>
+                {error && <p className="error">{error}</p>}
+                <div>
+                    <label>Start Time: </label>
+                    <DateTimePicker
+                        onChange={(value) => handleDateTimeChange(value, 'start_time')}
+                        disableClock={true}
+                        dayPlaceholder='dd'
+                        monthPlaceholder='mm'
+                        yearPlaceholder='yyyy'
+                        hourPlaceholder='hh'
+                        minutePlaceholder='mm'
+                        required={true}
+                        id="start_time"
+                        name="start_time"
+                        value={new Date(timeslotFormData.start_time)} // Ensure this is a Date object
+                    />
+                </div>
+                <div>
+                    <label>End Time: </label>
+                    <DateTimePicker
+                        onChange={(value) => handleDateTimeChange(value, 'end_time')}
+                        disableClock={true}
+                        dayPlaceholder='dd'
+                        monthPlaceholder='mm'
+                        yearPlaceholder='yyyy'
+                        hourPlaceholder='hh'
+                        minutePlaceholder='mm'
+                        required={true}
+                        id="end_time"
+                        name="end_time"
+                        value={new Date(timeslotFormData.end_time)} // Ensure this is a Date object
+                    />
+                </div>
+                <div>
+                    <fieldset>
+                        <label>
+                            High Priority: 
+                            <input
+                                type="checkbox"
+                                name="high_priority"
+                                checked={timeslotFormData.high_priority}
+                                onChange={handleTimeslotFormChange}
+                            />
+                        </label>
+                    </fieldset>
+                </div>
+                <button type="submit">Create Timeslot</button>
                 </form>
             </Overlay>
         </div>
@@ -286,6 +420,31 @@ function send_create_request(formData) {
                 return `${key}: ${data[key].join(" ")}`;  // Assuming each key can have multiple messages
             }).join("\n");
             throw new Error(`Failed to create calendar: ${errorMessages}`);
+        }
+        return data;  // Return the successful data to handle in the caller
+    })
+}
+
+function send_timeslot_create_request(timeslotFormData, currentCalendarId) {
+    const apiUrl = `http://localhost:8000/api/calendars/${currentCalendarId}/`;
+    const accessToken = localStorage.getItem('accessToken');
+
+    return fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(timeslotFormData),
+    })
+    .then(async (response) => {
+        const data = await response.json();  // Always parse the response body
+        if (!response.ok) {
+            // Extract error message from the server's response
+            const errorMessages = Object.keys(data).map(key => {
+                return `${key}: ${data[key].join(" ")}`;  // Assuming each key can have multiple messages
+            }).join("\n");
+            throw new Error(`Failed to create timeslot: ${errorMessages}`);
         }
         return data;  // Return the successful data to handle in the caller
     })

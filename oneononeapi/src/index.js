@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import Header from './components/header';
 import Footer from './components/footer';
 import { Fragment } from "react";
-import "./components/Overlay.css";
+import "./pages/Overlay.css";
 
 // the router paths are added in app.js only. The header and the footer doesn't change in between calls
 
