@@ -37,28 +37,31 @@
 // import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import Layout from './pages/layout';
-import Home from './components/Home';
-import NoPage from './components/NoPage';
-import {Contacts, ContactsInfo} from './pages/Contacts';
 import Signin from './pages/Signin';
+import SignUp from './pages/SignUp';
 import {ContactsPage} from './pages/ContactsPage';
 import ContactScheduling from './pages/ContactScheduling';
 import HeaderLayout from './components/layout';
-import Calendar from './pages/Calendar';
+// TODO: Change this once calendar.js is finished and in pages folder
+// import Calendar from './pages/Calendar';
+import NotFoundPage from './pages/NotFoundPage';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<HeaderLayout />}>
-          <Route path ="/" element={<Home/>}></Route>
+          <Route path ="/" element={<NotFoundPage/>}></Route>
           <Route path="/contacts" element={<ContactsPage />} />
-          <Route path="/calendars" element={<Calendar />} />
-          <Route path="/contacts/:id" element={<ContactsInfo />}></Route>
-          <Route path='/schedules' element={<NoPage/>}></Route>
+          {/* TODO: FIX THIS ONCE CALENDAR DONE <Route path="/calendars" element={<Calendar />} /> */}
+          <Route path='/schedules' element={<NotFoundPage/>}></Route>
+          {/* TODO: CHANGE ABOVE TO SCHEDULES PAGE */}
+          <Route path='/edit-profile/' element={<EditProfile/>}></Route>
         </Route>
         <Route path="/calendar/:calendarId/contact/:contactId" element={<ContactScheduling />} />
         <Route path='/signin' element={<Signin />}></Route>
+        <Route path='/signup' element={<SignUp />}></Route>
       </Routes>
     </BrowserRouter>
   );

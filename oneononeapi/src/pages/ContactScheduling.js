@@ -137,7 +137,7 @@ function ContactScheduling() {
   }, [calendarId, contactId]);
 
   return (
-    <div className="flex justify-center space-x-4">
+    <div className="flex flex-col items-center space-y-4 md:items-baseline md:flex-row md:space-x-4 justify-center mt-24">
       <div>
         <Calendar className="rounded" onChange={onDateChange} value={currDay} minDate={new Date(availableDates[0])} maxDate={new Date(availableDates[1])} />
       </div>
