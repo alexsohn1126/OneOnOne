@@ -157,8 +157,15 @@ function Schedule() {
         updateThings(allSuggestedSchedules);
     }, [allSuggestedSchedules]);
 
-    // Add options 
-    const allCalendarsFunc = allCalendars.map((cal) => <option value={cal.id} key={cal.id}>{cal.name}</option>);
+    // Add options
+    function allCalendarsFunc() {
+        let comb = [];
+        for (const cal of allCalendars) {
+            console.log(cal);
+            comb.push(<option value={cal.id} key={cal.id}>{cal.name}</option>);
+        }
+        return comb;
+    }
 
     function retrieveSuggestedSchedules(accessToken, calendar_id) {
         // retrieveSuggestedSchedules: function retrieves the suggested schedules for all calendars
@@ -196,7 +203,7 @@ function Schedule() {
             <h1 className = "text-4xl font-bold mt-11">My Schedule</h1>
             <form onSubmit={handleSubmit} className = "flex flex-col space-y-7">
                 <select onChange = {selectedOption} name="calendar" id="calendar" className="border p-2 text-sm rounded-[10px] border-gray-500">
-                    {allCalendarsFunc}
+                    {allCalendarsFunc()}
                 </select>
                 <button type="submit" className="w-full px-5 py-3 font-medium text-center rounded-[10px] text-white bg-green-3 hover:bg-green-2">Change Calendars</button>
                 <div className = "flex flex-row max-[450px]:flex-col space-x-16 max-[450px]:space-x-0 max-[450px]:space-y-10">

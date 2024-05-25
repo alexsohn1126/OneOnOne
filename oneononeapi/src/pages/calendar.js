@@ -53,6 +53,119 @@ function Calendar() {
 }
 
 function ListCalendars({ data, setCalendars }) {
+    ////////////////////////// SW 
+    const [showCalendar, setShowCalendar] = useState(true);
+    const [showInvitees,setShowInvitees] = useState(false);
+
+    const [currCalendarID, setCalendarID] = useState(null);
+
+    // contactsList, InvitedList, ConfirmedList should all add up to the intial length of contactsList
+    // contactsList will only decrease in size so be sure to call setTableColumns right after setContactsList
+    const [contactsList, setContactsList] = useState([]);
+    const [inviteesList, setInviteesList] = useState([]);
+
+    // these table column headings will tell you which column to add the elements in
+    const [tableColumns, setTableColumns] = useState({
+        'Invite Contacts': contactsList,
+        'Invited Contacts': [],
+        'Confirmed Contacts': [], 
+    })
+
+
+    var max_length = 0;
+
+
+    const showManageContacts = (calendar) => {
+        // at this point the button to manage contacts has been pressed. The only thing we can do to filter and get the contacts associated 
+        // with this calendar is to go through the list of invitees and get the ones that has invitations to calendar one
+        // for a new calendar: no invitees so all the contacts go in the "Invite Contacts column"
+        setShowCalendar(false);
+        setShowInvitees(true);
+        setCalendarID(calendar.id);
+
+        fetch_all_invitees()
+        .then((data) => setInviteesList(data));
+
+        const invitees_id = inviteesList.map(invitee => invitee.contact_id);
+        // console.log(invitees_id);
+
+
+        const apiUrl = 'http://localhost:8000/api/contacts/';
+        const accessToken = localStorage.getItem('accessToken');
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, // Use Bearer scheme for JWT
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            setContactsList(data);
+
+            // THIS PART COULD GET TRICKY SINCE WE WOULD NEED TO UPDATE INVITED CONTACTS AND CONFIRMED CONTACTS FROM HERE TOO
+            // const placeholder_contact = contactsList[0].id;
+            // console.log(placeholder_contact);
+
+            const uninvited_contacts = data.filter(contact => !invitees_id.includes(contact.id));
+            const invited_contacts = data.filter(contact => invitees_id.includes(contact.id));
+            console.log(uninvited_contacts);
+
+            // at this point, the contactsList is updated but i need to fetch the invitees as well
+
+            setTableColumns(prevColumns => ({
+                ...prevColumns, 
+                'Invite Contacts': uninvited_contacts, 
+                'Invited Contacts': invited_contacts,
+            }));
+            
+            // setMaxLength(Math.max(tableColumns['Invite Contacts'].length, tableColumns['Invited Contacts'].length, tableColumns['Confirmed Contacts'].length));
+            // // var max_length = 
+            // console.log(max_length);
+
+        })
+        .catch((error) => {
+            alert('Login failed');
+            console.error('Error during login:', error);
+        });
+        
+
+        // after this point, the ContactsList has been set up to include all the contacts. But i need to also update the tableColumns
+    }
+    var rows;
+
+
+    if (contactsList.length > 0) {
+        max_length = Math.max(tableColumns['Invite Contacts'].length, tableColumns['Invited Contacts'].length, tableColumns['Confirmed Contacts'].length);
+        // rows only contains the length. Nothing special. we need it because rows generates an empty array for map() later
+        rows = Array.from({ length: max_length });
+        console.log(rows);
+        // console.log(max_length);
+    }
+
+    const contactInvited = (contact) => {
+        console.log(currCalendarName);
+        console.log(contact, currCalendarID);
+
+        const emailRecipient = contact.email; // Leave empty or specify a recipient email address
+        const emailSubject = encodeURIComponent('Please select a timeslot by clicking at the link below');
+        const calendar_link = 'http://localhost:3000/calendars/' + currCalendarID + '/contacts/' + contact.id;
+        const emailBody = encodeURIComponent(calendar_link);
+
+        // Construct the mailto link
+        const mailtoLink = `mailto:${emailRecipient}?subject=${emailSubject}&body=${emailBody}`;
+
+        // Open the default mail client
+        window.location.href = mailtoLink;
+
+        // on top of sending the email, we also need to make this contact an invitee and update the column of the invitees to contain that information
+        invitee_create_request(currCalendarID, contact.id)
+        .then(data => console.log(data));
+    }
+
+
+    //////////////////////////
+
+
     // setting up data for the create calendar form:
     const [formData, setFormData] = useState({
         name: '',
@@ -220,6 +333,13 @@ function ListCalendars({ data, setCalendars }) {
     const handleCalendarSelect = async (calendar) => {
         const startDate = new Date(calendar.start_date);
         const endDate = new Date(calendar.end_date);
+
+        /////////SW
+        setShowCalendar(true);
+        setShowInvitees(false);
+
+        setCalendarID(calendar.id);
+        //////////
     
         startDate.setDate(startDate.getDate() + 1);
         endDate.setDate(endDate.getDate() + 1);
@@ -445,7 +565,7 @@ function ListCalendars({ data, setCalendars }) {
 
                 {/* -- Contact Button -- */}
                 <div className="group">
-                    <a href="/" type="button" className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0  inline-flex items-center h-full">
+                    {/* <a href="/" type="button" className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0  inline-flex items-center h-full">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
                         <path d="M8.5 4.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10.9 12.006c.11.542-.348.994-.9.994H2c-.553 0-1.01-.452-.902-.994a5.002 5.002 0 0 1 9.803 0ZM14.002 12h-1.59a2.556 2.556 0 0 0-.04-.29 6.476 6.476 0 0 0-1.167-2.603 3.002 3.002 0 0 1 3.633 1.911c.18.522-.283.982-.836.982ZM12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
                         </svg>
@@ -454,7 +574,19 @@ function ListCalendars({ data, setCalendars }) {
                         <span className="text-sm text-white p-2 bg-black rounded">
                         Manage Contacts
                         </span>
+                    </div> */}
+
+                    {/* SW */}
+                    <button className="bg-green-3 hover:bg-green-2 text-white py-2 px-4 mx-0  inline-flex items-center h-full" onClick={() => showManageContacts(calendar)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
+                        <path d="M8.5 4.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10.9 12.006c.11.542-.348.994-.9.994H2c-.553 0-1.01-.452-.902-.994a5.002 5.002 0 0 1 9.803 0ZM14.002 12h-1.59a2.556 2.556 0 0 0-.04-.29 6.476 6.476 0 0 0-1.167-2.603 3.002 3.002 0 0 1 3.633 1.911c.18.522-.283.982-.836.982ZM12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                        </svg>
+                    <div className="absolute bottom-full mb-2 hidden group-hover:block">
+                        <span className="text-sm text-white p-2 bg-black rounded">
+                        Manage Contacts
+                        </span>
                     </div>
+                    </button>
                 </div>
                 
                 {/* -- Delete Button -- */}
@@ -500,26 +632,151 @@ function ListCalendars({ data, setCalendars }) {
 
                     </div>
                 </div>
+
                 {/* -- Second Column -- */}
-                <div className="w-full md:w-1/2 px-2 mb-4">
-                    <div className="bg-gray-100 p-4 rounded-lg shadow">
-                        <h2 className="font-semibold text-lg mb-2 text-center"> {currCalendarName} </h2>
-                        {/* -- Calendar -- */}
-                        <div className="flex justify-center items-center w-full">
-                            <ReactCalendar
-                                tileClassName={({ date, view }) => {
-                                    if (view === 'month' && isInRange(date)) {
-                                        return 'calendar-day-in-range';
-                                    }
-                                }}
-                                onChange={handleCalendarChange}
-                                value={selectedDate}
-                            />
+                    {showCalendar && (!showInvitees) && (<div className="w-full md:w-1/2 px-2 mb-4">
+                        <div className="bg-gray-100 p-4 rounded-lg shadow">
+                            <h2 className="font-semibold text-lg mb-2 text-center"> {currCalendarName} </h2>
+                            {/* -- Calendar -- */}
+                            <div className="flex justify-center items-center w-full">
+                                <ReactCalendar
+                                    tileClassName={({ date, view }) => {
+                                        if (view === 'month' && isInRange(date)) {
+                                            return 'calendar-day-in-range';
+                                        }
+                                    }}
+                                    onChange={handleCalendarChange}
+                                    value={selectedDate}
+                                />
+                            </div>
+                            {/* -- Timeslots List Here -- */}
+                            {renderTimeslots()}
                         </div>
-                        {/* -- Timeslots List Here -- */}
-                        {renderTimeslots()}
+                    </div>)}
+
+
+                    {/* SW */}
+                    {(!showCalendar) && (showInvitees) && (
+                    <div class="w-full md:w-1/2 px-2 mb-4">
+                    <div class="bg-gray-100 p-4 rounded-lg shadow">
+                      {/* <!-- <h2 class="font-semibold text-lg mb-2">My Calendar 1</h2> --> */}
+                      {/* <!-- Table Navigator --> */}
+                      <div class="flex justify-center text-center">
+                        <h2 class="font-semibold text-lg inline mb-2">Invitations for "My Calendar 1"</h2>
+                      </div>
+                        {/* <!-- Schedules by day --> */}
+                        <div class="overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+                          <table class="border-collapse w-full">
+                            <tr class="h-12">
+                              <th class="border-b px-4 border-b-black border-r border-r-gray-300">Invite Contacts</th>
+                              <th class="border-b px-4 border-b-black border-r border-r-gray-300">Invited Contacts</th>
+                              <th class="border-b px-4 border-b-black border-r border-r-gray-300">Confirmed Contacts</th>
+                            </tr>
+
+                            {/* <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr class="h-12">
+                                        <th class="border-b px-4 border-b-black border-r border-r-gray-300">Invite Contacts</th>
+                                        <th class="border-b px-4 border-b-black border-r border-r-gray-300">Invited Contacts</th>
+                                        <th class="border-b px-4 border-b-black border-r border-r-gray-300">Confirmed Contacts</th>
+                                        <th class="border-b px-4 border-b-black border-r border-r-gray-300">Incorrect Email Addresses</th>
+                                    </tr>
+                                </thead> */}
+
+                            {/* EVERY CONTACT HAS A DIFFERENT LOOKING CARD */}
+
+                            {rows && rows.map((_, i) => (
+                                // tr is every row
+                                <tr class="h-12" id={"row" + i}>
+                                    {/* first column entry in this row */}
+                                    {tableColumns['Invite Contacts'][i] && (<td class="border-b border-b-gray-300 border-r border-r-gray-300">
+                                        <div class = "flex mt-4 flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300 bg-white">
+                                        {/* <!--Details--> */}
+                                        <div class = "w-max">
+                                            <h3 class = "font-bold">{tableColumns['Invite Contacts'][i].first_name} {tableColumns['Invite Contacts'][i].last_name}</h3>
+                                            <h3>
+                                                <a class="break-all hover:bg-green-500" href="mailto:LeBron@gmail.com">{tableColumns['Invite Contacts'][i].email}</a>
+                                            </h3>
+                                        </div>
+                                        {/* <!--Buttons--> */}
+                                        <div class = "flex flex-row space-x-2 items-center">
+                                            {/* <!--Edit contact button--> */}
+                                            <button onClick={() => contactInvited(tableColumns['Invite Contacts'][i], currCalendarName.charAt(currCalendarName.length - 1))}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 hover:fill-green-1">
+                                                <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                                                <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                                                </svg>
+                                            </button>       
+                                        </div>   
+                                        </div>
+                                </td>)}
+
+                                {/* second column entry in this row (for invited contacts or invitees) */}
+                                {tableColumns['Invited Contacts'][i] && (
+                                    <td class="border-b border-b-gray-300 border-r border-r-gray-300">
+                                    <div class = "flex mt-4 flex-row items-center justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300 bg-white">
+                                      {/* <!--Details--> */}
+                                      <div class = "w-max">
+                                          <h3 class = "font-bold">{tableColumns['Invited Contacts'][i].first_name} {tableColumns['Invited Contacts'][i].last_name}</h3>
+                                          <h3>
+                                            <a class="break-all hover:bg-green-500" href="mailto:jane@gmail.com">{tableColumns['Invited Contacts'][i].email}</a>
+                                          </h3>
+                                      </div>
+                                      {/* <!--Buttons--> */}
+                                      <div class = "flex flex-row space-x-2 items-center">
+                                          {/* <!--Accept--> */}
+                                          <a class="" href="mailto:john@gmail.com">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 hover:fill-green-1">
+                                              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clip-rule="evenodd" />
+                                            </svg>                            
+                                          </a>        
+                                      </div>   
+                                    </div>
+                                  </td>
+                                )}
+
+                                {/* third column entry in this row (for confirmed invitees) */}
+                                {tableColumns['Confirmed Contacts'][i] && (
+                                    <td class="border-b border-b-gray-300 border-r border-r-gray-300">
+                                    <div class = "flex flex-row items-center mt-4 justify-between space-x-3 shadow-md border p-2 text-sm rounded-[10px] border-gray-300 bg-green-300">
+                                      {/* <!--Details--> */}
+                                      <div class = "w-max">
+                                          <h3 class = "font-bold">{tableColumns['Confirmed Contacts'][i]['contact_id'].first_name} {tableColumns['Confirmed Contacts'][i]['contact_id'].last_name}</h3>
+                                          <h3>
+                                            <a class="break-all hover:bg-green-500" href="mailto:john@gmail.com">{tableColumns['Confirmed Contacts'][i]['contact_id'].email}</a>
+                                          </h3>
+                                      </div>
+                                      {/* <!--Buttons--> */}
+                                      <div class = "flex flex-row space-x-2 items-center">
+                                          {/* <!--Accept--> */}
+                                          <button>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#333D29" class="w-6 h-6 hover:fill-green-1">
+                                              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" clip-rule="evenodd" />
+                                          </svg>                         
+                                        </button>
+                                          
+                                          {/* <!-- cancel reservation button --> */}
+                                          <button class ="">           
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#A4AC86" class="w-6 h-6 hover:fill-green-1">
+                                                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm2.78-4.22a.75.75 0 0 1-1.06 0L8 9.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L6.94 8 5.22 6.28a.75.75 0 0 1 1.06-1.06L8 6.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L9.06 8l1.72 1.72a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                                            </svg>            
+                                        </button>
+                                      </div>   
+                                    </div>  
+                                </td>
+                                )}
+
+                                </tr>
+                            ))}
+                          </table>
+                        </div>
+            
+            
                     </div>
-                </div>
+                  </div>
+                )}
+
+                    {/* END SW */}
             </div>
             <Overlay isOpen={isOpen} onClose={toggleOverlay} className="bg-white rounded-lg shadow-xl p-5 max-w-lg mx-auto my-12">
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -679,6 +936,39 @@ function send_timeslot_create_request(timeslotFormData, currentCalendarId) {
         }
         return data;  // Return the successful data to handle in the caller
     })
+}
+
+function invitee_create_request(calendar_id, contact_id) {
+    // console.log(calendar_id, contact_id);
+    const apiUrl = "http://localhost:8000/api/calendars/" + calendar_id + "/contacts/" + contact_id + '/';
+    console.log(apiUrl);
+    const accessToken = localStorage.getItem('accessToken');
+
+    return fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+    })
+    .then(response => response.json()) // Convert response to JSON
+    .then(data => data); // Return the data
+}
+
+
+function fetch_all_invitees() {
+    // console.log(calendar_id, contact_id);
+    const apiUrl = "http://localhost:8000/api/calendars/contacts/";
+    console.log(apiUrl);
+    const accessToken = localStorage.getItem('accessToken');
+
+    return fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+    })
+    .then(response => response.json()) // Convert response to JSON
+    .then(data => data); // Return the data
 }
 
 export default Calendar;
