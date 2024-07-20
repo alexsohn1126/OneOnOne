@@ -1,5 +1,10 @@
 # 1 on 1
 
+## How to run the app locally
+1. Enter `cd oneononeapi` to change your directory to the React app directory. 
+2. If this is your first time running the app, enter `npm install` to install the dependencies in the oneononeapi folder. 
+3. To start the app, enter the following command: `npm start`.
+
 ## How to Setup Tailwind CSS
 
 Ignore whatever is below, with the addition of Create React App, tailwindcss comes with it. Just run `npm start` and use tailwindcss as usual in js files.
@@ -17,8 +22,3 @@ That's it!
 Make sure to include the `styles\output.css` as the stylesheet in html files, not `styles\input.css`.
 
 Also, currently only the HTML files within specified folders will be able to use Tailwind CSS. To change, check `tailwind.config.js`.
-
-## How to run the app locally
-1. Enter `cd oneononeapi` to change your directory to the React app directory. 
-2. If this is your first time running the app, enter `npm install` to install the dependencies in the oneononeapi folder. 
-3. To start the app, enter the following command: `npm start`.
